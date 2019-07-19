@@ -7,6 +7,8 @@
 # $rawSeq	$ntBin	$inFrame	$aaSeq	$aaBin	$aaScore	$indelLikely
 
 
+#As you do this, move it over to the R/ folder and document.
+
 #########################################################################
 
 #benchmark start
