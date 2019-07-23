@@ -43,18 +43,26 @@ foo = function(x){
 
 
 
-
+#this is the initilazer of the s3 class
 coi = function(str){
-  #take a string as input and turin it into the decided upon data structure
+  #take a string as input and turn it into the decided upon data structure
     #store original str in $raw
     #build an aphid::DNAbin for the $raw sequence
 }
+
+
 
 set_frame = function(coi_obj){
   #input is the output structure from coi
   #set the reading frame and store the framed string in $framed
   #^this will require a lot of the code from the 5_correction_script to be called and for
   # the other functions in this package to be used (i.e. set_frame)
+
+
+  #the 
+
+
+
 
 }
 
