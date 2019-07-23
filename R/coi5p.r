@@ -11,6 +11,11 @@
 #NOTE FOR GETTING PHMMS and TRANS TABLES in:
 # aphid has a folder /data with .RData (binary?) objects within that store the data, presumably I'll need ot do this.
 
+#TODO - run examples with N in sequence, confirm that these are being left alone as unknonwns/placeholders
+# that are treated differently than the -
+# if this is not the case then modify the wrapper functions for aphid accordingly
+
+
 
 #' This is how to document in a way that can be accessed by ?coi
 #' Add roxygen comments to your .R files.
