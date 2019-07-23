@@ -4,6 +4,7 @@
 #library(seqinr)
 #library(tidyverse)
 
+
 #turn a column of DNA sequence strings into individual DNAbin objects
 individual_DNAbin = function(dna_string){
 	return(as.DNAbin(strsplit(gsub('-', 'n', as.character(tolower(dna_string))),"")))
@@ -19,7 +20,7 @@ individual_AAbin = function(aa_string){
 
 #a check for a large number of leading inserted bases,
 #if this is the case, TRUE is returned and the PHMM
-#should be run a second time on the truncated data. 
+#should be run a second time on the truncated data.
 leading_ins = function(seq_path){
 	#iterate along the sequence, if we hit 5 insertions
 	#before 5 matches then there is a problem
@@ -44,7 +45,7 @@ leading_ins = function(seq_path){
 # check sequence for an early large string of deletions, if it exists then
 # return the starting index by which to slice the path and the string
 ins_front_trim = function(path_out, search_scope = 15){
-	
+
 	if(sum(path_out[1:search_scope] == 2)>2){
 		run_pos = min(which(path_out == 2))
 		for(i in run_pos:length(path_out)){
@@ -86,7 +87,7 @@ set_frame = function(org_seq , path_out){
 			front = c(front, '-')
 		#2 = I
 		}else if( path_out[i] == 2 ){
-			#there was an extra bp at the front of the sequence 
+			#there was an extra bp at the front of the sequence
 			#not represented in the PHMMs, skip this bp in the original seq
 			org_seq_start = org_seq_start + 1
 		#for the first match seen, check to make sure it isn't a single match dangling
@@ -114,7 +115,7 @@ set_frame = function(org_seq , path_out){
 			#not represented in the PHMMs, remove this trailing end of the original sequence
 			org_seq_end = org_seq_end - 1
 		}else if ( path_out[i] == 1){
-			#in either of these instances we want to trim the last bp, as its 
+			#in either of these instances we want to trim the last bp, as its
 			#dangling in a sea of inserts or deletes and likely a random profile match
 			if (path_out[i-1] == 2 & path_out[i-2] == 2){
 				org_seq_end = org_seq_end - 1
