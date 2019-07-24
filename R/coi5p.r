@@ -26,16 +26,6 @@ foo = function(x){
 
 }
 
-#data structure - use an s3 or s4 class to store the data associated with the functions in a standardized way
-#may be a good idea to associate all of the functions with the class, have the PHMMs be stored within the class?
-#
-
-#^ read these two sections of adv-r and decide which is more appropriate
-# s3 seems very flexible and recommended
-# s4 has documented slots so may be better to use that to store the data in its different forms
-
-
-
 
 # building the data and functions I've created for manipulating COI-5P sequences
 # into a generic s3 function
@@ -56,6 +46,19 @@ foo = function(x){
 # save(trans_df, file = 'data/trans_df.RData')
 # save(nt_PHMM, file = 'data/nt_PHMM.RData')
 # save(aa_PHMM, file = 'data/aa_PHMM.RData')
+#
+# Generating the namespace with roxygen2 is just like generating function documentation with roxygen2.
+# You use roxygen2 blocks (starting with #') and tags (starting with @).
+#  The workflow is the same:
+#   Add roxygen comments to your .R files.
+#   Run devtools::document() (or press Ctrl/Cmd + Shift + D in RStudio) to convert roxygen comments to .Rd files.
+#   Look at NAMESPACE and run tests to check that the specification is correct.
+#   Rinse and repeat until the correct functions are exported.
+
+#To export an object, put @export in its roxygen block - just don't do this for the functions the user doesn't have to see.
+# ^not needed for data, these should just be avaliable?
+# TODO - document functions and make sure only the user facing ones are exported
+# TODO - take the positions where functions from other libraries are used, use them in the tidyverse::func() style
 
 
 ########################
@@ -69,9 +72,6 @@ foo = function(x){
 # validator - perform computationally expensive checks to make sure the obj has the correct vals
 
 #helper - provide a way for other to create objects of the class
-
-#TODO - add an optional name field to the structure,
-#figure out how this can be passed into the function with a default of NULL
 
 new_coi5p = function(str = character(), name = character()){
   stopifnot(is.character(str))
