@@ -13,4 +13,7 @@ Imports:
   ape,
   aphid,
   seqinr
-  
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
