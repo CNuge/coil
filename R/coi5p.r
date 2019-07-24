@@ -49,9 +49,9 @@ foo = function(x){
 # library(ape)
 # library(aphid)
 # library(seqinr)
-#   source('deploy_PHMMs.r')
+# source('deploy_PHMMs.r')
 # source('translation.r')
-#   nt_phmm_file = '../required_data/COI5P_nt.PHMM'
+# nt_phmm_file = '../required_data/COI5P_nt.PHMM'
 # aa_phmm_file = '../required_data/COI5P_aa.PHMM'
 # nt_PHMM = readPHMM(nt_phmm_file)
 # aa_PHMM = readPHMM(aa_phmm_file)
