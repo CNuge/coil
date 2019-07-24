@@ -1,11 +1,27 @@
 ---
 title: "coi5p-vignette"
+author: "Cameron M. Nugent"
+data: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{coi5p-vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+#Once completed can - submit it to the Journal of Statistical Software or The R Journal. Online, R journals that are peer reviewed. The BOLD special issue is the first option.
+
+
+This of this from a beginners perspective, use simple and accesible language as may be used by international researchers. goal is clear and accesible.
+ - Modify this to explain/showcase the code and how it works
+ - use `ctrl-shift-k` to knit the vignette and preview the output.
+ 
+What this file will need to include:
+ - a basic example of getting a string loaded into coi5p
+ - how the different functions of the package are run, what they result in
+ - explination as to why the functions are split - save user time b/c if you just want it in frame and not translated, that is possible!
+ - show how this could be integrated into a workflow.
+ 
+ 
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(

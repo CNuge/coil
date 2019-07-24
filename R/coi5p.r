@@ -11,11 +11,6 @@
 #NOTE FOR GETTING PHMMS and TRANS TABLES in:
 # aphid has a folder /data with .RData (binary?) objects within that store the data, presumably I'll need ot do this.
 
-#TODO - run examples with N in sequence, confirm that these are being left alone as unknonwns/placeholders
-# that are treated differently than the -
-# if this is not the case then modify the wrapper functions for aphid accordingly
-
-
 
 #' This is how to document in a way that can be accessed by ?coi
 #' Add roxygen comments to your .R files.
@@ -45,17 +40,22 @@ foo = function(x){
 # building the data and functions I've created for manipulating COI-5P sequences
 # into a generic s3 function
 
-# For testing purposes only
+# For dev/testing purposes only
 # library(ape)
 # library(aphid)
 # library(seqinr)
 # source('deploy_PHMMs.r')
 # source('translation.r')
-# nt_phmm_file = '../required_data/COI5P_nt.PHMM'
-# aa_phmm_file = '../required_data/COI5P_aa.PHMM'
+# nt_phmm_file = './required_data/COI5P_nt.PHMM'
+# aa_phmm_file = './required_data/COI5P_aa.PHMM'
+# trans_df = read.table('./required_data/family_tanslation_table.tsv', header = TRUE, sep = '\t')
 # nt_PHMM = readPHMM(nt_phmm_file)
 # aa_PHMM = readPHMM(aa_phmm_file)
 
+#This saves the data to the /data/ folder so it can be accessed by the package
+# save(trans_df, file = 'data/trans_df.RData')
+# save(nt_PHMM, file = 'data/nt_PHMM.RData')
+# save(aa_PHMM, file = 'data/aa_PHMM.RData')
 
 
 ########################
@@ -70,11 +70,13 @@ foo = function(x){
 
 #helper - provide a way for other to create objects of the class
 
+#TODO - add an optional name field to the structure,
+#figure out how this can be passed into the function with a default of NULL
 
-new_coi5p = function(str = character()){
+new_coi5p = function(str = character(), name = character()){
   stopifnot(is.character(str))
 
-  structure(list(raw = tolower(str)) , class = "coi5p")
+  structure(list(name = name, raw = tolower(str)) , class = "coi5p")
 }
 
 
@@ -83,20 +85,18 @@ new_coi5p = function(str = character()){
 # make sure the sequence has length greater than zero
 validate_coi5p = function(new_instance){
 
-
   new_instance
 }
 
 
-
 #helper function - this is the user facing part of the class
-coi5p = function(str = character()){
-  
-  #coerce the input into a lower case character string
-  # vector can be another acceptable input
+coi5p = function(str = character(), name = character()){
 
-  #if vector, paste them together 
-  validate_coi5p(new_coi5p(str))
+  # TODO - coerce the input into a lower case character string
+  # TODO - vector of characters can be another acceptable input
+
+  #if vector, paste them together
+  validate_coi5p(new_coi5p(str, name))
 
 }
 
@@ -111,7 +111,7 @@ coi5p = function(str = character()){
 
 
 #' this is where we would document this function in detail
-#' this is a method dispatch, its job is to find the specific 
+#' this is a method dispatch, its job is to find the specific
 #' implementation for this class
 frame = function(coi_obj){
   UseMethod("frame")
@@ -128,9 +128,9 @@ frame.coi5p = function(coi_obj){
 
 
 #######
-# should these be separate function stored elsewhere? 
+# should these be separate function stored elsewhere?
 # Or are nested functions within the method fine?
-# 
+#
   # TODO - run the individual_DNAbin() function to build the class's $DNAbin
   coi_obj$ntBin = individual_DNAbin(coi_obj$raw)
   # TODO - pass the $DNAbin into Viterbi and store as ntPHMMout
@@ -184,7 +184,7 @@ indel_check = function(coi_obj){
 }
 
 indel_check.coi5p = function(coi_obj, indel_threshold = -346.95 ){
-  
+
   coi_obj$aaBin = individual_AAbin(coi_obj$aaSeq)
   coi_obj$aaPHMMout = Viterbi(aa_PHMM, coi_obj$aaBin, odds = FALSE)
 
@@ -192,7 +192,7 @@ indel_check.coi5p = function(coi_obj, indel_threshold = -346.95 ){
   if(coi_obj$AAscore > indel_threshold){
     coi_obj$indel_likely = FALSE
   }else{
-    coi_obj$indel_likely = TRUE   
+    coi_obj$indel_likely = TRUE
   }
 
   if(grepl('\\*', coi_obj$aaSeq)){
@@ -213,7 +213,7 @@ indel_check.coi5p = function(coi_obj, indel_threshold = -346.95 ){
   #one with lots of leading bp
 
 # Once the unit tests are done and I can prove this class setup is working, then
-# move it over to coi5p and begin documenting and cleaning up the code for 
+# move it over to coi5p and begin documenting and cleaning up the code for
 # package development
 
 seq_Ns = 'cttcacttgatttttggtgcaNNNNNNNgaatagtaggaactgctttaagtctccttattcgagcagaactgggtcaacctggttcacttttaggtgatgaccagatctacaatgtgatcgtaaccgcccatgctttagtaataattttttttatagttataccggtaataattggtggctttggaaactgactagtgcccctaataattggtgcaccagatatggcctttcctcgaataaataacataagtttttgactccttccaccatcattccttttattattagcttctgcaggggtagaagccggagctggcaccggctgaacagtttacccacccttatcgggtaatttagcacatgccgggccatctgttgatttaactattttttcacttcatttagcaggtgtatcatcaattttagcctcaattaattttatcacaactattattaatataaaaccaccagctatttctcaataccaaacaccattatttgtttgatccgttcttgtaactactattttactacttttagcccttccagtacttgcagctggaattacaatattattaacagatcgaaacctaaataccacattctttgaccctgctggtggaggagatcctatccactatcaacatcta'
