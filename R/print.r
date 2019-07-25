@@ -1,6 +1,6 @@
 #' print summary of coi5p object
 #'
-print.coi5p = function(x){
+print.coi5p = function(x, ...){
 
   l1 = "coi5p barcode sequence"
 

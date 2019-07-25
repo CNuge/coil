@@ -62,6 +62,14 @@ foo = function(x){
 # TODO - fix so not relying on the global PHMM variables. Have these be passed in to the functions with the
 #         versions provided in the data files being the default
 
+# TODO - to check package run devtools::check() or hit ctrl-shift-E in rstudio
+#       this along with the build pane in the top right will help you id the package problems, it
+#       runs the tests and complies the components s/a the markdown vignettes
+#       Travis-CI interfaces with this as well, so set that up!
+#       Outputs are save to bin/coi5p.Rcheck where you can easily dig through the log files to find the errors
+
+
+
 ########################
 # coi5p - Initialization of the class
 
@@ -120,8 +128,8 @@ coi5p = function(x = character(), name = character()){
 #' ! this is where we would document this function in detail
 #'@param x a coi5p class object
 #'@param phmm the profile hidden markov model against which the coi5p class should
-#' be framed. By defualt the function will use the nt_PHMM variable 
-#' stored in the coi5p package, which was trained on a representitive sample of the 
+#' be framed. By defualt the function will use the nt_PHMM variable
+#' stored in the coi5p package, which was trained on a representitive sample of the
 #' barcode of life database (). A user may wish to use a custom derived PHMM, in which
 #' case they should consult the aphid package () for custom PHMM derivation.
 #'
@@ -130,12 +138,12 @@ coi5p = function(x = character(), name = character()){
 #'
 #'
 #'@export
-frame = function(x){
+frame = function(x, ...){
   UseMethod("frame")
 }
 
 
-frame.coi5p = function(x, phmm = nt_PHMM){
+frame.coi5p = function(x, ..., phmm = nt_PHMM){
   #input is the output structure from coi
   #set the reading frame and store the framed string in $framed
 
@@ -169,7 +177,7 @@ translate = function(x, ...){
 }
 
 
-translate.coi5p = function(x, trans_table = 0){
+translate.coi5p = function(x, ..., trans_table = 0){
   if(trans_table == 0){
     x$aaSeq = censored_translation(x$framed)
   }else{
@@ -190,9 +198,9 @@ translate.coi5p = function(x, trans_table = 0){
 #'
 #'
 #'@param x a coi5p class object for which frame() and translate() have been run.
-#'@param phmm the amino acid profile hidden markov model against which the coi5p class 
-#' should be checked for errors. By defualt the function will use the aa_PHMM variable 
-#' stored in the coi5p package, which was trained on a representitive sample of the 
+#'@param phmm the amino acid profile hidden markov model against which the coi5p class
+#' should be checked for errors. By defualt the function will use the aa_PHMM variable
+#' stored in the coi5p package, which was trained on a representitive sample of the
 #' barcode of life database (). A user may wish to use a custom derived PHMM, in which
 #' case they should consult the aphid package () for custom PHMM derivation.
 #'@param indel_threshold
@@ -205,7 +213,7 @@ indel_check = function(x, ...){
   UseMethod("indel_check")
 }
 
-indel_check.coi5p = function(x, phmm = aa_PHMM, indel_threshold = -346.95 ){
+indel_check.coi5p = function(x, ...,  phmm = aa_PHMM, indel_threshold = -346.95 ){
 
   x$data$aaBin = individual_AAbin(x$aaSeq)
   x$data$aaPHMMout = aphid::Viterbi(phmm, x$data$aaBin, odds = FALSE)
