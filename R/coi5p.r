@@ -72,7 +72,7 @@ foo = function(x){
 
 ########################
 # coi5p - Initialization of the class
-
+globalVariables(c("nt_PHMM", "aa_PHMM", "translation_table_data"))
 
 # three functions should be provided at minimum"
 
