@@ -72,7 +72,7 @@ censored_translation = function(dna_str, reading_frame = 1){
 #`
 #`
 #`
-translate = function(dna_str, frame = 0,  trans_table = 0){
+trans_dna = function(dna_str, frame = 0,  trans_table = 0){
 	if(trans_table == 0){
 		return(censored_translation(dna_str))
 	}else{

@@ -11,4 +11,4 @@ test_Ns = translate(test_Ns, trans_table = 5)
 test_Ns
 test_Ns = indel_check(test_Ns)
 test_Ns
-
+names(test_Ns)

@@ -7,8 +7,6 @@ test_short = frame(test_short)
 test_short
 test_short = translate(test_short)
 test_short
-test_short = translate(test_short, trans_table = 5)
-test_short
 test_short = indel_check(test_short)
 test_short
 

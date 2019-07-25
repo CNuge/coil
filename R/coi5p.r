@@ -34,8 +34,8 @@ foo = function(x){
 # library(ape)
 # library(aphid)
 # library(seqinr)
-# source('deploy_PHMMs.r')
-# source('translation.r')
+# source('R/deploy_PHMMs.r')
+# source('R/translation.r')
 # nt_phmm_file = './required_data/COI5P_nt.PHMM'
 # aa_phmm_file = './required_data/COI5P_aa.PHMM'
 # trans_df = read.table('./required_data/family_tanslation_table.tsv', header = TRUE, sep = '\t')
@@ -144,7 +144,7 @@ frame.coi5p = function(x){
     trim_temp = x$raw
   }
 
-  x$framed = set_frame(trim_temp, x$ntPHMMout[['path']])
+  x$framed = set_frame(trim_temp, x$data$ntPHMMout[['path']])
 
   return(x)
 }
@@ -165,15 +165,15 @@ translate = function(x, ...){
 
 translate.coi5p = function(x, trans_table = 0){
   if(trans_table == 0){
-    x$data$aaSeq = censored_translation(x$framed)
+    x$aaSeq = censored_translation(x$framed)
   }else{
     #split the DNA string into a vector, all characters to lower case
     dna_list = strsplit(gsub('-', 'n', as.character(tolower(x$framed))),"")
     dna_vec = dna_list[[1]]
     #translate using the designated numcode, returns a vector of AAs
-    aa_vec = translate(dna_vec, frame = 0, numcode=trans_table, ambiguous= TRUE, NAstring = '-')
+    aa_vec = seqinr::translate(dna_vec, frame = 0, numcode=trans_table, ambiguous= TRUE, NAstring = '-')
 
-    x$data$aaSeq = paste(aa_vec, collapse= "")
+    x$aaSeq = paste(aa_vec, collapse= "")
   }
 
   return(x)
@@ -196,8 +196,8 @@ indel_check = function(x, ...){
 
 indel_check.coi5p = function(x, indel_threshold = -346.95 ){
 
-  x$data$aaBin = individual_AAbin(x$data$aaSeq)
-  x$data$aaPHMMout = aphid::Viterbi(aa_PHMM, x$aaBin, odds = FALSE)
+  x$data$aaBin = individual_AAbin(x$aaSeq)
+  x$data$aaPHMMout = aphid::Viterbi(aa_PHMM, x$data$aaBin, odds = FALSE)
 
   x$AAscore = x$data$aaPHMMout[['score']] #have this print a threshold
   if(x$AAscore > indel_threshold){
@@ -206,7 +206,7 @@ indel_check.coi5p = function(x, indel_threshold = -346.95 ){
     x$indel_likely = TRUE
   }
 
-  if(grepl('\\*', x$data$aaSeq)){
+  if(grepl('\\*', x$aaSeq)){
     x$stop_codons = TRUE
   }else{
     x$stop_codons = FALSE
