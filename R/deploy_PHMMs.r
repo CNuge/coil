@@ -7,12 +7,12 @@
 
 #turn a column of DNA sequence strings into individual DNAbin objects
 individual_DNAbin = function(dna_string){
-	return(as.DNAbin(strsplit(gsub('-', 'n', as.character(tolower(dna_string))),"")))
+	return(aphid::as.DNAbin(strsplit(gsub('-', 'n', as.character(tolower(dna_string))),"")))
 }
 
 #turn a column of AA sequence strings into individual AAbin objects
 individual_AAbin = function(aa_string){
-	return(as.AAbin(strsplit(as.character(aa_string),"")))
+	return(aphid::as.AAbin(strsplit(as.character(aa_string),"")))
 }
 
 #TODO - think about combining leading_ins and ins_front_trim into a single function

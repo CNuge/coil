@@ -67,16 +67,14 @@ foo = function(x){
 
 # three functions should be provided at minimum"
 
-# constructor - efficiently creates new objects with the correct structure
+# constructor - efficiently creates new objects with the correct structure - new_coi5p
+# validator - perform computationally expensive checks to make sure the obj has the correct vals - validate_coi5p
+# helper - provide a way for other to create objects of the class - coi5p
 
-# validator - perform computationally expensive checks to make sure the obj has the correct vals
+new_coi5p = function(x = character(), name = character()){
+  stopifnot(is.character(x))
 
-#helper - provide a way for other to create objects of the class
-
-new_coi5p = function(str = character(), name = character()){
-  stopifnot(is.character(str))
-
-  structure(list(name = name, raw = tolower(str)) , class = "coi5p")
+  structure(list(name = name, raw = tolower(x)) , class = "coi5p")
 }
 
 
@@ -85,18 +83,26 @@ new_coi5p = function(str = character(), name = character()){
 # make sure the sequence has length greater than zero
 validate_coi5p = function(new_instance){
 
+  #TODO - check that the string is composed of the correct character types
   new_instance
 }
 
 
-#helper function - this is the user facing part of the class
-coi5p = function(str = character(), name = character()){
+#'
+#'@param x a nucleotide string.
+#'@param  name an optional character string. Identifier for the sequence.
+#'
+#'@return an object of class code{"coi5p"}
+#'@examples
+#'
+#'@export
+coi5p = function(x = character(), name = character()){
 
   # TODO - coerce the input into a lower case character string
   # TODO - vector of characters can be another acceptable input
 
   #if vector, paste them together
-  validate_coi5p(new_coi5p(str, name))
+  validate_coi5p(new_coi5p(x, name))
 
 }
 
@@ -110,190 +116,102 @@ coi5p = function(str = character(), name = character()){
 # if not then return a warning saying that the previous method needs to be run first
 
 
-#' this is where we would document this function in detail
-#' this is a method dispatch, its job is to find the specific
-#' implementation for this class
-frame = function(coi_obj){
+#' ! this is where we would document this function in detail
+#'@param x
+#'
+#'@return an object of class code{"coi5p"}
+#'@examples
+#'
+#'
+#'@export
+frame = function(x){
   UseMethod("frame")
 }
 
 
-#' this method version calls ins_front_trim from the deploy PHMMs file, can that function be
-#' hidden from the user so it only exists in the background?
-frame.coi5p = function(coi_obj){
+frame.coi5p = function(x){
   #input is the output structure from coi
   #set the reading frame and store the framed string in $framed
-  #^this will require a lot of the code from the 5_correction_script to be called and for
-  # the other functions in this package to be used (i.e. set_frame)
 
+  x$data$ntBin = individual_DNAbin(x$raw)
+  x$data$ntPHMMout = aphid::Viterbi(nt_PHMM, x$data$ntBin, odds = FALSE)
 
-#######
-# should these be separate function stored elsewhere?
-# Or are nested functions within the method fine?
-#
-  # TODO - run the individual_DNAbin() function to build the class's $DNAbin
-  coi_obj$ntBin = individual_DNAbin(coi_obj$raw)
-  # TODO - pass the $DNAbin into Viterbi and store as ntPHMMout
-  # TODO: !!!!!!!FIGURE OUT WHERE nt_PHMM WILL BE STORED!!!!!!!!!
-  coi_obj$ntPHMMout = Viterbi(nt_PHMM, coi_obj$ntBin, odds = FALSE)
-
-  if(leading_ins(coi_obj$ntPHMMout[['path']])){
-    trim_temp  = set_frame(coi_obj$raw, coi_obj$ntPHMMout[['path']])
-    coi_obj$ntBin = individual_DNAbin(trim_temp)
-    coi_obj$ntPHMMout = Viterbi(nt_PHMM, coi_obj$ntBin, odds = FALSE)
+  if(leading_ins(x$data$ntPHMMout[['path']])){
+    trim_temp  = set_frame(x$raw, x$data$ntPHMMout[['path']])
+    x$data$ntBin = individual_DNAbin(trim_temp)
+    x$data$ntPHMMout = aphid::Viterbi(nt_PHMM, x$data$ntBin, odds = FALSE)
   }else{
-    trim_temp = coi_obj$raw
+    trim_temp = x$raw
   }
 
-  coi_obj$framed = set_frame(trim_temp, coi_obj$ntPHMMout[['path']])
+  x$framed = set_frame(trim_temp, x$ntPHMMout[['path']])
 
-  return(coi_obj)
+  return(x)
 }
 
-#`
-#`
-#`
-#`
-#`
-translate = function(coi_obj, ...){
+#'
+#'
+#'@param x a coi5p class object for which frame() has been run
+#'@param trans_table
+#'
+#'@return an object of class code{"coi5p"}
+#'@examples
+#'
+#'@export
+translate = function(x, ...){
   UseMethod("translate")
 }
 
 
-translate.coi5p = function(coi_obj, trans_table = 0){
+translate.coi5p = function(x, trans_table = 0){
   if(trans_table == 0){
-    coi_obj$aaSeq = censored_translation(coi_obj$framed)
+    x$data$aaSeq = censored_translation(x$framed)
   }else{
     #split the DNA string into a vector, all characters to lower case
-    dna_list = strsplit(gsub('-', 'n', as.character(tolower(coi_obj$framed))),"")
+    dna_list = strsplit(gsub('-', 'n', as.character(tolower(x$framed))),"")
     dna_vec = dna_list[[1]]
     #translate using the designated numcode, returns a vector of AAs
-    aa_vec = seqinr::translate(dna_vec, frame = 0, numcode=trans_table, ambiguous= TRUE, NAstring = '-')
+    aa_vec = translate(dna_vec, frame = 0, numcode=trans_table, ambiguous= TRUE, NAstring = '-')
 
-    coi_obj$aaSeq = paste(aa_vec, collapse= "")
+    x$data$aaSeq = paste(aa_vec, collapse= "")
   }
 
-  return(coi_obj)
+  return(x)
 }
 
 
-#' have a default indel threshold learned from the real world data
-#' checks for indels likelihood, reports the path score and also checks for stop codons
-indel_check = function(coi_obj){
+#' Check a translated coi5p sequence to see if an indel error is likely present
+#'
+#'
+#'@param x a coi5p class object for which frame() and translate() have been run
+#'@param indel_threshold
+#'
+#'@return an object of class code{"coi5p"}
+#'@examples
+#'
+#'@export
+indel_check = function(x, ...){
   UseMethod("indel_check")
 }
 
-indel_check.coi5p = function(coi_obj, indel_threshold = -346.95 ){
+indel_check.coi5p = function(x, indel_threshold = -346.95 ){
 
-  coi_obj$aaBin = individual_AAbin(coi_obj$aaSeq)
-  coi_obj$aaPHMMout = Viterbi(aa_PHMM, coi_obj$aaBin, odds = FALSE)
+  x$data$aaBin = individual_AAbin(x$data$aaSeq)
+  x$data$aaPHMMout = aphid::Viterbi(aa_PHMM, x$aaBin, odds = FALSE)
 
-  coi_obj$AAscore = coi_obj$aaPHMMout[['score']] #have this print a threshold
-  if(coi_obj$AAscore > indel_threshold){
-    coi_obj$indel_likely = FALSE
+  x$AAscore = x$data$aaPHMMout[['score']] #have this print a threshold
+  if(x$AAscore > indel_threshold){
+    x$indel_likely = FALSE
   }else{
-    coi_obj$indel_likely = TRUE
+    x$indel_likely = TRUE
   }
 
-  if(grepl('\\*', coi_obj$aaSeq)){
-    coi_obj$stop_codons = TRUE
+  if(grepl('\\*', x$data$aaSeq)){
+    x$stop_codons = TRUE
   }else{
-    coi_obj$stop_codons = FALSE
+    x$stop_codons = FALSE
   }
 
-  return(coi_obj)
+  return(x)
 }
-
-
-#TODO:
-# Write some unit tests for it here using input COI sequences:
-  # a short one
-  #one with an in
-  #one with a del
-  #one with lots of leading bp
-
-# Once the unit tests are done and I can prove this class setup is working, then
-# move it over to coi5p and begin documenting and cleaning up the code for
-# package development
-
-seq_Ns = 'cttcacttgatttttggtgcaNNNNNNNgaatagtaggaactgctttaagtctccttattcgagcagaactgggtcaacctggttcacttttaggtgatgaccagatctacaatgtgatcgtaaccgcccatgctttagtaataattttttttatagttataccggtaataattggtggctttggaaactgactagtgcccctaataattggtgcaccagatatggcctttcctcgaataaataacataagtttttgactccttccaccatcattccttttattattagcttctgcaggggtagaagccggagctggcaccggctgaacagtttacccacccttatcgggtaatttagcacatgccgggccatctgttgatttaactattttttcacttcatttagcaggtgtatcatcaattttagcctcaattaattttatcacaactattattaatataaaaccaccagctatttctcaataccaaacaccattatttgtttgatccgttcttgtaactactattttactacttttagcccttccagtacttgcagctggaattacaatattattaacagatcgaaacctaaataccacattctttgaccctgctggtggaggagatcctatccactatcaacatcta'
-seq_normal = 'cttcacttgatttttggtgcatgagcaggaatagtaggaactgctttaagtctccttattcgagcagaactgggtcaacctggttcacttttaggtgatgaccagatctacaatgtgatcgtaaccgcccatgctttagtaataattttttttatagttataccggtaataattggtggctttggaaactgactagtgcccctaataattggtgcaccagatatggcctttcctcgaataaataacataagtttttgactccttccaccatcattccttttattattagcttctgcaggggtagaagccggagctggcaccggctgaacagtttacccacccttatcgggtaatttagcacatgccgggccatctgttgatttaactattttttcacttcatttagcaggtgtatcatcaattttagcctcaattaattttatcacaactattattaatataaaaccaccagctatttctcaataccaaacaccattatttgtttgatccgttcttgtaactactattttactacttttagcccttccagtacttgcagctggaattacaatattattaacagatcgaaacctaaataccacattctttgaccctgctggtggaggagatcctatccactatcaacatcta'
-seq_short = 'CCAGGTCTATAACGTAGTCGTCACAGCCCATGCCTTCGTAATAATCTTCTTCATAGTTATGCCTATTATAATCGGAGGATTTGGGAACTGACTAGTCCCTCTAATAATCGGAGCCCCAGACATAGCATTCCCACGAATAAACAACATAAGCTTCTGACTACTCCCCCCATCGTTCCTCCTACTACTAGCGTCCTCTACTGTAGAAGCAGGAGTTGGCACAGGATGAACAGTATACCCACCATTAGCCGGCAACTTAGCCCACGCTGGAGCTTCAGTTGACTTAGCAATCTTCT'
-seq_in = 'ctttatttaatttttggtgcatgagcaggaatagttggaacggctttaagtcttctaatccgagctgaactaggaccaacctgggtctctcctaggggatgatcaaatttataatgtaattgtaaccgcccatgcttttgtaataattttctttatagtaatacctgtcataattggtggttttggaaattaactaattccattaataattggtgcacctgacatagccttcccacgaataaataacataagctcctgacttcttccaccatcatttctccttctcctcgcctccgctggggttgaagccggagcaggtaccggttgaacagtttaccccccactggcaagcaaccttgctcatgccggaccatctgttgatttagctatcttctccctccatttagctggtatttcatcaattttagcctcaatccaacttcatcacaactattattaatataaaacccccagccatttctcaatatcaaacaccactatttgtttgatctatccttgtaactactattcttctcctcctttccctcccagttcttgcagcaggaattacaatcttacttacagaccgcaaccttaatactacattctttgatcctgcaggtggaggagacccaatcctttaccaacaccta'
-seq_del = 'ctttacttaatctttggtgcatgagcaggaatagtaggtacagcccttagcttgcttattcgagcagaattaagccaacctggcacactcctgggagacgatcagatctacaatgttatcgtaactgctcacgcttttgtaataattttttttatggttatacctgtaataattggtgggttcggaaactgattagtgcctttaataattggtgcaccggacatagctttcccacgaataaataacataagcttttgactgctacccccctccctcctattacttttggcctctgctggagttgaagccggagccggaactggttgaacagtttatccccccctcgcaagtaatatagcccacgctggggcatcagtagacttagctattttctcgctccatttagcggtatttcctcaattcttgcctctatcaactttattacaaccattattaatataaaaccgcctgccatctctcaatatcaaacacccctttttgtttgatctattcttgtaaccacagtcctactcctcctttcacttcctgttcttgcagccgcaattacaatactacttaccgaccgtaatttaaacacaacattttttgatcctgctggtgggggtgacccaattctttaccaacattta'
-seq_long = 'AACCGCTGATTATTTTCAACCAACCACAAAGATATCGGCACCCTTTACCTTCTATTTGGTGCCTGAGCTGGTATAGTAGGAACCGCCTTAAGCCTACTAATTCGCGCCGAACTAGGCCAACCCGGAACTCTACTCGGAGATGACCAAATCTACAACGTAATTGTAACCGCACATGCATTTGTAATAATTTTCTTTATAGTAATGCCTATTATAATCGGTGGATTCGGCAACTGACTAGTTCCTCTGATAATTGGAGCCCCTGATATAGCATTTCCTCGGATAAATAACATAAGCTTTTGACTTCTTCCCCCATCTTTCCTGTTACTCCTAGCATCCTCTATGGTTGAGGCCGGAGCAGGAACAGGTTGTAAGGTAGTATTCTCTCTAGCAGGCAACCTAGCCCATGCAGGAGCCTCAGTAGACCTAACTATTTTCTCCCTACACCTGGCAGGTGTCTCTTCAATTCTAGGAGCCATTAATTTTATTACAACTATTATTAATATAAAACCCCCTGCGATGTCACAGTATCAAACCCCCTTGTTTGTATGATCTGTACTAATCACTGCCGTACTTCTCCTTCTCTCACTTCCTGTATTAGCAGCTGGTATCACAATACTACTAACGGACCGAAACCTGAACACAACCTTTTTTGACCCAGCAGGAGGAGGAGACCCTATCCTATATCAACACCTATTCTGATTCTTTGGGCACCCTGAAGTATATATTCTTATTTTACCTGGGTTTGGGATAATCTCCCATATTGTGACCTACTATTCAGGAAAAAAAGAACCATTCGGATATATAGGAATAGTATGAGCCATAATATCAATTGGGTTCCTAGGATTCATTGTATGAGCCCACCATATATTCACAGTCGGAATAG'
-
-
-test_Ns = coi5p(seq_Ns)
-test_Ns
-test_Ns = frame(test_Ns)
-test_Ns
-test_Ns = translate(test_Ns)
-test_Ns
-test_Ns = translate(test_Ns, trans_table = 5)
-test_Ns
-test_Ns = indel_check(test_Ns)
-test_Ns
-
-
-test_normal = coi5p(seq_normal)
-test_normal
-test_normal = frame(test_normal)
-test_normal
-test_normal = translate(test_normal)
-test_normal
-test_normal = translate(test_normal, trans_table = 5)
-test_normal
-test_normal = indel_check(test_normal)
-test_normal
-
-
-test_short = coi5p(seq_short)
-test_short
-test_short = frame(test_short)
-test_short
-test_short = translate(test_short)
-test_short
-test_short = translate(test_short, trans_table = 5)
-test_short
-test_short = indel_check(test_short)
-test_short
-
-
-test_in = coi5p(seq_in)
-test_in
-test_in = frame(test_in)
-test_in
-test_in = translate(test_in)
-test_in
-test_in = translate(test_in, trans_table = 5)
-test_in
-test_in = indel_check(test_in)
-test_in
-
-
-
-test_del = coi5p(seq_del)
-test_del
-test_del = frame(test_del)
-test_del
-test_del = translate(test_del)
-test_del
-test_del = translate(test_del, trans_table = 5)
-test_del
-test_del = indel_check(test_del)
-test_del
-
-
-
-test_long = coi5p(seq_long)
-test_long
-test_long = frame(test_long)
-test_long
-test_long = translate(test_long)
-test_long
-test_long = translate(test_long, trans_table = 5)
-test_long
-test_long = indel_check(test_long)
-test_long
 
