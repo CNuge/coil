@@ -37,7 +37,7 @@ print.coi5p = function(x){
     lines = c(lines, l5)
   }
 
-  #addition if translated
+  #addition if indel assessment
   if( "indel_likely" %in% names(x) ){
     if (x$indel_likely == TRUE){
       l6 = paste("The sequence likely contains an insertion or deletion.\n Stop codon present: ",
