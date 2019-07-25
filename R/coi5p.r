@@ -59,7 +59,8 @@ foo = function(x){
 # ^not needed for data, these should just be avaliable?
 # TODO - document functions and make sure only the user facing ones are exported
 # TODO - take the positions where functions from other libraries are used, use them in the tidyverse::func() style
-
+# TODO - fix so not relying on the global PHMM variables. Have these be passed in to the functions with the
+#         versions provided in the data files being the default
 
 ########################
 # coi5p - Initialization of the class
@@ -118,6 +119,11 @@ coi5p = function(x = character(), name = character()){
 
 #' ! this is where we would document this function in detail
 #'@param x
+#'@param phmm the profile hidden markov model against which the coi5p class should
+#' be checked for errors. By defualt the function will use the nt_PHMM variable 
+#' stored in the coi5p package, which was trained on a representitive sample of the 
+#' barcode of life database (). A user may wish to use a custom derived PHMM, in which
+#' case they should consult the aphid package () for custom PHMM derivation.
 #'
 #'@return an object of class code{"coi5p"}
 #'@examples
@@ -129,17 +135,17 @@ frame = function(x){
 }
 
 
-frame.coi5p = function(x){
+frame.coi5p = function(x, phmm = nt_PHMM){
   #input is the output structure from coi
   #set the reading frame and store the framed string in $framed
 
   x$data$ntBin = individual_DNAbin(x$raw)
-  x$data$ntPHMMout = aphid::Viterbi(nt_PHMM, x$data$ntBin, odds = FALSE)
+  x$data$ntPHMMout = aphid::Viterbi(phmm, x$data$ntBin, odds = FALSE)
 
   if(leading_ins(x$data$ntPHMMout[['path']])){
     trim_temp  = set_frame(x$raw, x$data$ntPHMMout[['path']])
     x$data$ntBin = individual_DNAbin(trim_temp)
-    x$data$ntPHMMout = aphid::Viterbi(nt_PHMM, x$data$ntBin, odds = FALSE)
+    x$data$ntPHMMout = aphid::Viterbi(phmm, x$data$ntBin, odds = FALSE)
   }else{
     trim_temp = x$raw
   }
@@ -184,6 +190,11 @@ translate.coi5p = function(x, trans_table = 0){
 #'
 #'
 #'@param x a coi5p class object for which frame() and translate() have been run
+#'@param phmm the profile hidden markov model against which the coi5p class should
+#' be checked for errors. By defualt the function will use the aa_PHMM variable 
+#' stored in the coi5p package, which was trained on a representitive sample of the 
+#' barcode of life database (). A user may wish to use a custom derived PHMM, in which
+#' case they should consult the aphid package () for custom PHMM derivation.
 #'@param indel_threshold
 #'
 #'@return an object of class code{"coi5p"}
@@ -194,10 +205,10 @@ indel_check = function(x, ...){
   UseMethod("indel_check")
 }
 
-indel_check.coi5p = function(x, indel_threshold = -346.95 ){
+indel_check.coi5p = function(x, phmm = aa_PHMM, indel_threshold = -346.95 ){
 
   x$data$aaBin = individual_AAbin(x$aaSeq)
-  x$data$aaPHMMout = aphid::Viterbi(aa_PHMM, x$data$aaBin, odds = FALSE)
+  x$data$aaPHMMout = aphid::Viterbi(phmm, x$data$aaBin, odds = FALSE)
 
   x$AAscore = x$data$aaPHMMout[['score']] #have this print a threshold
   if(x$AAscore > indel_threshold){
