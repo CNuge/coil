@@ -29,7 +29,6 @@ test_that("the normal sequence in framed and translated properly", {
 
 	expect_equal( data$ , "what_it_should_be")
 
-
 	})
 
 
