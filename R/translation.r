@@ -96,9 +96,16 @@ trans_dna = function(dna_str, frame = 0,  trans_table = 0){
 #` determine the translation table to use for a given phylogenetic group
 #` data stored down to family level.
 #` relies on the above having been run so that the df is in the workspace and accessable
-which_trans_table = function(taxon) {
-	translation_table_data$trans_table[translation_table_data$taxon == taxon]
+#'
+#'@param x a taxonomic designation (family order  class  phylum) first letter capitilizaed
+#'
+#'@return an integer indicating the correct translation table (give bcbi link here)
+#'@examples
+#'
+#'@export
+which_trans_table = function(x) {
+  trans_df$trans_table[trans_df$taxon == x]
 
 }
 
-
+#

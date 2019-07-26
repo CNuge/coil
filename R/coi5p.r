@@ -30,23 +30,7 @@ foo = function(x){
 # building the data and functions I've created for manipulating COI-5P sequences
 # into a generic s3 function
 
-# For dev/testing purposes only
-# library(ape)
-# library(aphid)
-# library(seqinr)
-# source('R/deploy_PHMMs.r')
-# source('R/translation.r')
-# nt_phmm_file = './required_data/COI5P_nt.PHMM'
-# aa_phmm_file = './required_data/COI5P_aa.PHMM'
-# trans_df = read.table('./required_data/family_tanslation_table.tsv', header = TRUE, sep = '\t')
-# nt_PHMM = readPHMM(nt_phmm_file)
-# aa_PHMM = readPHMM(aa_phmm_file)
 
-#This saves the data to the /data/ folder so it can be accessed by the package
-# save(trans_df, file = 'data/trans_df.RData')
-# save(nt_PHMM, file = 'data/nt_PHMM.RData')
-# save(aa_PHMM, file = 'data/aa_PHMM.RData')
-#
 # Generating the namespace with roxygen2 is just like generating function documentation with roxygen2.
 # You use roxygen2 blocks (starting with #') and tags (starting with @).
 #  The workflow is the same:
@@ -72,7 +56,6 @@ foo = function(x){
 
 ########################
 # coi5p - Initialization of the class
-globalVariables(c("nt_PHMM", "aa_PHMM", "translation_table_data"))
 
 # three functions should be provided at minimum"
 
@@ -127,7 +110,8 @@ coi5p = function(x = character(), name = character()){
 
 #' ! this is where we would document this function in detail
 #'@param x a coi5p class object
-#'@param phmm the profile hidden markov model against which the coi5p class should
+#'
+#' removed param: phmm the profile hidden markov model against which the coi5p class should
 #' be framed. By defualt the function will use the nt_PHMM variable
 #' stored in the coi5p package, which was trained on a representitive sample of the
 #' barcode of life database (). A user may wish to use a custom derived PHMM, in which
@@ -143,17 +127,17 @@ frame = function(x, ...){
 }
 
 
-frame.coi5p = function(x, ..., phmm = nt_PHMM){
+frame.coi5p = function(x, ... ){
   #input is the output structure from coi
   #set the reading frame and store the framed string in $framed
 
   x$data$ntBin = individual_DNAbin(x$raw)
-  x$data$ntPHMMout = aphid::Viterbi(phmm, x$data$ntBin, odds = FALSE)
+  x$data$ntPHMMout = aphid::Viterbi(nt_PHMM, x$data$ntBin, odds = FALSE)
 
   if(leading_ins(x$data$ntPHMMout[['path']])){
     trim_temp  = set_frame(x$raw, x$data$ntPHMMout[['path']])
     x$data$ntBin = individual_DNAbin(trim_temp)
-    x$data$ntPHMMout = aphid::Viterbi(phmm, x$data$ntBin, odds = FALSE)
+    x$data$ntPHMMout = aphid::Viterbi(nt_PHMM, x$data$ntBin, odds = FALSE)
   }else{
     trim_temp = x$raw
   }
@@ -198,7 +182,7 @@ translate.coi5p = function(x, ..., trans_table = 0){
 #'
 #'
 #'@param x a coi5p class object for which frame() and translate() have been run.
-#'@param phmm the amino acid profile hidden markov model against which the coi5p class
+#'removed param: phmm the amino acid profile hidden markov model against which the coi5p class
 #' should be checked for errors. By defualt the function will use the aa_PHMM variable
 #' stored in the coi5p package, which was trained on a representitive sample of the
 #' barcode of life database (). A user may wish to use a custom derived PHMM, in which
@@ -213,10 +197,10 @@ indel_check = function(x, ...){
   UseMethod("indel_check")
 }
 
-indel_check.coi5p = function(x, ...,  phmm = aa_PHMM, indel_threshold = -346.95 ){
+indel_check.coi5p = function(x, ..., indel_threshold = -346.95 ){
 
   x$data$aaBin = individual_AAbin(x$aaSeq)
-  x$data$aaPHMMout = aphid::Viterbi(phmm, x$data$aaBin, odds = FALSE)
+  x$data$aaPHMMout = aphid::Viterbi(aa_PHMM, x$data$aaBin, odds = FALSE)
 
   x$AAscore = x$data$aaPHMMout[['score']] #have this print a threshold
   if(x$AAscore > indel_threshold){
@@ -234,3 +218,8 @@ indel_check.coi5p = function(x, ...,  phmm = aa_PHMM, indel_threshold = -346.95 
   return(x)
 }
 
+
+#assifnInNamespace("frame.coi5p")
+#S3method(indel_check,coi5p)
+#S3method(print,coi5p )
+#S3method(translate,coi5p)
