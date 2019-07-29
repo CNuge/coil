@@ -111,12 +111,6 @@ coi5p = function(x = character(), name = character()){
 #' ! this is where we would document this function in detail
 #'@param x a coi5p class object
 #'
-#' removed param: phmm the profile hidden markov model against which the coi5p class should
-#' be framed. By defualt the function will use the nt_PHMM variable
-#' stored in the coi5p package, which was trained on a representitive sample of the
-#' barcode of life database (). A user may wish to use a custom derived PHMM, in which
-#' case they should consult the aphid package () for custom PHMM derivation.
-#'
 #'@return an object of class code{"coi5p"}
 #'@examples
 #'
@@ -182,11 +176,6 @@ translate.coi5p = function(x, ..., trans_table = 0){
 #'
 #'
 #'@param x a coi5p class object for which frame() and translate() have been run.
-#'removed param: phmm the amino acid profile hidden markov model against which the coi5p class
-#' should be checked for errors. By defualt the function will use the aa_PHMM variable
-#' stored in the coi5p package, which was trained on a representitive sample of the
-#' barcode of life database (). A user may wish to use a custom derived PHMM, in which
-#' case they should consult the aphid package () for custom PHMM derivation.
 #'@param indel_threshold
 #'
 #'@return an object of class code{"coi5p"}
