@@ -7,15 +7,11 @@
 # source('R/translation.r')
 # load('R/sysdata.rda')
 
-
-
-
-
 ###
 # For storing data in the R folder - used currently
 ###
-
-#use_data(nt_PHMM , aa_PHMM, trans_df, internal = TRUE)
+#
+#use_data(nt_PHMM , aa_PHMM, trans_df, example_nt_string, overwrite = TRUE, internal = TRUE)
 
 #This saves the data to the /data/ folder so it can be accessed by the package
 #seems better to put them in the sysdata.rda folder and use them internall
@@ -24,6 +20,7 @@
 # coi5p:::nt_PHMM
 # but this throws a note on compilation of the package
 
+###############################################################################
 #' Nucleotide profile hidden markov model for coi5p.
 #'
 #' removed param: phmm the profile hidden markov model against which the coi5p class should
@@ -33,7 +30,9 @@
 #' case they should consult the aphid package () for custom PHMM derivation.
 #'
 "nt_PHMM"
+###############################################################################
 
+###############################################################################
 #' Amino acid profile hidden markov model for coi5p.
 #'
 #' removed param: phmm the amino acid profile hidden markov model against which the coi5p class
@@ -42,9 +41,20 @@
 #' barcode of life database (). A user may wish to use a custom derived PHMM, in which
 #' case they should consult the aphid package () for custom PHMM derivation.
 "aa_PHMM"
+###############################################################################
 
+###############################################################################
 #' Data frame containing the translation table recommendation.
+#'
 "trans_df"
+###############################################################################
+
+###############################################################################
+#' Example coi5p DNA sequence string
+#' example_nt_string = 'ctctacttgatttttggtgcatgagcaggaatagttggaatagctttaagtttactaattcgcgctgaactaggtcaacccggatctcttttaggggatgatcagatttataatgtgatcgtaaccgcccatgcctttgtaataatcttttttatggttatacctgtaataattggtggctttggcaattgacttgttcctttaataattggtgcaccagatatagcattccctcgaataaataatataagtttctggcttcttcctccttcgttcttacttctcctggcctccgcaggagtagaagctggagcaggaaccggatgaactgtatatcctcctttagcaggtaatttagcacatgctggcccctctgttgatttagccatcttttcccttcatttggccggtatctcatcaattttagcctctattaattttattacaactattattaatataaaacccccaactatttctcaatatcaaacaccattatttgtttgatctattcttatcaccactgttcttctactccttgctctccctgttcttgcagccggaattacaatattattaacagaccgcaacctcaacactacattctttgaccccgcagggggaggggacccaattctctatcaacactta'
+"example_nt_string"
+###############################################################################
+
 
 
 ###

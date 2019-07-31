@@ -3,13 +3,13 @@
 \docType{data}
 \name{aa_PHMM}
 \alias{aa_PHMM}
-\title{doc}
+\title{Amino acid profile hidden markov model for coi5p.}
 \format{An object of class \code{PHMM} of length 14.}
 \usage{
 aa_PHMM
 }
 \description{
-#'removed param: phmm the amino acid profile hidden markov model against which the coi5p class
+removed param: phmm the amino acid profile hidden markov model against which the coi5p class
 should be checked for errors. By defualt the function will use the aa_PHMM variable
 stored in the coi5p package, which was trained on a representitive sample of the
 barcode of life database (). A user may wish to use a custom derived PHMM, in which

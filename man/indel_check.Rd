@@ -12,7 +12,9 @@ indel_check(x, ...)
 \arguments{
 \item{x}{a coi5p class object for which frame() and translate() have been run.}
 
-\item{indel_threshold}{}
+\item{indel_threshold}{the log likelihood threshold used to assess whether or not sequences
+are likely to contain an indel. Default is -345.95. Values lower than this will be classified
+as likely to contain an indel and values higer will be classified as not likely to contain an indel.}
 }
 \value{
 an object of class code{"coi5p"}

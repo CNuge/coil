@@ -46,7 +46,7 @@
 # coi5p - Initialization of the class
 
 ####
-#'@rdname coi5p
+#' @rdname coi5p
 ####
 new_coi5p = function(x = character(), name = character()){
   stopifnot(is.character(x))
@@ -56,7 +56,7 @@ new_coi5p = function(x = character(), name = character()){
 }
 
 ####
-#'@rdname coi5p
+#' @rdname coi5p
 ####
 validate_coi5p = function(new_instance){
   # take a new instance and run validation checks on the sequence
@@ -78,15 +78,23 @@ validate_coi5p = function(new_instance){
 }
 
 
-#'Build a coi5p object from a DNA sequence string
+#' Build a coi5p object from a DNA sequence string.
 #'
-#'@param x a nucleotide string.
-#'@param  name an optional character string. Identifier for the sequence.
+#' @param x a nucleotide string.
+#' Valid characters within the nucleotide string are: a,t,g,c,-,n.
+#' The nucleotide string can be input as upper case, but will be automatically converted to lower case.
+#' @param name an optional character string. Identifier for the sequence.
 #'
-#'@return an object of class code{"coi5p"}
-#'@examples
-#'
-#'@export
+#' @return an object of class code{"coi5p"}
+#' @details
+#' @examples
+#' dat = coi5p(example_nt_string)
+#' #named coi5p sequence
+#' dat = coi5p(example_nt_string, name = "example_seq1")
+#' #components in output coi5p object:
+#' data$raw
+#' data$name
+#' @export
 coi5p = function(x = character(), name = character()){
 
   #if vector, paste them together
@@ -108,8 +116,13 @@ coi5p = function(x = character(), name = character()){
 #'
 #'@return an object of class code{"coi5p"}
 #'@examples
+#' #previously run function:
+#' dat = coi5p(example_nt_string )
 #'
+#' dat = frame(dat)
 #'
+#' #additional components in output coi5p object:
+#' data$framed
 #'@export
 frame = function(x, ...){
   UseMethod("frame")
@@ -140,23 +153,32 @@ frame.coi5p = function(x, ... ){
 
 #'Translate a coi5p sequence.
 #'
-#'@param x a coi5p class object for which frame() has been run
-#'@param trans_table
+#' @param x a coi5p class object for which frame() has been run
+#' @param trans_table
+#' @param frame
 #'
-#'@return an object of class code{"coi5p"}
-#'@examples
-#'
+#' @return an object of class code{"coi5p"}
+#' @examples
+#' #previously run functions:
+#' dat = coi5p(example_nt_string )
+#' dat = frame(dat)
+#' #translate when the translation table is not known:
+#' dat = translate(dat)
+#' #translate when the translation table is known:
+#' dat = translate(dat, trans_table = 5)
+#' #additional components in output coi5p object:
+#' data$aaSeq
 #'@export
 translate = function(x, ...){
   UseMethod("translate")
 }
 
 ####
-#'@rdname translate
+#' @rdname translate
 ####
 translate.coi5p = function(x, ..., trans_table = 0, frame = 0){
   if(trans_table == 0){
-    x$aaSeq = censored_translation(substring(x$framed, frame+1))
+    x$aaSeq = censored_translation(x$framed, reading_frame = frame+1)
   }else{
     #split the DNA string into a vector, all characters to lower case
     dna_list = strsplit(gsub('-', 'n', as.character(tolower(x$framed))),"")
@@ -171,22 +193,35 @@ translate.coi5p = function(x, ..., trans_table = 0, frame = 0){
 }
 
 
-#' Check a translated coi5p sequence to see if an indel error is likely present
+#' Check is coi5p sequence likely contains an indel error
 #'
 #'
 #'@param x a coi5p class object for which frame() and translate() have been run.
-#'@param indel_threshold
+#'@param indel_threshold the log likelihood threshold used to assess whether or not sequences
+#' are likely to contain an indel. Default is -345.95. Values lower than this will be classified
+#' as likely to contain an indel and values higer will be classified as not likely to contain an indel.
 #'
 #'@return an object of class code{"coi5p"}
 #'@examples
-#'
+#' #previously run functions:
+#' dat = coi5p(example_nt_string)
+#' dat = frame(dat)
+#' dat = translate(dat)
+#' #current function
+#' dat = indel_check(dat)
+#' #with custom indel threshold
+#' dat = indel_check(dat, indel_threshold = -400)
+#' #additional components in output coi5p object:
+#' data$stop_codons #Boolean - Indicates if there are stop codons in the amino acid sequence.
+#' data$indel_likely #Boolean - Indicates if there is likely a insertion or deletion in the sequence.
+#' dat$aaScore #view the amino acid log likelihood score
 #'@export
 indel_check = function(x, ...){
   UseMethod("indel_check")
 }
 
 ####
-#'@rdname indel_check
+#' @rdname indel_check
 ####
 indel_check.coi5p = function(x, ..., indel_threshold = -346.95 ){
 
@@ -214,3 +249,10 @@ indel_check.coi5p = function(x, ..., indel_threshold = -346.95 ){
 #S3method(indel_check,coi5p)
 #S3method(print,coi5p )
 #S3method(translate,coi5p)
+
+
+# dat = coi5p(example_nt_string )
+# dat = frame(dat)
+# dat = translate(dat)
+# dat = translate(dat, trans_table = 5)
+# dat = indel_check(dat)

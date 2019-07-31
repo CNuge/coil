@@ -3,11 +3,7 @@
 \docType{data}
 \name{nt_PHMM}
 \alias{nt_PHMM}
-\title{removed param: phmm the profile hidden markov model against which the coi5p class should
-be framed. By defualt the function will use the nt_PHMM variable
-stored in the coi5p package, which was trained on a representitive sample of the
-barcode of life database (). A user may wish to use a custom derived PHMM, in which
-case they should consult the aphid package () for custom PHMM derivation.}
+\title{Nucleotide profile hidden markov model for coi5p.}
 \format{An object of class \code{PHMM} of length 14.}
 \usage{
 nt_PHMM

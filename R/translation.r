@@ -1,19 +1,17 @@
-# no imports - this should be in the workspace
-#library(seqinr)
-
-
-#' Censored Translation
+#' Censored Translation.
+#'
 #' Translate a DNA sequence using the censored translation table,
 #' this translates codons for which the amino acids is unambigious across the
 #' animal kingdom, and does not translate those for which the amino acid varies
 #' but rather outputs a ? in the string
-#` Censored translation table:
-#`            FFLLSSSSYY?*CCWWLLLLPPPPHHQQRRRRII?MTTTTNN?KSS??VVVVAAAADDEEGGGG
-#`   Base1  = TTTTTTTTTTTTTTTTCCCCCCCCCCCCCCCCAAAAAAAAAAAAAAAAGGGGGGGGGGGGGGGG
-#`   Base2  = TTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGG
-#`   Base3  = TCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAG
+#' @param codon a three letter DNA string
+#' @details
+#' Censored translation table:
+#'            FFLLSSSSYY?*CCWWLLLLPPPPHHQQRRRRII?MTTTTNN?KSS??VVVVAAAADDEEGGGG
+#'   Base1  = TTTTTTTTTTTTTTTTCCCCCCCCCCCCCCCCAAAAAAAAAAAAAAAAGGGGGGGGGGGGGGGG
+#'   Base2  = TTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGG
+#'   Base3  = TCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAG
 translate_codon = function(codon){
-
 	trans_table = list(
 		'TTT' = 'F', 'TTC' = 'F', 'TTA' = 'L', 'TTG' = 'L',
 		'TCT' = 'S', 'TCC' = 'S', 'TCA' = 'S', 'TCG' = 'S',
@@ -41,18 +39,26 @@ translate_codon = function(codon){
 		return('-')
 	}
 
-	if(grepl('N', toupper(codon),  fixed = TRUE)){
+	if(grepl('N', (codon),  fixed = TRUE)){
 		return('-')
 	}
 
 	return(trans_table[[toupper(codon)]])
 }
 
-
+#' Translate a DNA sequence when the correct translation table is unknown.
+#' Used internally via the translate method for coi5p objects.
+#' @param dna_str The DNA string to be translated.
+#' @param reading_frame reading frame = 1 means the first bp in the string is the start of the
+#' first codon, can pass 1, 2 or 3. For 2 and 3 the first 1 and 2 bp will be
+#' dropped from translation respectively.
+#' @details
+#' Censored translation table:
+#'            FFLLSSSSYY?*CCWWLLLLPPPPHHQQRRRRII?MTTTTNN?KSS??VVVVAAAADDEEGGGG
+#'   Base1  = TTTTTTTTTTTTTTTTCCCCCCCCCCCCCCCCAAAAAAAAAAAAAAAAGGGGGGGGGGGGGGGG
+#'   Base2  = TTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGG
+#'   Base3  = TCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAG
 censored_translation = function(dna_str, reading_frame = 1){
-	#reading frame = 1 means the first bp in the string is the start of the
-	#first codon, can pass 1, 2 or 3. For 2 and 3 the first 1 and 2 bp will be
-	#dropped from translation respectively
 	num_bp = nchar(dna_str)
 
 	codons = seq(reading_frame, num_bp, by=3)
@@ -67,25 +73,21 @@ censored_translation = function(dna_str, reading_frame = 1){
 }
 
 
-#path would be relative to the library design
-#translation_table_data = read.table('../required_data/family_tanslation_table.tsv' ,
-#								header = TRUE, sep = '\t', stringsAsFactors = FALSE)
-
-
 #' Determine the translation table to use for a given phylogenetic group.
 #'
-#' data stored down to family level.
-#' relies on the above having been run so that the df is in the workspace and accessable
+#' Recommends which translation table to use if taxonomic data is avaliable.
 #'
-#'@param x a taxonomic designation (family order  class  phylum) first letter capitilizaed
-#'
-#'@return an integer indicating the correct translation table (give bcbi link here)
+#'@param x a taxonomic designation (allowed ranks: family, order, class, phylum) first letter capitilizaed.
+#'@return an integer indicating the correct translation table.
 #'@examples
-#'
-#'@export
+#' which_trans_table("Chordata") #phylum
+#' which_trans_table("Actinopterygii") #class
+#' which_trans_table("Akentrogonida")  #order
+#' which_trans_table("Hydrobiidae") #family
+#' @details
+#' If which table is unable to identify a translation table to utilize, more information on translation tables can be found here: https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi
+#' @export
 which_trans_table = function(x) {
   trans_df$trans_table[trans_df$taxon == x]
 
 }
-
-#

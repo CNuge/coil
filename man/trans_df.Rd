@@ -3,12 +3,12 @@
 \docType{data}
 \name{trans_df}
 \alias{trans_df}
-\title{doc}
+\title{Data frame containing the translation table recommendation.}
 \format{An object of class \code{data.frame} with 4583 rows and 3 columns.}
 \usage{
 trans_df
 }
 \description{
-doc
+Data frame containing the translation table recommendation.
 }
 \keyword{datasets}

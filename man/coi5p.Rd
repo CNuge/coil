@@ -4,7 +4,7 @@
 \alias{new_coi5p}
 \alias{validate_coi5p}
 \alias{coi5p}
-\title{Build a coi5p object from a DNA sequence string}
+\title{Build a coi5p object from a DNA sequence string.}
 \usage{
 new_coi5p(x = character(), name = character())
 
@@ -13,7 +13,9 @@ validate_coi5p(new_instance)
 coi5p(x = character(), name = character())
 }
 \arguments{
-\item{x}{a nucleotide string.}
+\item{x}{a nucleotide string.
+Valid characters within the nucleotide string are: a,t,g,c,-,n.
+The nucleotide string can be input as upper case, but will be automatically converted to lower case.}
 
 \item{name}{an optional character string. Identifier for the sequence.}
 }
@@ -21,7 +23,7 @@ coi5p(x = character(), name = character())
 an object of class code{"coi5p"}
 }
 \description{
-Build a coi5p object from a DNA sequence string
+Build a coi5p object from a DNA sequence string.
 }
 \examples{
 

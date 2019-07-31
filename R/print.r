@@ -49,7 +49,7 @@ print.coi5p = function(x, ...){
       l6 = paste("The sequence likely does not contain an insertion or deletion.\n Stop codon present: ",
                  x$stop_codons,
                  ", Amino acid PHMM score:",
-                 x$AAscore,
+                 x$aaScore,
                  sep = "")
     }
     lines = c(lines, l6)

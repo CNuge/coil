@@ -12,7 +12,7 @@ translate(x, ...)
 \arguments{
 \item{x}{a coi5p class object for which frame() has been run}
 
-\item{trans_table}{}
+\item{frame}{}
 }
 \value{
 an object of class code{"coi5p"}
