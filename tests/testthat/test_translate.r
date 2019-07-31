@@ -1,32 +1,30 @@
+test_that("The translation related functions are performing as expected", {
 
+  test1nt = 'CTATATTTAATCTTTGGTGCATGAGCAGGAATAGTGGGCACAGCCCTTAGCCTACTTATTCGTACAGAATTAAGCCAACCCGGGACACTTCTGGGGGATGATCAAATCTACAATGTTATTGTAACTGCTCACGCTTTTGTAATAATCTTTTTTATAGTTATACCCGTAATAATCGGCGGTTTCGGAAATTGATTAGTGCCTTTAATAATTGGTGCACCAGACATAGCTTTTCCTCGAATAAATAACATAAGTTTTTGACTATTGCCACCATCTCTTCTATTACTTTTAGCTTCTGCTGGCGTCGAAGCAGGGGCTGGAACCGGATGAACGGTCTACCCCCCTCTTGCAGGTAATATAGCCCATGCTGGCGCATCCGTGGATTTAGCCATCTTCTCACTCCATTTAGCCGGTATTTCCTCCATTTTAGCCTCTATTAACTTTATTACTACTATTATTAATATAAAACCGCCTGCAATTTCTCAATACCAAACCCCACTCTTTGTCTGATCCATCCTTGTAACCACTGTCCTTCTTCTACTTGCTCTCCCCGTCCTTGCCGCTGCAATTACAATACTCTTAACTGACCGTAATTTAAATACAACATTTTTTGACCCAGCGGGAGGAGGGGACCCCATTCTTTACCAACACTTA'
+  test1aa0 = "LYLIFGAWAG?VGTALSLLIRTELSQPGTLLGDDQIYNVIVTAHAFV?IFF?V?PV?IGGFGNWLVPL?IGAPD?AFPR?NN?SFWLLPPSLLLLLASAGVEAGAGTGWTVYPPLAGN?AHAGASVDLAIFSLHLAGISSILASINFITTIIN??PPAISQYQTPLFVWSILVTTVLLLLALPVLAAAIT?LLTDRNLNTTFFDPAGGGDPILYQHL"
+  test1aa5 = "LYLIFGAWAGMVGTALSLLIRTELSQPGTLLGDDQIYNVIVTAHAFVMIFFMVMPVMIGGFGNWLVPLMIGAPDMAFPRMNNMSFWLLPPSLLLLLASAGVEAGAGTGWTVYPPLAGNMAHAGASVDLAIFSLHLAGISSILASINFITTIINMKPPAISQYQTPLFVWSILVTTVLLLLALPVLAAAITMLLTDRNLNTTFFDPAGGGDPILYQHL"
+  expect_equal(trans_dna(test1nt), test1aa0)
+  expect_equal(trans_dna(test1nt, trans_table = 5), test1aa0)
 
-#get the translation table for a given phylum-family.
-#if ambigious, 0 is returned, indicating it is safest to employ censored translation.
-which_trans_table("Entomobryidae")
+  test2nt = "---accttatatatgttatttgccttctgatcagggcttttaggaacatcaataagactcctcatccgaatagaacttgctcgaccaggtgttttccttggtagagacactttatataatacaattgttactgcacatgcgtgccttataattttttttatagtaatacctataatgataggaggttttggtaattgaataattcctcttataatacacacgcccgacatggcttttccacgactaaacaatttaagattttgacttttagtcccatctcttttgctacttttctcctcttcaactttagaatcaggcgtaggcacaggatgaactgtttatcctccgctttcaaacgcatcatatcacccgggcccccctgttgatctcgctattttctccttacatgttgctggggcctcatcaattttggcatctcttaatttcattactaccgtcattaatatgcgtccaacccgcatttcttatgaaaacacccctctacttatctgatctattatcctcaccgcaattcttctagttttagccatccctgttcttgcaggaggaattaccatactcttaacagaccgaaaccttaataccactttttttgaccctgcaggtgggggggacccaatcctctttcaacacctt"
+  test2aa0 = "-TLYMLFAFWSGLLGTS??LLIR?ELARPGVFLG?DTLYNTIVTAHACL?IFF?V?P?M?GGFGNW?IPL??HTPDMAFPRLNNL?FWLLVPSLLLLFSSSTLESGVGTGWTVYPPLSNASYHPGPPVDLAIFSLHVAGASSILASLNFITTVINMRPTRISYENTPLLIWSIILTAILLVLAIPVLAGGIT?LLTDRNLNTTFFDPAGGGDPILFQHL"
+  test2aa11 =  "-TLYMLFAF*SGLLGTSIRLLIRIELARPGVFLGRDTLYNTIVTAHACLIIFFIVIPIMIGGFGN*IIPLIIHTPDMAFPRLNNLRF*LLVPSLLLLFSSSTLESGVGTG*TVYPPLSNASYHPGPPVDLAIFSLHVAGASSILASLNFITTVINMRPTRISYENTPLLI*SIILTAILLVLAIPVLAGGITILLTDRNLNTTFFDPAGGGDPILFQHL"
+  expect_equal(trans_dna(test2nt), test2aa0)
+  expect_equal(trans_dna(test2nt, trans_table = 11), test2aa11)
 
+  test3nt = "-accttatatatgttatttgccttctgatcagggcttttaggaacatcaataagactcctcatccgaatagaacttgctcgaccaggtgttttccttggtagagacactttatataatacaattgttactgcacatgcgtgccttataattttttttatagtaatacctataatgataggaggttttggtaattgaataattcctcttataatacacacgcccgacatggcttttccacgactaaacaatttaagattttgacttttagtcccatctcttttgctacttttctcctcttcaactttagaatcaggcgtaggcacaggatgaactgtttatcctccgctttcaaacgcatcatatcacccgggcccccctgttgatctcgctattttctccttacatgttgctggggcctcatcaattttggcatctcttaatttcattactaccgtcattaatatgcgtccaacccgcatttcttatgaaaacacccctctacttatctgatctattatcctcaccgcaattcttctagttttagccatccctgttcttgcaggaggaattaccatactcttaacagaccgaaaccttaataccactttttttgaccctgcaggtgggggggacccaatcctctttcaacacctt"
+  test3aa0 = "TLYMLFAFWSGLLGTS??LLIR?ELARPGVFLG?DTLYNTIVTAHACL?IFF?V?P?M?GGFGNW?IPL??HTPDMAFPRLNNL?FWLLVPSLLLLFSSSTLESGVGTGWTVYPPLSNASYHPGPPVDLAIFSLHVAGASSILASLNFITTVINMRPTRISYENTPLLIWSIILTAILLVLAIPVLAGGIT?LLTDRNLNTTFFDPAGGGDPILFQHL"
+  test3aa11 =  "TLYMLFAF*SGLLGTSIRLLIRIELARPGVFLGRDTLYNTIVTAHACLIIFFIVIPIMIGGFGN*IIPLIIHTPDMAFPRLNNLRF*LLVPSLLLLFSSSTLESGVGTG*TVYPPLSNASYHPGPPVDLAIFSLHVAGASSILASLNFITTVINMRPTRISYENTPLLI*SIILTAILLVLAIPVLAGGITILLTDRNLNTTFFDPAGGGDPILFQHL"
+  expect_equal(trans_dna(test3nt, frame = 1), test3aa0)
+  expect_equal(trans_dna(test3nt, frame = 1, trans_table = 11), test3aa11)
 
-test_y = 'CTATATTTAATCTTTGGTGCATGAGCAGGAATAGTGGGCACAGCCCTTAGCCTACTTATTCGTACAGAATTAAGCCAACCCGGGACACTTCTGGGGGATGATCAAATCTACAATGTTATTGTAACTGCTCACGCTTTTGTAATAATCTTTTTTATAGTTATACCCGTAATAATCGGCGGTTTCGGAAATTGATTAGTGCCTTTAATAATTGGTGCACCAGACATAGCTTTTCCTCGAATAAATAACATAAGTTTTTGACTATTGCCACCATCTCTTCTATTACTTTTAGCTTCTGCTGGCGTCGAAGCAGGGGCTGGAACCGGATGAACGGTCTACCCCCCTCTTGCAGGTAATATAGCCCATGCTGGCGCATCCGTGGATTTAGCCATCTTCTCACTCCATTTAGCCGGTATTTCCTCCATTTTAGCCTCTATTAACTTTATTACTACTATTATTAATATAAAACCGCCTGCAATTTCTCAATACCAAACCCCACTCTTTGTCTGATCCATCCTTGTAACCACTGTCCTTCTTCTACTTGCTCTCCCCGTCCTTGCCGCTGCAATTACAATACTCTTAACTGACCGTAATTTAAATACAACATTTTTTGACCCAGCGGGAGGAGGGGACCCCATTCTTTACCAACACTTA'
+  #testing the translation table helper function
+  #get the translation table for a given phylum-family.
+  #if ambigious, 0 is returned, indicating it is safest to employ censored translation.
+  expect_equal(which_trans_table("Entomobryidae"), 5)
+  expect_equal(which_trans_table("Vespidae"), 5)
+  expect_equal(which_trans_table("Rhagionidae"), 2)
+  expect_equal(which_trans_table("Iguanidae"), 0)
 
-test_z = 'LYLIFGAWAGMVGTALSLLIRTELSQPGTLLGDDQIYNVIVTAHAFVMIFFMVMPVMIGGFGNWLVPLMIGAPDMAFPRMNNMSFWLLPPSLLLLLASAGVEAGAGTGWTVYPPLAGNMAHAGASVDLAIFSLHLAGISSILASINFITTIINMKPPAISQYQTPLFVWSILVTTVLLLLALPVLAAAITMLLTDRNLNTTFFDPAGGGDPILYQHLF'
-
-nchar(test_y)
-nchar(test_z)*3
-translate_DNA(test_y)
-
-
-
-y3 = 'ATTTTTGGTGCATGAGCAGGAATAATTGGAACAGCCCTAAGTCTTTTAATTCGAGCTGAACTTGGACAACCAGGCTCTCTTTTAGGAGATGATCAGATTTATAATGTAATTGTAACTGCCCACGCTTTCGTAATAATCTTTTTCATAGTTATACCAATTATAATTGGTGGTTTTGGGAATTGGCTCGTGCCTTTAATAATTGGTGCGCCAGATATGGCCTTCCCACGAATAAACAACATAAGCTTTTGGCTTCTTCCACCATCATTCCTTCTCCTCTTAGCTTCCGCTGGGGTAGAAGCTGGAGCAGGTACTGGCTGAACAGTTTACCCTCCATTAGCTAGCAACTTAGCTCATGCTGGACCATCTGTTGACCTAGCTATCTTTTCCCTACACCTAGCCGGTGTATCATCAATCTTAGCCTCAATTAATTTCATTACAACTATTATTAACATGAAACCTCCAGCCATCTCTCAATATCAAACACCATTATTTGTTTGATCCATTCTTGTAACTACTATCCTACTTCTCCTCTCACTTCCAGTTCTCGCAGCAGGAATTACAATATTACTCACAGATCGTAACCTTAATACTACATTCTTTGATCCTGCAGGGGGAGGAGATCCAATCCTTTATCAACACTTATTCTGATTCTTC'
-z3 = 'FPIFGAWAGMIGTALSLLIRAELGQPGSLLGDDQIYNVIVTAHAFVMIFFMVMPIMIGGFGNWLVPLMIGAPDMAFPRMNNMSFWLLPPSFLLLLASAGVEAGAGTGWTVYPPLASNLAHAGPSVDLAIFSLHLAGVSSILASINFITTIINMKPPAISQYQTPLFVWSILVTTILLLLSLPVLAAGITMLLTDRNLNTTFFDPAGGGDPILYQHLFWFFATFPSGALRLKRPPQPPHLPLX'
-
-nchar(y3)
-nchar(z3)*3
-translate_DNA(y3) #the aminoraw has two extra amino acids on the front and several others on the back.
-
-
-
-test_a = "ttatattttatttttgggaatttgagcagggatagtaggaactttctctaagattattaattcgagcagaattaggtcatcctggatctttaattgggatgatcaaatttataacactattgtaacagctcatgcttttattataattttttttatagttatacctattataattggggatttggaaattgattagtacctttaatattaggagctcctgatatagctttcccccgtataaataatataagtttttgattattacctccttctttaactttattaatttctagaagaattgtagaaaatggtgtaggaactggatgaacagtttacccccctctttcttcaaatattgctcatggaggaagttcagtagatttagctattttttctcttcatttagcgggaattt"
-censored_translation(test_a)
-
-test_b = "---------------ttatattttatttttggg atttgagcagggatagtaggaactt ctctaagattattaattcgagcagaattaggtcatcctggatctttaattgg-gatgatcaaatttataacactattgtaacagctcatgcttttattataattttttttatagttatacctattataattgg-ggatttggaaattgattagtacctttaatattaggagctcctgatatagctttcccccgtataaataatataagtttttgattattacctccttctttaactttattaatttctagaagaattgtagaaaatggtgtaggaactggatgaacagtttacccccctctttcttcaaatattgctcatggaggaagttcagtagatttagctattttttctcttcatttagcgggaattt-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
-censored_translation(test_b)
+})
 

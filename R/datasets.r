@@ -5,11 +5,9 @@
 # library(seqinr)
 # source('R/deploy_PHMMs.r')
 # source('R/translation.r')
-# nt_phmm_file = './required_data/COI5P_nt.PHMM'
-# aa_phmm_file = './required_data/COI5P_aa.PHMM'
-# trans_df = read.table('./required_data/family_tanslation_table.tsv', header = TRUE, sep = '\t')
-# nt_PHMM = readPHMM(nt_phmm_file)
-# aa_PHMM = readPHMM(aa_phmm_file)
+# load('R/sysdata.rda')
+
+
 
 
 

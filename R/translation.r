@@ -74,13 +74,16 @@ censored_translation = function(dna_str, reading_frame = 1){
 #`
 trans_dna = function(dna_str, frame = 0,  trans_table = 0){
 	if(trans_table == 0){
-		return(censored_translation(dna_str))
+		if(frame != 0){
+		  return(censored_translation(substring(dna_str, frame+1)))
+		}
+	  return(censored_translation(dna_str))
 	}else{
 		#split the DNA string into a vector, all characters to lower case
 		dna_list = strsplit(gsub('-', 'n', as.character(tolower(dna_str))),"")
 		dna_vec = dna_list[[1]]
 		#translate using the designated numcode, returns a vector of AAs
-		aa_vec = seqinr::translate(dna_vec, frame = 0, numcode=trans_table, ambiguous= TRUE, NAstring = '-')
+		aa_vec = seqinr::translate(dna_vec, frame = frame, numcode=trans_table, ambiguous= TRUE, NAstring = '-')
 
 		aa_str = paste(aa_vec, collapse= "")
 		return(aa_str)

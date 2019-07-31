@@ -1,16 +1,11 @@
-# move the code from the corrections script in here and structure it to work on
-# a standardized object
+# Some useful keyboard shortcuts for package authoring:
+#
+#   Install Package:           'Ctrl + Shift + B'
+#   Check Package:             'Ctrl + Shift + E'
+#   Test Package:              'Ctrl + Shift + T'
 
-#possibly this for getting the data for the PHMMs into the proper fmt
-#.onLoad() = function(libname, pkgname)
-
-#start with r/ chapter of textbook and begin work accordinlgy. Go through R studio
 
 #use: package::function() syntax for external functions so as to make it explicicit that that is needed
-
-#NOTE FOR GETTING PHMMS and TRANS TABLES in:
-# aphid has a folder /data with .RData (binary?) objects within that store the data, presumably I'll need ot do this.
-
 
 #' This is how to document in a way that can be accessed by ?coi
 #' Add roxygen comments to your .R files.
@@ -26,11 +21,6 @@ foo = function(x){
 
 }
 
-
-# building the data and functions I've created for manipulating COI-5P sequences
-# into a generic s3 function
-
-
 # Generating the namespace with roxygen2 is just like generating function documentation with roxygen2.
 # You use roxygen2 blocks (starting with #') and tags (starting with @).
 #  The workflow is the same:
@@ -38,6 +28,9 @@ foo = function(x){
 #   Run devtools::document() (or press Ctrl/Cmd + Shift + D in RStudio) to convert roxygen comments to .Rd files.
 #   Look at NAMESPACE and run tests to check that the specification is correct.
 #   Rinse and repeat until the correct functions are exported.
+
+###############################3
+# TODO section
 
 #To export an object, put @export in its roxygen block - just don't do this for the functions the user doesn't have to see.
 # ^not needed for data, these should just be avaliable?
@@ -57,14 +50,9 @@ foo = function(x){
 ########################
 # coi5p - Initialization of the class
 
-# three functions should be provided at minimum"
-
-# constructor - efficiently creates new objects with the correct structure - new_coi5p
-# validator - perform computationally expensive checks to make sure the obj has the correct vals - validate_coi5p
-# helper - provide a way for other to create objects of the class - coi5p
-
 new_coi5p = function(x = character(), name = character()){
   stopifnot(is.character(x))
+  stopifnot(is.character(name))
 
   structure(list(name = name, raw = tolower(x)) , class = "coi5p")
 }
@@ -75,7 +63,18 @@ new_coi5p = function(x = character(), name = character()){
 # make sure the sequence has length greater than zero
 validate_coi5p = function(new_instance){
 
-  #TODO - check that the string is composed of the correct character types
+  allowed = c("-", "a", "c", "g", "n","t")
+  for(c in sort(unique(strsplit(new_instance$raw, "")[[1]]))){
+    if(!c %in% allowed){
+      stop(paste("Unallowed character in DNA string:", c,
+                 "\n Valid characters are: a t g c - n"))
+    }
+  }
+
+  if(new_instance$raw != tolower(new_instance$raw)){
+    stop("Unable to convert DNA string to lower case")
+  }
+
   new_instance
 }
 
@@ -90,12 +89,8 @@ validate_coi5p = function(new_instance){
 #'@export
 coi5p = function(x = character(), name = character()){
 
-  # TODO - coerce the input into a lower case character string
-  # TODO - vector of characters can be another acceptable input
-
   #if vector, paste them together
-  validate_coi5p(new_coi5p(x, name))
-
+  validate_coi5p(new_coi5p(tolower(x), name))
 }
 
 
