@@ -67,38 +67,15 @@ censored_translation = function(dna_str, reading_frame = 1){
 }
 
 
-#`
-#`
-#`
-#`
-#`
-trans_dna = function(dna_str, frame = 0,  trans_table = 0){
-	if(trans_table == 0){
-		if(frame != 0){
-		  return(censored_translation(substring(dna_str, frame+1)))
-		}
-	  return(censored_translation(dna_str))
-	}else{
-		#split the DNA string into a vector, all characters to lower case
-		dna_list = strsplit(gsub('-', 'n', as.character(tolower(dna_str))),"")
-		dna_vec = dna_list[[1]]
-		#translate using the designated numcode, returns a vector of AAs
-		aa_vec = seqinr::translate(dna_vec, frame = frame, numcode=trans_table, ambiguous= TRUE, NAstring = '-')
-
-		aa_str = paste(aa_vec, collapse= "")
-		return(aa_str)
-	}
-}
-
-
 #path would be relative to the library design
 #translation_table_data = read.table('../required_data/family_tanslation_table.tsv' ,
 #								header = TRUE, sep = '\t', stringsAsFactors = FALSE)
 
 
-#` determine the translation table to use for a given phylogenetic group
-#` data stored down to family level.
-#` relies on the above having been run so that the df is in the workspace and accessable
+#' Determine the translation table to use for a given phylogenetic group.
+#'
+#' data stored down to family level.
+#' relies on the above having been run so that the df is in the workspace and accessable
 #'
 #'@param x a taxonomic designation (family order  class  phylum) first letter capitilizaed
 #'

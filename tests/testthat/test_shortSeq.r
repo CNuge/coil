@@ -1,15 +1,3 @@
-seq_short =
-
-
-test_short = coi5p(seq_short)
-test_short
-test_short = frame(test_short)
-test_short
-test_short = translate(test_short)
-test_short
-test_short = indel_check(test_short)
-test_short
-
 
 
 test_that("A short sequence is framed and translated properly", {
@@ -31,7 +19,7 @@ test_that("A short sequence is framed and translated properly", {
   expect_equal(dat$aaSeq, sequence_AAcensored)
 
   dat = indel_check(dat)
-  expect_equal(dat$indel_likely, FALSE)
+  expect_equal(dat$indel_likely, TRUE)
   expect_equal(dat$stop_codons, FALSE)
 
   dat = translate(dat, trans_table = 5)

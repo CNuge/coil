@@ -24,6 +24,8 @@
 # coi5p:::nt_PHMM
 # but this throws a note on compilation of the package
 
+#' Nucleotide profile hidden markov model for coi5p.
+#'
 #' removed param: phmm the profile hidden markov model against which the coi5p class should
 #' be framed. By defualt the function will use the nt_PHMM variable
 #' stored in the coi5p package, which was trained on a representitive sample of the
@@ -32,16 +34,16 @@
 #'
 "nt_PHMM"
 
-#'doc
+#' Amino acid profile hidden markov model for coi5p.
 #'
-#'#'removed param: phmm the amino acid profile hidden markov model against which the coi5p class
+#' removed param: phmm the amino acid profile hidden markov model against which the coi5p class
 #' should be checked for errors. By defualt the function will use the aa_PHMM variable
 #' stored in the coi5p package, which was trained on a representitive sample of the
 #' barcode of life database (). A user may wish to use a custom derived PHMM, in which
 #' case they should consult the aphid package () for custom PHMM derivation.
 "aa_PHMM"
 
-#'doc
+#' Data frame containing the translation table recommendation.
 "trans_df"
 
 
