@@ -115,6 +115,7 @@ coi5p = function(x = character(), name = character()){
 #'@param x a coi5p class object
 #'
 #'@return an object of class code{"coi5p"}
+#'@seealso \code{\link{coi5p}}
 #'@examples
 #' #previously run function:
 #' dat = coi5p(example_nt_string )
@@ -151,13 +152,16 @@ frame.coi5p = function(x, ... ){
   return(x)
 }
 
-#'Translate a coi5p sequence.
+#' Translate a coi5p sequence.
 #'
 #' @param x a coi5p class object for which frame() has been run
 #' @param trans_table
 #' @param frame
 #'
 #' @return an object of class code{"coi5p"}
+#' @seealso \code{\link{coi5p}}
+#' @seealso \code{\link{frame}}
+#' @seealso \code{\link{which_trans_table}}
 #' @examples
 #' #previously run functions:
 #' dat = coi5p(example_nt_string )
@@ -193,7 +197,7 @@ translate.coi5p = function(x, ..., trans_table = 0, frame = 0){
 }
 
 
-#' Check is coi5p sequence likely contains an indel error
+#' Check is coi5p sequence likely contains an indel error.
 #'
 #'
 #'@param x a coi5p class object for which frame() and translate() have been run.
@@ -202,6 +206,9 @@ translate.coi5p = function(x, ..., trans_table = 0, frame = 0){
 #' as likely to contain an indel and values higer will be classified as not likely to contain an indel.
 #'
 #'@return an object of class code{"coi5p"}
+#' @seealso \code{\link{coi5p}}
+#' @seealso \code{\link{frame}}
+#' @seealso \code{\link{translate}}
 #'@examples
 #' #previously run functions:
 #' dat = coi5p(example_nt_string)
