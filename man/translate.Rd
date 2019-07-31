@@ -29,7 +29,7 @@ dat = translate(dat)
 #translate when the translation table is known:
 dat = translate(dat, trans_table = 5)
 #additional components in output coi5p object:
-data$aaSeq
+dat$aaSeq
 }
 \seealso{
 \code{\link{coi5p}}

@@ -25,7 +25,7 @@ dat = coi5p(example_nt_string )
 dat = frame(dat)
 
 #additional components in output coi5p object:
-data$framed
+dat$framed
 }
 \seealso{
 \code{\link{coi5p}}

@@ -32,8 +32,8 @@ dat = indel_check(dat)
 #with custom indel threshold
 dat = indel_check(dat, indel_threshold = -400)
 #additional components in output coi5p object:
-data$stop_codons #Boolean - Indicates if there are stop codons in the amino acid sequence.
-data$indel_likely #Boolean - Indicates if there is likely a insertion or deletion in the sequence.
+dat$stop_codons #Boolean - Indicates if there are stop codons in the amino acid sequence.
+dat$indel_likely #Boolean - Indicates if there is likely a insertion or deletion in the sequence.
 dat$aaScore #view the amino acid log likelihood score
 }
 \seealso{

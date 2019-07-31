@@ -124,7 +124,7 @@ coi5p = function(x = character(), name = character()){
 #' dat = frame(dat)
 #'
 #' #additional components in output coi5p object:
-#' data$framed
+#' dat$framed
 #'@export
 frame = function(x, ...){
   UseMethod("frame")
@@ -172,7 +172,7 @@ frame.coi5p = function(x, ... ){
 #' #translate when the translation table is known:
 #' dat = translate(dat, trans_table = 5)
 #' #additional components in output coi5p object:
-#' data$aaSeq
+#' dat$aaSeq
 #'@export
 translate = function(x, ...){
   UseMethod("translate")
@@ -220,8 +220,8 @@ translate.coi5p = function(x, ..., trans_table = 0, frame = 0){
 #' #with custom indel threshold
 #' dat = indel_check(dat, indel_threshold = -400)
 #' #additional components in output coi5p object:
-#' data$stop_codons #Boolean - Indicates if there are stop codons in the amino acid sequence.
-#' data$indel_likely #Boolean - Indicates if there is likely a insertion or deletion in the sequence.
+#' dat$stop_codons #Boolean - Indicates if there are stop codons in the amino acid sequence.
+#' dat$indel_likely #Boolean - Indicates if there is likely a insertion or deletion in the sequence.
 #' dat$aaScore #view the amino acid log likelihood score
 #'@export
 indel_check = function(x, ...){
