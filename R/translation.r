@@ -43,6 +43,10 @@ translate_codon = function(codon){
 		return('-')
 	}
 
+	if(grepl('n', (codon),  fixed = TRUE)){
+	  return('-')
+	}
+
 	return(trans_table[[toupper(codon)]])
 }
 

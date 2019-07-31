@@ -7,15 +7,20 @@
 which_trans_table(x)
 }
 \arguments{
-\item{x}{a taxonomic designation (family order  class  phylum) first letter capitilizaed}
+\item{x}{a taxonomic designation (allowed ranks: family, order, class, phylum) first letter capitilizaed.}
 }
 \value{
-an integer indicating the correct translation table (give bcbi link here)
+an integer indicating the correct translation table.
 }
 \description{
-data stored down to family level.
-relies on the above having been run so that the df is in the workspace and accessable
+Recommends which translation table to use if taxonomic data is avaliable.
+}
+\details{
+If which table is unable to identify a translation table to utilize, more information on translation tables can be found here: https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi
 }
 \examples{
-
+which_trans_table("Chordata") #phylum
+which_trans_table("Actinopterygii") #class
+which_trans_table("Akentrogonida")  #order
+which_trans_table("Hydrobiidae") #family
 }

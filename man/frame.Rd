@@ -19,6 +19,14 @@ an object of class code{"coi5p"}
 Take a coi5p sequence and place it in reading frame.
 }
 \examples{
+#previously run function:
+dat = coi5p(example_nt_string )
 
+dat = frame(dat)
 
+#additional components in output coi5p object:
+data$framed
+}
+\seealso{
+\code{\link{coi5p}}
 }

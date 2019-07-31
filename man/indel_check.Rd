@@ -3,7 +3,7 @@
 \name{indel_check}
 \alias{indel_check}
 \alias{indel_check.coi5p}
-\title{Check a translated coi5p sequence to see if an indel error is likely present}
+\title{Check is coi5p sequence likely contains an indel error.}
 \usage{
 indel_check(x, ...)
 
@@ -20,8 +20,26 @@ as likely to contain an indel and values higer will be classified as not likely 
 an object of class code{"coi5p"}
 }
 \description{
-Check a translated coi5p sequence to see if an indel error is likely present
+Check is coi5p sequence likely contains an indel error.
 }
 \examples{
+#previously run functions:
+dat = coi5p(example_nt_string)
+dat = frame(dat)
+dat = translate(dat)
+#current function
+dat = indel_check(dat)
+#with custom indel threshold
+dat = indel_check(dat, indel_threshold = -400)
+#additional components in output coi5p object:
+data$stop_codons #Boolean - Indicates if there are stop codons in the amino acid sequence.
+data$indel_likely #Boolean - Indicates if there is likely a insertion or deletion in the sequence.
+dat$aaScore #view the amino acid log likelihood score
+}
+\seealso{
+\code{\link{coi5p}}
 
+\code{\link{frame}}
+
+\code{\link{translate}}
 }

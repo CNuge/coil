@@ -28,7 +28,8 @@
 
 #To export an object, put @export in its roxygen block - just don't do this for the functions the user doesn't have to see.
 # ^not needed for data, these should just be avaliable?
-# TODO - document functions and make sure only the user facing ones are exported
+# TODO - document functions and
+# TODO - make sure only the user facing functions are exported
   #TODO - need to run devtools::document() to generate documentation prior to passing the compile tests
 # TODO - take the positions where functions from other libraries are used, use them in the tidyverse::func() style
 # TODO - fix so not relying on the global PHMM variables. Have these be passed in to the functions with the
@@ -182,7 +183,7 @@ translate = function(x, ...){
 ####
 translate.coi5p = function(x, ..., trans_table = 0, frame = 0){
   if(trans_table == 0){
-    x$aaSeq = censored_translation(x$framed, reading_frame = frame+1)
+    x$aaSeq = censored_translation(x$framed, reading_frame = (frame+1))
   }else{
     #split the DNA string into a vector, all characters to lower case
     dna_list = strsplit(gsub('-', 'n', as.character(tolower(x$framed))),"")
@@ -251,15 +252,3 @@ indel_check.coi5p = function(x, ..., indel_threshold = -346.95 ){
   return(x)
 }
 
-
-#assifnInNamespace("frame.coi5p")
-#S3method(indel_check,coi5p)
-#S3method(print,coi5p )
-#S3method(translate,coi5p)
-
-
-# dat = coi5p(example_nt_string )
-# dat = frame(dat)
-# dat = translate(dat)
-# dat = translate(dat, trans_table = 5)
-# dat = indel_check(dat)

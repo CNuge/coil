@@ -26,5 +26,10 @@ an object of class code{"coi5p"}
 Build a coi5p object from a DNA sequence string.
 }
 \examples{
-
+dat = coi5p(example_nt_string)
+#named coi5p sequence
+dat = coi5p(example_nt_string, name = "example_seq1")
+#components in output coi5p object:
+data$raw
+data$name
 }

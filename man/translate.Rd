@@ -21,5 +21,20 @@ an object of class code{"coi5p"}
 Translate a coi5p sequence.
 }
 \examples{
+#previously run functions:
+dat = coi5p(example_nt_string )
+dat = frame(dat)
+#translate when the translation table is not known:
+dat = translate(dat)
+#translate when the translation table is known:
+dat = translate(dat, trans_table = 5)
+#additional components in output coi5p object:
+data$aaSeq
+}
+\seealso{
+\code{\link{coi5p}}
 
+\code{\link{frame}}
+
+\code{\link{which_trans_table}}
 }

@@ -2,18 +2,23 @@
 % Please edit documentation in R/translation.r
 \name{translate_codon}
 \alias{translate_codon}
-\title{Censored Translation
-Translate a DNA sequence using the censored translation table,
-this translates codons for which the amino acids is unambigious across the
-animal kingdom, and does not translate those for which the amino acid varies
-but rather outputs a ? in the string}
+\title{Censored Translation.}
 \usage{
 translate_codon(codon)
 }
+\arguments{
+\item{codon}{a three letter DNA string}
+}
 \description{
-Censored Translation
 Translate a DNA sequence using the censored translation table,
 this translates codons for which the amino acids is unambigious across the
 animal kingdom, and does not translate those for which the amino acid varies
 but rather outputs a ? in the string
+}
+\details{
+Censored translation table:
+           FFLLSSSSYY?*CCWWLLLLPPPPHHQQRRRRII?MTTTTNN?KSS??VVVVAAAADDEEGGGG
+  Base1  = TTTTTTTTTTTTTTTTCCCCCCCCCCCCCCCCAAAAAAAAAAAAAAAAGGGGGGGGGGGGGGGG
+  Base2  = TTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGG
+  Base3  = TCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAG
 }
