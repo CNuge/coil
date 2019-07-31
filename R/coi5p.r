@@ -150,15 +150,15 @@ translate = function(x, ...){
 }
 
 
-translate.coi5p = function(x, ..., trans_table = 0){
+translate.coi5p = function(x, ..., trans_table = 0, frame = 0){
   if(trans_table == 0){
-    x$aaSeq = censored_translation(x$framed)
+    x$aaSeq = censored_translation(x$framed, frame = 0)
   }else{
     #split the DNA string into a vector, all characters to lower case
     dna_list = strsplit(gsub('-', 'n', as.character(tolower(x$framed))),"")
     dna_vec = dna_list[[1]]
     #translate using the designated numcode, returns a vector of AAs
-    aa_vec = seqinr::translate(dna_vec, frame = 0, numcode=trans_table, ambiguous= TRUE, NAstring = '-')
+    aa_vec = seqinr::translate(dna_vec, frame = frame, numcode=trans_table, ambiguous= TRUE, NAstring = '-')
 
     x$aaSeq = paste(aa_vec, collapse= "")
   }
@@ -186,8 +186,8 @@ indel_check.coi5p = function(x, ..., indel_threshold = -346.95 ){
   x$data$aaBin = individual_AAbin(x$aaSeq)
   x$data$aaPHMMout = aphid::Viterbi(aa_PHMM, x$data$aaBin, odds = FALSE)
 
-  x$AAscore = x$data$aaPHMMout[['score']] #have this print a threshold
-  if(x$AAscore > indel_threshold){
+  x$aaScore = x$data$aaPHMMout[['score']] #have this print a threshold
+  if(x$aaScore > indel_threshold){
     x$indel_likely = FALSE
   }else{
     x$indel_likely = TRUE
