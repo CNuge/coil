@@ -93,8 +93,8 @@ validate_coi5p = function(new_instance){
 #' #named coi5p sequence
 #' dat = coi5p(example_nt_string, name = "example_seq1")
 #' #components in output coi5p object:
-#' data$raw
-#' data$name
+#' dat$raw
+#' dat$name
 #' @export
 coi5p = function(x = character(), name = character()){
 
