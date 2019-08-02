@@ -23,32 +23,29 @@
 #   Look at NAMESPACE and run tests to check that the specification is correct.
 #   Rinse and repeat until the correct functions are exported.
 
-###############################3
+###############################
 # TODO section
 
-#To export an object, put @export in its roxygen block - just don't do this for the functions the user doesn't have to see.
-# ^not needed for data, these should just be avaliable?
-# TODO - document functions and
 # TODO - make sure only the user facing functions are exported
-  #TODO - need to run devtools::document() to generate documentation prior to passing the compile tests
+  # TODO - need to run devtools::document() to generate documentation prior to passing the compile tests
 # TODO - take the positions where functions from other libraries are used, use them in the tidyverse::func() style
-# TODO - fix so not relying on the global PHMM variables. Have these be passed in to the functions with the
-#         versions provided in the data files being the default
-
 # TODO - to check package run devtools::check() or hit ctrl-shift-E in rstudio
 #       this along with the build pane in the top right will help you id the package problems, it
 #       runs the tests and complies the components s/a the markdown vignettes
 #       Travis-CI interfaces with this as well, so set that up!
 #       Outputs are save to bin/coi5p.Rcheck where you can easily dig through the log files to find the errors
 
+# TODO - add checks to make sure data structures required have been initialized
+# if not then return a warning saying that the previous method needs to be run first
+
 
 
 ########################
 # coi5p - Initialization of the class
 
-####
-#' @rdname coi5p
-####
+#' Build a new coi5p class instance.
+#'
+#' @keywords internal
 new_coi5p = function(x = character(), name = character()){
   stopifnot(is.character(x))
   stopifnot(is.character(name))
@@ -56,9 +53,9 @@ new_coi5p = function(x = character(), name = character()){
   structure(list(name = name, raw = tolower(x)) , class = "coi5p")
 }
 
-####
-#' @rdname coi5p
-####
+#' Validate the new coi5p class instance.
+#'
+#' @keywords internal
 validate_coi5p = function(new_instance){
   # take a new instance and run validation checks on the sequence
   # make sure the sequence has only ATGCN-
@@ -87,7 +84,6 @@ validate_coi5p = function(new_instance){
 #' @param name an optional character string. Identifier for the sequence.
 #'
 #' @return an object of class code{"coi5p"}
-#' @details
 #' @examples
 #' dat = coi5p(example_nt_string)
 #' #named coi5p sequence
@@ -95,6 +91,7 @@ validate_coi5p = function(new_instance){
 #' #components in output coi5p object:
 #' dat$raw
 #' dat$name
+#' @name coi5p
 #' @export
 coi5p = function(x = character(), name = character()){
 
@@ -108,16 +105,15 @@ coi5p = function(x = character(), name = character()){
 ###########################
 # coi5p - Generics and methods
 
-# TODO - add checks to make sure data structures required have been initialized
-# if not then return a warning saying that the previous method needs to be run first
-
 
 #' Take a coi5p sequence and place it in reading frame.
-#'@param x a coi5p class object
 #'
-#'@return an object of class code{"coi5p"}
-#'@seealso \code{\link{coi5p}}
-#'@examples
+#' @param x a coi5p class object
+#' @param ... additional arguments to be passed between methods.
+#'
+#' @return an object of class code{"coi5p"}
+#' @seealso \code{\link{coi5p}}
+#' @examples
 #' #previously run function:
 #' dat = coi5p(example_nt_string )
 #'
@@ -125,14 +121,15 @@ coi5p = function(x = character(), name = character()){
 #'
 #' #additional components in output coi5p object:
 #' dat$framed
-#'@export
+#' @export
+#' @name frame
 frame = function(x, ...){
   UseMethod("frame")
 }
 
 ####
-#'@rdname frame
-####
+#' @rdname frame
+#' @export
 frame.coi5p = function(x, ... ){
   #input is the output structure from coi
   #set the reading frame and store the framed string in $framed
@@ -155,9 +152,16 @@ frame.coi5p = function(x, ... ){
 
 #' Translate a coi5p sequence.
 #'
-#' @param x a coi5p class object for which frame() has been run
-#' @param trans_table
-#' @param frame
+#' @param x a coi5p class object for which frame() has been run.
+#' @param ... additional arguments to be passed between methods.
+#' @param trans_table The translation table to use for translating from nucleotides to amino acids.
+#' Default is 0, which indicates that censored translation should be performed. If the taxonomy
+#' of the sample is known, use the function which_trans_table() to determine the translation table to use.
+#' @param frame_offset The offset to the reading frame to be applied for translation. By default the offset
+#' is zero, so the first character in the framed sequence is considered the first nucelotide of the first codon.
+#' Passing frame_offset = 1 would make the second character in the framed sequence the the first nucelotide of
+#' the first codon.
+#'
 #'
 #' @return an object of class code{"coi5p"}
 #' @seealso \code{\link{coi5p}}
@@ -173,23 +177,23 @@ frame.coi5p = function(x, ... ){
 #' dat = translate(dat, trans_table = 5)
 #' #additional components in output coi5p object:
 #' dat$aaSeq
-#'@export
+#'@name translate
 translate = function(x, ...){
   UseMethod("translate")
 }
 
 ####
 #' @rdname translate
-####
-translate.coi5p = function(x, ..., trans_table = 0, frame = 0){
+#' @export
+translate.coi5p = function(x, ..., trans_table = 0, frame_offset = 0){
   if(trans_table == 0){
-    x$aaSeq = censored_translation(x$framed, reading_frame = (frame+1))
+    x$aaSeq = censored_translation(x$framed, reading_frame = (frame_offset+1))
   }else{
     #split the DNA string into a vector, all characters to lower case
     dna_list = strsplit(gsub('-', 'n', as.character(tolower(x$framed))),"")
     dna_vec = dna_list[[1]]
     #translate using the designated numcode, returns a vector of AAs
-    aa_vec = seqinr::translate(dna_vec, frame = frame, numcode=trans_table, ambiguous= TRUE, NAstring = '-')
+    aa_vec = seqinr::translate(dna_vec, frame = frame_offset, numcode=trans_table, ambiguous= TRUE, NAstring = '-')
 
     x$aaSeq = paste(aa_vec, collapse= "")
   }
@@ -201,16 +205,17 @@ translate.coi5p = function(x, ..., trans_table = 0, frame = 0){
 #' Check is coi5p sequence likely contains an indel error.
 #'
 #'
-#'@param x a coi5p class object for which frame() and translate() have been run.
-#'@param indel_threshold the log likelihood threshold used to assess whether or not sequences
+#' @param x a coi5p class object for which frame() and translate() have been run.
+#' @param indel_threshold the log likelihood threshold used to assess whether or not sequences
+#' @param ... additional arguments to be passed between methods.
 #' are likely to contain an indel. Default is -345.95. Values lower than this will be classified
 #' as likely to contain an indel and values higer will be classified as not likely to contain an indel.
 #'
-#'@return an object of class code{"coi5p"}
+#' @return an object of class code{"coi5p"}
 #' @seealso \code{\link{coi5p}}
 #' @seealso \code{\link{frame}}
 #' @seealso \code{\link{translate}}
-#'@examples
+#' @examples
 #' #previously run functions:
 #' dat = coi5p(example_nt_string)
 #' dat = frame(dat)
@@ -223,14 +228,14 @@ translate.coi5p = function(x, ..., trans_table = 0, frame = 0){
 #' dat$stop_codons #Boolean - Indicates if there are stop codons in the amino acid sequence.
 #' dat$indel_likely #Boolean - Indicates if there is likely a insertion or deletion in the sequence.
 #' dat$aaScore #view the amino acid log likelihood score
-#'@export
+#' @name indel_check
 indel_check = function(x, ...){
   UseMethod("indel_check")
 }
 
 ####
 #' @rdname indel_check
-####
+#' @export
 indel_check.coi5p = function(x, ..., indel_threshold = -346.95 ){
 
   x$data$aaBin = individual_AAbin(x$aaSeq)

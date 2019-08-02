@@ -1,5 +1,7 @@
 #' print summary of coi5p object
-#'
+#' @param x a coi5p class object.
+#' @param ... additional arguments to be passed between methods.
+#' @keywords internal
 print.coi5p = function(x, ...){
 
   l1 = "coi5p barcode sequence"
@@ -54,7 +56,6 @@ print.coi5p = function(x, ...){
     }
     lines = c(lines, l6)
   }
-
 
   cat(lines,sep = "")
 }

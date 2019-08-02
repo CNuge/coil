@@ -11,6 +11,8 @@ frame(x, ...)
 }
 \arguments{
 \item{x}{a coi5p class object}
+
+\item{...}{additional arguments to be passed between methods.}
 }
 \value{
 an object of class code{"coi5p"}

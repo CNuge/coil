@@ -5,12 +5,18 @@
 #library(tidyverse)
 
 
-#turn a column of DNA sequence strings into individual DNAbin objects
+
+#' build an DNAbin with ape.
+#' switches the - to n
+#'
+#' @keywords internal
 individual_DNAbin = function(dna_string){
 	return(ape::as.DNAbin(strsplit(gsub('-', 'n', as.character(tolower(dna_string))),"")))
 }
 
-#turn a column of AA sequence strings into individual AAbin objects
+#' build an AAbin with ape.
+#'
+#' @keywords internal
 individual_AAbin = function(aa_string){
 	return(ape::as.AAbin(strsplit(as.character(aa_string),"")))
 }
@@ -18,9 +24,10 @@ individual_AAbin = function(aa_string){
 #TODO - think about combining leading_ins and ins_front_trim into a single function
 #at present they're highly similar
 
-#a check for a large number of leading inserted bases,
-#if this is the case, TRUE is returned and the PHMM
-#should be run a second time on the truncated data.
+#' Check for a large number of leading inserted bases,
+#' if this is the case, TRUE is returned and the PHMM
+#' should be run a second time on the truncated data.
+#' @keywords internal
 leading_ins = function(seq_path){
 	#iterate along the sequence, if we hit 5 insertions
 	#before 5 matches then there is a problem
@@ -42,10 +49,10 @@ leading_ins = function(seq_path){
 	}
 }
 
-# check sequence for an early large string of deletions, if it exists then
-# return the starting index by which to slice the path and the string
+#' check sequence for an early large string of deletions, if it exists then
+#' return the starting index by which to slice the path and the string
+#' @keywords internal
 ins_front_trim = function(path_out, search_scope = 15){
-
 	if(sum(path_out[1:search_scope] == 2)>2){
 		run_pos = min(which(path_out == 2))
 		for(i in run_pos:length(path_out)){
@@ -54,14 +61,13 @@ ins_front_trim = function(path_out, search_scope = 15){
 			}
 		}
 	}
-
 	return(FALSE)
 }
 
 
-#take an input sequence and get it into the reading frame for proper translation based on the
-#nucleotide PHMM output. This is more conservative, just what is required to get the aaPHMM
-#running, as opposed to making corrections to the nucleotides first
+#' Take an input sequence and get it into the reading frame.
+#' Uses the path of the
+#' @keywords internal
 set_frame = function(org_seq , path_out){
 	org_seq_vec = strsplit(tolower(org_seq), split='')[[1]]
 

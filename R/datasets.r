@@ -29,6 +29,7 @@
 #' barcode of life database (). A user may wish to use a custom derived PHMM, in which
 #' case they should consult the aphid package () for custom PHMM derivation.
 #'
+#' @keywords internal
 "nt_PHMM"
 ###############################################################################
 
@@ -40,6 +41,7 @@
 #' stored in the coi5p package, which was trained on a representitive sample of the
 #' barcode of life database (). A user may wish to use a custom derived PHMM, in which
 #' case they should consult the aphid package () for custom PHMM derivation.
+#' @keywords internal
 "aa_PHMM"
 ###############################################################################
 
