@@ -1,11 +1,27 @@
 # coi5p 
 ## An R package for contextualization and evaluation of COI-5P barcode data
+[![Build Status](https://travis-ci.com/CNuge/coi5p.svg?token=H6eQaqsE1kLqYX3zZ1Xz&branch=master)](https://travis-ci.com/CNuge/coi5p)
+--------------------------------------------------------------------------
+
+`coi5p` is an R package designed to aid users in the cleaning and analysis of COI-5P DNA barcode data.
 
 
+## Installation
 ```
+install.packages("coi5p")
 library(coi5p)
 
 ```
+
+or download the development version directly from GitHub. You'll need to have the r package `devtools` installed and loaded.
+```
+devtools::install_github("CNuge/coi5p", build_vignettes = TRUE)
+library(coi5p)
+```
+
+## How to use it
+
+
 
 #get the following stored into an internal data object
 example_nt_string = 'ctctacttgatttttggtgcatgagcaggaatagttggaatagctttaagtttactaattcgcgctgaactaggtcaacccggatctcttttaggggatgatcagatttataatgtgatcgtaaccgcccatgcctttgtaataatcttttttatggttatacctgtaataattggtggctttggcaattgacttgttcctttaataattggtgcaccagatatagcattccctcgaataaataatataagtttctggcttcttcctccttcgttcttacttctcctggcctccgcaggagtagaagctggagcaggaaccggatgaactgtatatcctcctttagcaggtaatttagcacatgctggcccctctgttgatttagccatcttttcccttcatttggccggtatctcatcaattttagcctctattaattttattacaactattattaatataaaacccccaactatttctcaatatcaaacaccattatttgtttgatctattcttatcaccactgttcttctactccttgctctccctgttcttgcagccggaattacaatattattaacagaccgcaacctcaacactacattctttgaccccgcagggggaggggacccaattctctatcaacactta'
