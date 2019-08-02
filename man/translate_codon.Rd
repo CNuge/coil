@@ -2,7 +2,7 @@
 % Please edit documentation in R/translation.r
 \name{translate_codon}
 \alias{translate_codon}
-\title{Censored Translation.}
+\title{Censored Translation of a DNA string.}
 \usage{
 translate_codon(codon)
 }
@@ -22,3 +22,4 @@ Censored translation table:
   Base2  = TTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGG
   Base3  = TCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAG
 }
+\keyword{internal}

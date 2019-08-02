@@ -1,0 +1,15 @@
+
+test_that("Bad function calls return the proper warnings.", {
+
+  sequence = 'ctttacctgatttttggtgcatgagcaggtatagttggaacagccctaagtctcctaattcgagctgaacttgggcaacctggatcacttttaggagatgatcagatttataatgtaatcgtaaccgcccacgcttttgtaataatctttttcatggttataccaattataattggtggtttcggaaattgattagttcctttaataattggagcgccagatatagccttcccacgaataaataacataagtttctgacttcttccaccatcatttcttcttctcctcgcctctgctggagtagaagctggagcaggtactggttgaacagtttatcctccattagctagcaatctagcacatgctggaccatctgttgatttagctattttttctcttcacttagccggtgtttcatcaattttagcttcaattaattttatcacaaccattattaatataaaaccaccagctatttcccaatatcaaacaccattatttgtttgatctattcttgtaaccactattcttcttctcctctcacttccagttcttgcagcaggaattacaatattacttacagatcgtaaccttaatactacattctttgaccctgcaggtggaggagacccaatcctttatcaacattta'
+
+  expect_error(coi5p(), "Must pass a DNA sequence.")
+
+  dat = coi5p(sequence)
+
+  expect_error(translate(dat), "translate function accepts framed coi5p objects. See function: frame.")
+
+  expect_error(indel_check(dat),"indel_check function accepts framed and translated coi5p objects. See functions: frame, translate.")
+
+})
+

@@ -2,8 +2,7 @@
 % Please edit documentation in R/translation.r
 \name{censored_translation}
 \alias{censored_translation}
-\title{Translate a DNA sequence when the correct translation table is unknown.
-Used internally via the translate method for coi5p objects.}
+\title{Censored Translation of a DNA string.}
 \usage{
 censored_translation(dna_str, reading_frame = 1)
 }
@@ -15,8 +14,10 @@ first codon, can pass 1, 2 or 3. For 2 and 3 the first 1 and 2 bp will be
 dropped from translation respectively.}
 }
 \description{
-Translate a DNA sequence when the correct translation table is unknown.
-Used internally via the translate method for coi5p objects.
+Translate a DNA sequence using the censored translation table,
+this translates codons for which the amino acids is unambigious across the
+animal kingdom, and does not translate those for which the amino acid varies
+but rather outputs a ? in the string
 }
 \details{
 Censored translation table:

@@ -1,10 +1,3 @@
-# No imports - these should be in the workspace
-#library(ape)
-#library(aphid)
-#library(seqinr)
-#library(tidyverse)
-
-
 
 #' build an DNAbin with ape.
 #' switches the - to n
@@ -21,8 +14,6 @@ individual_AAbin = function(aa_string){
 	return(ape::as.AAbin(strsplit(as.character(aa_string),"")))
 }
 
-#TODO - think about combining leading_ins and ins_front_trim into a single function
-#at present they're highly similar
 
 #' Check for a large number of leading inserted bases,
 #' if this is the case, TRUE is returned and the PHMM
@@ -132,7 +123,6 @@ set_frame = function(org_seq , path_out){
 			}
 		}
 	}
-
 	return(paste(c(front,org_seq_vec[org_seq_start:org_seq_end]),collapse= ""))
 }
 

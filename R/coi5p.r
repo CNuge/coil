@@ -4,39 +4,24 @@
 #   Check Package:             'Ctrl + Shift + E'
 #   Test Package:              'Ctrl + Shift + T'
 
+# to check package run devtools::check() or hit ctrl-shift-E in rstudio
+#       this along with the build pane in the top right will help you id the package problems, it
+#       runs the tests and complies the components s/a the markdown vignettes
 
-#use: package::function() syntax for external functions so as to make it explicicit that that is needed
 
-# This is how to document in a way that can be accessed by ?coi
-# Add roxygen comments to your .R files.
 # Run devtools::document() (or press Ctrl/Cmd + Shift + D in RStudio) to convert roxygen comments to .Rd files. (devtools::document() calls roxygen2::roxygenise() to do the hard work.)
 # Preview documentation with ?.
 # Rinse and repeat until the documentation looks the way you want.
-# It will generate a man/foo.Rd file, which should not be modified by hand
-# There is shorthand for arguments, examples etc. see the book, most common for functions: @@param @@examples @@return
 
-# Generating the namespace with roxygen2 is just like generating function documentation with roxygen2.
-# You use roxygen2 blocks (starting with #') and tags (starting with @).
-#  The workflow is the same:
-#   Add roxygen comments to your .R files.
-#   Run devtools::document() (or press Ctrl/Cmd + Shift + D in RStudio) to convert roxygen comments to .Rd files.
-#   Look at NAMESPACE and run tests to check that the specification is correct.
-#   Rinse and repeat until the correct functions are exported.
 
-###############################
-# TODO section
-
-# TODO - make sure only the user facing functions are exported
-  # TODO - need to run devtools::document() to generate documentation prior to passing the compile tests
-# TODO - take the positions where functions from other libraries are used, use them in the tidyverse::func() style
-# TODO - to check package run devtools::check() or hit ctrl-shift-E in rstudio
-#       this along with the build pane in the top right will help you id the package problems, it
-#       runs the tests and complies the components s/a the markdown vignettes
-#       Travis-CI interfaces with this as well, so set that up!
-#       Outputs are save to bin/coi5p.Rcheck where you can easily dig through the log files to find the errors
-
-# TODO - add checks to make sure data structures required have been initialized
-# if not then return a warning saying that the previous method needs to be run first
+# TODO - update the readme file so it provides details and examples of functionality.
+# TODO - TravisCI interface with the tests
+# TODO - write a vingnette to demonstrate how the function works
+# TODO - add an option to turn off the trimming of the back of the DNA sequence when framing.
+#       ^Note this will effect indel_check's output values
+# TODO - add a data file that has 8-10 barcode sequences with various errors/extra info in them
+#         #^ in the vignette demonstrate how the functons can be applied to the data in this format
+#         # via lapply and extraction of the coi5p component objects
 
 
 
@@ -49,6 +34,9 @@
 new_coi5p = function(x = character(), name = character()){
   stopifnot(is.character(x))
   stopifnot(is.character(name))
+  if(length(x) == 0){
+    stop("Must pass a DNA sequence.")
+  }
 
   structure(list(name = name, raw = tolower(x)) , class = "coi5p")
 }
@@ -101,10 +89,8 @@ coi5p = function(x = character(), name = character()){
 
 
 
-
 ###########################
 # coi5p - Generics and methods
-
 
 #' Take a coi5p sequence and place it in reading frame.
 #'
@@ -186,6 +172,10 @@ translate = function(x, ...){
 #' @rdname translate
 #' @export
 translate.coi5p = function(x, ..., trans_table = 0, frame_offset = 0){
+  if(is.null(x$framed)){
+    stop("translate function accepts framed coi5p objects. See function: frame.")
+  }
+
   if(trans_table == 0){
     x$aaSeq = censored_translation(x$framed, reading_frame = (frame_offset+1))
   }else{
@@ -206,8 +196,8 @@ translate.coi5p = function(x, ..., trans_table = 0, frame_offset = 0){
 #'
 #'
 #' @param x a coi5p class object for which frame() and translate() have been run.
-#' @param indel_threshold the log likelihood threshold used to assess whether or not sequences
 #' @param ... additional arguments to be passed between methods.
+#' @param indel_threshold the log likelihood threshold used to assess whether or not sequences
 #' are likely to contain an indel. Default is -345.95. Values lower than this will be classified
 #' as likely to contain an indel and values higer will be classified as not likely to contain an indel.
 #'
@@ -237,6 +227,9 @@ indel_check = function(x, ...){
 #' @rdname indel_check
 #' @export
 indel_check.coi5p = function(x, ..., indel_threshold = -346.95 ){
+  if(is.null(x$framed)|is.null(x$aaSeq) ){
+    stop("indel_check function accepts framed and translated coi5p objects. See functions: frame, translate.")
+  }
 
   x$data$aaBin = individual_AAbin(x$aaSeq)
   x$data$aaPHMMout = aphid::Viterbi(aa_PHMM, x$data$aaBin, odds = FALSE)
@@ -255,5 +248,65 @@ indel_check.coi5p = function(x, ..., indel_threshold = -346.95 ){
   }
 
   return(x)
+}
+
+
+
+#' Run the entire coi5p pipeline for the input sequence.
+#'
+#' This function will take a raw DNA sequence string and run each of the coi5p methods in turn
+#' (coi5p, frame, translate, indel_check). Note that if you are not intersted in all components
+#' of the output (i.e. only want sequences in frame or translated), then the coi5p analysis functions
+#' can be called individually to avoid unnecessary computation.
+#'
+#'
+#' @param x a nucleotide string.
+#' Valid characters within the nucleotide string are: a,t,g,c,-,n.
+#' The nucleotide string can be input as upper case, but will be automatically converted to lower case.
+#' @param ... additional arguments to be passed between methods.
+#' @param name an optional character string. Identifier for the sequence.
+#' @param trans_table The translation table to use for translating from nucleotides to amino acids.
+#' Default is 0, which indicates that censored translation should be performed. If the taxonomy
+#' of the sample is known, use the function which_trans_table() to determine the translation table to use.
+#' @param frame_offset The offset to the reading frame to be applied for translation. By default the offset
+#' is zero, so the first character in the framed sequence is considered the first nucelotide of the first codon.
+#' Passing frame_offset = 1 would make the second character in the framed sequence the the first nucelotide of
+#' the first codon.
+#' @param indel_threshold the log likelihood threshold used to assess whether or not sequences
+#' are likely to contain an indel. Default is -345.95. Values lower than this will be classified
+#' as likely to contain an indel and values higer will be classified as not likely to contain an indel.
+#'
+#' @return an object of class code{"coi5p"}
+#' @examples
+#' dat = coi5p_pipe(example_nt_string )
+#' #full coi5p object can then be printed
+#' dat
+#' #components of output coi5p object can be called individually:
+#' dat$raw    #raw input sequence
+#' dat$name   #name that was passed
+#' dat$framed #sequence in common reading frame
+#' dat$aaSeq  #sequence translated to amino acids (censored)
+#' dat$indel_likely #whether an insertion or deletion likely exists in the sequence
+#' dat$stop_codons #whether or not there are stop codons in the amino acid sequence
+#'
+#' dat = coi5p_pipe(example_nt_string , trans_table = 5)
+#' dat$aaSeq #sequence translated to amino acids using designated translation table
+#' @seealso \code{\link{coi5p}}
+#' @seealso \code{\link{frame}}
+#' @seealso \code{\link{translate}}
+#' @seealso \code{\link{indel_check}}
+#' @seealso \code{\link{which_trans_table}}
+#' @name coi5p_pipe
+#' @export
+coi5p_pipe = function(x, ... ,
+                      name = character(),
+                      trans_table = 0,
+                      frame_offset = 0,
+                      indel_threshold = -346.95){
+  dat = coi5p(x, name=name)
+  dat = frame(dat )
+  dat = translate(dat, trans_table = trans_table, frame_offset = frame_offset)
+  dat = indel_check(dat, indel_threshold=indel_threshold)
+  return(dat)
 }
 

@@ -24,5 +24,15 @@ test_that("A normal sequence in framed and translated properly", {
   expect_equal(dat$indel_likely, FALSE)
   expect_equal(dat$stop_codons, FALSE)
 
+
+  data_full = coi5p_pipe(sequence,name = seqname, trans_table = 5)
+
+  expect_equal(data_full$raw, sequence)
+  expect_equal(data_full$name, seqname)
+  expect_equal(data_full$framed, sequence_framed)
+  expect_equal(data_full$aaSeq, sequence_AA5)
+  expect_equal(data_full$indel_likely, FALSE)
+  expect_equal(data_full$stop_codons, FALSE)
+
 })
 
