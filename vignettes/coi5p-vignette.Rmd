@@ -28,7 +28,45 @@ The translation table employed in censored translation - five codons are transla
    Base3  = TCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAG
 ```
 
+## The coi5p package
+### Dependencies
 
+### Data structure
+
+
+### Using the package
+#### Full analysis pipeline for a single sequence
+
+#### Calling functions individually
+
+#### Example of a batch analysis of barcode sequences
+
+Although outside of the scope of the coi5p package, an example of how to load a fasta file into a dataframe using the seqinr package is inlcuded in the supplementary section at the end of this vignette.
+
+# work with the csv data stored in the /data/ folder
+```{r}
+#this is the example data 
+head(example_barcode_data)
+
+```
+
+
+### Supplementary Information
+#### Loading and manipulating a fasta file
+```{r}
+library(seqinr)
+# example fasta file included with coi5p
+ex_fasta_file = system.file("extdata", "example_barcode_data.fasta")
+
+ex_data = seqinr::read.fasta(ex_fasta_file)
+#then parse to the column setup I have
+
+
+```
+
+
+
+# TODO - add a fasta file to the /data/ folder that contains ~10 sequences that cover a range of sequence types
 
 -----------------------------------------------------------------------------------------------
 #Once completed can - submit it to the Journal of Statistical Software or The R Journal. Online, R journals that are peer reviewed. The BOLD special issue is the first option.

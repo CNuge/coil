@@ -58,11 +58,23 @@
 ###############################################################################
 
 
+###############################################################################
+#' Example barcode data.
+#' A nine line dataframe with the following columns:
+#' id - the unique identifier for the sample
+#' genetic_code - the genetic code for translation of the sample (features NA for unknowns)
+#' taxa -  a taxonomic designation associated with the sample
+#' sequence - the DNA sequence associated with the sample
+#' notes - notes on the sequence structure
+#'
+"example_barcode_data"
+###############################################################################
 
 ###
 # For storing data in the data folder -fallback
 ###
 
+# save(example_barcode_data, file = 'data/example_barcode_data.RData')
 # save(trans_df, file = 'data/trans_df.RData')
 # save(nt_PHMM, file = 'data/nt_PHMM.RData')
 # save(aa_PHMM, file = 'data/aa_PHMM.RData')
