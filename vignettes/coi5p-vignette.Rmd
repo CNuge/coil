@@ -81,9 +81,9 @@ head(example_barcode_data)
 ```{r}
 library(seqinr)
 # example fasta file included with coi5p
-# ex_fasta_file = system.file("extdata", "example_barcode_data.fasta")
+ex_fasta_file = system.file("extdata/example_barcode_data.fasta", package = "coi5p")
 
-# ex_data = seqinr::read.fasta(ex_fasta_file)
+ex_data = seqinr::read.fasta(ex_fasta_file)
 #then parse to the column setup I have
 
 
