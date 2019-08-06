@@ -8,6 +8,29 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+## Abstract
+
+**coi5p** is an R package designed for the cleaning, contextualization and assessment of cytochrome c oxidase I DNA barcode data (COI-5P -- *link and brief definition* ). It contains functions for placing COI-5P barcode sequences into a common reading frame, translating DNA sequences to amino acids and for assessing the likelihood that a given barcode sequence includes an insertion or deletion error. These functions are provided as a single function analysis pipeline and are also avaliable individually for efficient and targeted analysis of barcode data.
+
+## Introduction
+
+The backbone of the coi5p package is a pair of profile hidden Markov models (PHMMs) that have been trained using a representitive sample of the COI-5P sequences avalaible on [the BOLD database](http://www.boldsystems.org/index.php). A 657 nucleotide PHMM receives raw sequences from the user and uses the Viterbi algorithm (implemented via [the R package aphid](https://github.com/shaunpwilkinson/aphid)) to optimally match the input sequence against the COI-5P nucleotide profile. The second PHMM receives an amino acid sequence that is matched against the COI-5P amino acids profile. The model provides two boolean output metrics to the user: does the sequence contain stop codons and is the sequence likely to contain an insertion or deletion error. The indel boolean is based on the log likelihood of the amino acid sequence compared to the PHMM. A default indel likelihood threshold of -346.95 is set (see [paper]() for basis of this threshold). Sequences with likelihood values less than this threshold indicate the sequence is likely to contain an indel error, as the amino acid sequence is improbable and therefore indicative of a frame shift.
+
+The nucelotide and amino acid PHMMs are interfaced through the translate function, which takes the in frame nucleotide sequence and translates it to amino acids. This function uses [the sequinr package]() to conduct translation in all instances where [the genetic code associated with the sample](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi) is known. For samples without taxonomic IDs or known genetic codes an additional genetic code is provided. This genetic code is used to conduct censored translation, meaning that translation is conducted normally for codons that do not vary in the amino acid they code for across all known mitochondrial genetic codes. The codons that are known to vary in the amino acid they code for across taxa are not translated, rather a placeholder (`?`) is output to indicate that the amino acid at this location in the sequence cannot be stated with certainty. This functionality allos the indel check function to assess the likelihood of sequences of unknown taxonomy without being overly stringent in its characterization of sequencs as indels due to the appropriation of the wrong translation table.
+
+The translation table employed in censored translation - five codons are translated to placeholder question marks, due to their ambiguity across different mitochondrial translation tables.
+```
+ Censored translation table:
+            FFLLSSSSYY?*CCWWLLLLPPPPHHQQRRRRII?MTTTTNN?KSS??VVVVAAAADDEEGGGG
+   Base1  = TTTTTTTTTTTTTTTTCCCCCCCCCCCCCCCCAAAAAAAAAAAAAAAAGGGGGGGGGGGGGGGG
+   Base2  = TTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGG
+   Base3  = TCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAG
+```
+
+
+
+-----------------------------------------------------------------------------------------------
 #Once completed can - submit it to the Journal of Statistical Software or The R Journal. Online, R journals that are peer reviewed. The BOLD special issue is the first option.
 
 
@@ -22,6 +45,11 @@ What this file will need to include:
  - show how this could be integrated into a workflow.
  
  
+```{r setup}
+library(coi5p)
+```
+
+
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -30,6 +58,3 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(coi5p)
-```

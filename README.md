@@ -1,6 +1,7 @@
 # coi5p 
 An R package for contextualization and evaluation of COI-5P barcode data
 [![Build Status](https://travis-ci.com/CNuge/coi5p.svg?token=H6eQaqsE1kLqYX3zZ1Xz&branch=master)](https://travis-ci.com/CNuge/coi5p)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 --------------------------------------------------------------------------
 
 `coi5p` is an R package designed to aid users in the cleaning and analysis of COI-5P DNA barcode data.
