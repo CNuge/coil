@@ -8,6 +8,11 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+ 
+```{r setup}
+library(coi5p)
+```
+
 
 ## Abstract
 
@@ -39,10 +44,11 @@ The translation table employed in censored translation - five codons are transla
 An example execution of the complete coi5p analysis pipeline with default options is demonstrated below using an example COI-5P barcode DNA sequence.
 
 ```{r}
-print("the input data:")
 example_nt_string = 'ctctacttgatttttggtgcatgagcaggaatagttggaatagctttaagtttactaattcgcgctgaactaggtcaacccggatctcttttaggggatgatcagatttataatgtgatcgtaaccgcccatgcctttgtaataatcttttttatggttatacctgtaataattggtggctttggcaattgacttgttcctttaataattggtgcaccagatatagcattccctcgaataaataatataagtttctggcttcttcctccttcgttcttacttctcctggcctccgcaggagtagaagctggagcaggaaccggatgaactgtatatcctcctttagcaggtaatttagcacatgctggcccctctgttgatttagccatcttttcccttcatttggccggtatctcatcaattttagcctctattaattttattacaactattattaatataaaacccccaactatttctcaatatcaaacaccattatttgtttgatctattcttatcaccactgttcttctactccttgctctccctgttcttgcagccggaattacaatattattaacagaccgcaacctcaacactacattctttgaccccgcagggggaggggacccaattctctatcaacactta'
+example_nt_string
+
+
 output = coi5p_pipe(example_nt_string)
-print("the pipeline output")
 output
 ```
 Executing the entire pipeline yields a coi5p object. Calling the name of the object variable prints the coi5p object's summary and shows us all of the important information, including the original raw sequence, the sequence set in reading frame, the amino acid sequence and the summary stats regarding the likelihood of the sequence containing an error.
@@ -51,8 +57,6 @@ We can obtain the individual components of the object using the dollar sign nota
 ```{r}
 #see the avaliable components
 names(output)
-```
-```{r}
 #retrieve only the framed sequence from the object
 output$framed
 ```
@@ -77,9 +81,9 @@ head(example_barcode_data)
 ```{r}
 library(seqinr)
 # example fasta file included with coi5p
-ex_fasta_file = system.file("extdata", "example_barcode_data.fasta")
+# ex_fasta_file = system.file("extdata", "example_barcode_data.fasta")
 
-ex_data = seqinr::read.fasta(ex_fasta_file)
+# ex_data = seqinr::read.fasta(ex_fasta_file)
 #then parse to the column setup I have
 
 
@@ -103,10 +107,6 @@ What this file will need to include:
  - explination as to why the functions are split - save user time b/c if you just want it in frame and not translated, that is possible!
  - show how this could be integrated into a workflow.
  
- 
-```{r setup}
-library(coi5p)
-```
 
 
 
