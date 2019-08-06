@@ -6,7 +6,8 @@
 # Run
 # devtools::document()
 # to convert roxygen comments to .Rd files. (devtools::document() calls roxygen2::roxygenise() to do the hard work.)
-# to check package run devtools::check() or hit ctrl-shift-E in rstudio
+# to check package run devtools::check(vignettes = FALSE) or
+# devtools::check() or hit ctrl-shift-E in rstudio
 
 # TODO - update the readme file so it provides details and examples of functionality.
 # TODO - write a vingnette to demonstrate how the function works

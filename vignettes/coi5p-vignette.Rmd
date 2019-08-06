@@ -36,12 +36,33 @@ The translation table employed in censored translation - five codons are transla
 
 ### Using the package
 #### Full analysis pipeline for a single sequence
+An example execution of the complete coi5p analysis pipeline with default options is demonstrated below using an example COI-5P barcode DNA sequence.
+
+```{r}
+print("the input data:")
+example_nt_string = 'ctctacttgatttttggtgcatgagcaggaatagttggaatagctttaagtttactaattcgcgctgaactaggtcaacccggatctcttttaggggatgatcagatttataatgtgatcgtaaccgcccatgcctttgtaataatcttttttatggttatacctgtaataattggtggctttggcaattgacttgttcctttaataattggtgcaccagatatagcattccctcgaataaataatataagtttctggcttcttcctccttcgttcttacttctcctggcctccgcaggagtagaagctggagcaggaaccggatgaactgtatatcctcctttagcaggtaatttagcacatgctggcccctctgttgatttagccatcttttcccttcatttggccggtatctcatcaattttagcctctattaattttattacaactattattaatataaaacccccaactatttctcaatatcaaacaccattatttgtttgatctattcttatcaccactgttcttctactccttgctctccctgttcttgcagccggaattacaatattattaacagaccgcaacctcaacactacattctttgaccccgcagggggaggggacccaattctctatcaacactta'
+output = coi5p_pipe(example_nt_string)
+print("the pipeline output")
+output
+```
+Executing the entire pipeline yields a coi5p object. Calling the name of the object variable prints the coi5p object's summary and shows us all of the important information, including the original raw sequence, the sequence set in reading frame, the amino acid sequence and the summary stats regarding the likelihood of the sequence containing an error.
+
+We can obtain the individual components of the object using the dollar sign notation.
+```{r}
+#see the avaliable components
+names(output)
+```
+```{r}
+#retrieve only the framed sequence from the object
+output$framed
+```
 
 #### Calling functions individually
 
 #### Example of a batch analysis of barcode sequences
+Here we will be working with the example dataframe (`example_barcode_data`) 
 
-Although outside of the scope of the coi5p package, an example of how to load a fasta file into a dataframe using the seqinr package is inlcuded in the supplementary section at the end of this vignette.
+Although sequence data input/output is outside of the scope of the coi5p package, an example of how to load a fasta file into a dataframe using the seqinr package is inlcuded in the supplementary section at the end of this vignette. 
 
 # work with the csv data stored in the /data/ folder
 ```{r}
