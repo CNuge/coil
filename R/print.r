@@ -42,13 +42,13 @@ print.coi5p = function(x, ...){
   #addition if indel assessment
   if( "indel_likely" %in% names(x) ){
     if (x$indel_likely == TRUE){
-      l6 = paste("The sequence likely contains an insertion or deletion.\n Stop codon present: ",
+      l6 = paste("The sequence likely contains an insertion or deletion.\nStop codon present: ",
                  x$stop_codons,
                  ", Amino acid PHMM score:",
-                 x$AAscore,
+                 x$aaScore,
                  sep = "")
     }else{
-      l6 = paste("The sequence likely does not contain an insertion or deletion.\n Stop codon present: ",
+      l6 = paste("The sequence likely does not contain an insertion or deletion.\nStop codon present: ",
                  x$stop_codons,
                  ", Amino acid PHMM score:",
                  x$aaScore,

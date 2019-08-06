@@ -97,6 +97,9 @@ censored_translation = function(dna_str, reading_frame = 1){
 #' If which table is unable to identify a translation table to utilize, more information on translation tables can be found here: https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi
 #' @export
 which_trans_table = function(x) {
-  trans_df$trans_table[trans_df$taxon == x]
-
+    use_tab =  trans_df$trans_table[trans_df$taxon == x]
+    if(length(use_tab) == 0){
+      return(0)
+    }
+    return(use_tab)
 }

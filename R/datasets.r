@@ -75,6 +75,7 @@
 ###
 
 # save(example_barcode_data, file = 'data/example_barcode_data.RData')
+# load('data/example_barcode_data.RData')
 
 # save(trans_df, file = 'data/trans_df.RData')
 # save(nt_PHMM, file = 'data/nt_PHMM.RData')

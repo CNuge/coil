@@ -57,41 +57,152 @@ We can obtain the individual components of the object using the dollar sign nota
 ```{r}
 #see the avaliable components
 names(output)
-#retrieve only the framed sequence from the object
-output$framed
+#retrieve only the amino acid sequence from the object
+output$aaSeq
 ```
 
+By default the pipline conducts censored translation, avoiding translation of the codons that code for different amino acids within different species. If we have some taxonomic information on the sample (avaliable ranks: family, order, class, phylum), in most cases we can use the helper function `which_trans_table` to determine the proper translation table to use.
+
+```{r}
+ex_table_to_use = which_trans_table("Scyliorhinidae")
+ex_table_to_use
+```
+The analysis can then be run with a non-censored translation step. Note below that the amino acid sequence is now devoid of question marks and the PHMM score is lower. 
+```{r}
+output = coi5p_pipe(example_nt_string, trans_table = ex_table_to_use)
+output
+```
 #### Calling functions individually
+There are four functions that constitute the coi5p analysis pipeline: `coi5p`, `frame`, `translate` and `indel_check`. These are avaliable to the user for instances where only part of the analysis pipeline is needed.
+
+```{r}
+  #build the coi5p object
+  dat = coi5p(example_nt_string, name="example_sequence_1")
+  #frame the sequence
+  dat = frame(dat)
+ 
+  #since we figured out the genetic code above, we can use
+  #the proper transaltion table as opposed to conducting 
+  #the default censored translation
+  dat = translate(dat, trans_table = 2)
+  #check to see if an insertion or deletion is likely
+  dat = indel_check(dat)
+  dat
+```
 
 #### Example of a batch analysis of barcode sequences
-Here we will be working with the example dataframe (`example_barcode_data`) 
+Here we will be working with the example dataframe (`example_barcode_data`). Although DNA sequence data input/output is outside of the scope of the coi5p package, the supplementary section at the end of this vignette includes an example of how one can load a fasta file into a dataframe with the stucutre of `example_barcode_data`. 
 
-Although sequence data input/output is outside of the scope of the coi5p package, an example of how to load a fasta file into a dataframe using the seqinr package is inlcuded in the supplementary section at the end of this vignette. 
-
-# work with the csv data stored in the /data/ folder
+`example_barcode_data` contains 9 barcode sequences that demonstrate the different abilities of the `coi5p` package. Some sequences are longer than the barcode COI-5P barcode region, some are shorter and some have insertion or deletion errors.
 ```{r}
 #this is the example data 
-head(example_barcode_data)
+dim(example_barcode_data)
+example_barcode_data
 
 ```
+
+The genetic_code column has some missing information, here we use the `which_trans_table` function to fill this based on the taxa column. In instances where the taxa is unknown, the genetic code value is filled with a 0, indicating that censored translation should be performed.
+```{r}
+for(i in 1:length(example_barcode_data$id)){
+  if(is.na(example_barcode_data$genetic_code[[i]])){
+    example_barcode_data[i, "genetic_code"] = which_trans_table(example_barcode_data$taxa[[i]])    
+  }
+}
+example_barcode_data
+```
+
+The `coi5p` analysis pipeline can then be applied to the whole dataframe at once, here the pipeline is implemented through the use of lapply, which lets the unique sequence, id and genetic code of each row in the dataframe be passed into the function.
+
+```{r}
+
+example_barcode_data$coi_output = lapply(1:length(example_barcode_data$id), function(i){
+  coi5p_pipe(example_barcode_data$sequence[i], 
+             name = example_barcode_data$id[i], 
+             trans_table = example_barcode_data$genetic_code[i])
+})
+```
+
+The coi5p objects are nested within the dataframe. Individual components can extracted to 
+
+```{r}
+example_barcode_data$framed_seq = unlist(lapply(example_barcode_data$coi_output, function(x){
+  x$framed
+}))
+
+example_barcode_data$framed_seq
+```
+
+# TODO - have a way to flatten a list of coi5p objects into a dataframe
+# TODO - add this into the package /R/ folder and document
+```{r}
+# #try this, its very non optimal as the list is iterated over 7 times!:
+# flatten_coi5p = function(x, keep_columns = "all"){
+#   
+#   if(keep_columns == "all"){
+#    return(data.frame(id = sapply(x, function(i){i[["name"]]}),
+#                            raw = sapply(x, function(i){i[["raw"]]}),
+#                            framed = sapply(x, function(i){i[["framed"]]}),
+#                            aaSeq = sapply(x, function(i){i[["aaSeq"]]}),
+#                            aaScore = sapply(x, function(i){i[["aaScore"]]}), 
+#                            indel_likely = sapply(x, function(i){i[["indel_likely"]]}),
+#                            stop_codons = sapply(x, function(i){i[["stop_codons"]]}))
+#    )
+#     
+#   }else{
+#     #drop cols then 
+#   }
+# }
+# 
+# #or try a version where you use one of these solutions to flatten everythin but the highly nested data component.
+# #https://stackoverflow.com/questions/29674661/r-list-of-lists-to-data-frame
+# #i.e.:
+# data.frame(Reduce(rbind, example_barcode_data$coi_output))
+# 
+# coi5p_df = flatten(example_barcode_data$coi_output)
+# coi5p_df
+```
+
+
 
 
 ### Supplementary Information
 #### Loading and manipulating a fasta file
+The example of processing batch DNA sequence data within this vignette begins with the data in a clean dataframe. Since barcode data is not always obtained in a tidy format, some preprocessing by the user will likely be required. The following is provided to aid the user in developing a workflow for loading their barcode sequence data into R and constructing a tidy dataframe before beginning sequence analysis.
+
+This is an example of how one can load a fasta file containing DNA sequences into R and convert the sequence and header data into a tidy dataframe object. More information on the `read.fasta` function can be found in [the seqinr documentation](https://cran.r-project.org/web/packages/seqinr/index.html). 
+
+Information found in the header lines of fasta files is variable, so the reader will likely need to alter this code for novel data. In this example the header contains four fields (id, genetic code, taxa and notes) separated by a pipe character (`|`). 
+
 ```{r}
 library(seqinr)
 # example fasta file included with coi5p
+# included in the header line:
+# the name of the sample, its genetic code, taxonomic designation and some notes
 ex_fasta_file = system.file("extdata/example_barcode_data.fasta", package = "coi5p")
 
-ex_data = seqinr::read.fasta(ex_fasta_file)
-#then parse to the column setup I have
+#read in the example fasta file using seqinr
+ex_data = seqinr::read.fasta(ex_fasta_file, as.string = TRUE)
 
+#parse the data in the header line by splitting the name on the | character
+parsed_names_data = lapply(1:length(ex_data), function(i){
+  unlist(strsplit(names(ex_data)[[i]],"\\|"))
+})
 
+# subset the components of the header line and build these and the sequence 
+# into a dataframe matching the style used in the coi5p batch example
+example_barcode_data_from_scratch = data.frame(
+  id = sapply(parsed_names_data, function(x) x[[1]]),
+  genetic_code = sapply(parsed_names_data, function(x) x[[2]]),
+  taxa = sapply(parsed_names_data, function(x) x[[3]]),
+  sequence = unname(unlist(ex_data)),
+  notes = sapply(parsed_names_data, function(x) x[[4]])
+)
+
+head(example_barcode_data_from_scratch)
 ```
 
 
 
-# TODO - add a fasta file to the /data/ folder that contains ~10 sequences that cover a range of sequence types
 
 -----------------------------------------------------------------------------------------------
 #Once completed can - submit it to the Journal of Statistical Software or The R Journal. Online, R journals that are peer reviewed. The BOLD special issue is the first option.
