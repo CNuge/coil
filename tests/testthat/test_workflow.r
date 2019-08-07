@@ -10,20 +10,29 @@ test_that("A normal sequence in framed and translated properly", {
   expect_equal(dat$raw, sequence)
   expect_equal(dat$name, seqname)
 
+  #test the pipeline on a single instance
+  data_full = coi5p_pipe(sequence,name = seqname, trans_table = 5)
 
-  dat = frame(dat)
-  expect_equal(dat$framed, sequence_framed)
+  expect_equal(data_full$raw, sequence)
+  expect_equal(data_full$name, seqname)
+  expect_equal(data_full$framed, sequence_framed)
+  expect_equal(data_full$aaSeq, sequence_AA5)
+  expect_equal(data_full$indel_likely, FALSE)
+  expect_equal(data_full$stop_codons, FALSE)
 
-  dat = translate(dat)
-  expect_equal(dat$aaSeq, sequence_AAcensored)
+  #apply the pipeline to a list of coi5p sequences
 
-  dat = translate(dat, trans_table = 5)
-  expect_equal(dat$aaSeq, sequence_AA5)
+  coi_output = lapply(example_barcode_data$sequence, function(x){
+    coi5p_pipe(x)
+  })
 
-  dat = indel_check(dat)
-  expect_equal(dat$indel_likely, FALSE)
-  expect_equal(dat$stop_codons, FALSE)
-
+  out_df = flatten_coi5p(coi_output, keep_cols = c("raw", "stop_codons"))
+  expect_equal(out_df$stop_codons, c(FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE))
+  expect_equal(out_df$raw, example_barcode_data$sequence)
+  expect_error(flatten_coi5p(coi_output, keep_cols = "data"),
+               "flatten_coi5p is not designed to return the data component of the coi5p object, it is for internal use only.")
+  expect_error(flatten_coi5p(coi_output, keep_cols =c("raw", "weird_name")),
+               "The coi5p objects you are flattening do not contain the column: weird_name")
 
 })
 

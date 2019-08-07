@@ -55,3 +55,57 @@ coi5p_pipe = function(x, ... ,
   dat = indel_check(dat, indel_threshold=indel_threshold)
   return(dat)
 }
+
+
+#' Flatten a list of coi5p output objects into a dataframe
+#'
+#' This helper function is designed to act upon a list of coi5p objects and extract the object components
+#' that the user requires.
+#' @param x a list of coi5p objects.
+#' @param keep_cols the name of a coi5p object component, or a vector of components that should be turned into
+#' dataframe columns. Avaliable components are: name, raw, framed, aaSeq, aaScore, indel_likely, stop_codons
+#' @return a dataframe with the coi5p object information flattened into columns.
+#' @examples
+#' #create a list of coi5p objects
+#' coi_output = lapply(example_barcode_data$sequence, function(x){
+#'     coi5p_pipe(x)
+#'   })
+#' #flatten the list into a dataframe
+#' coi_df = flatten_coi5p(coi_output)
+#' #extract only a single column
+#' coi_framed = flatten_coi5p(coi_output, keep_cols = "framed")
+#' #or subset multiple columns
+#' coi_framed = flatten_coi5p(coi_output, keep_cols = c("framed", "aaSeq"))
+#' @seealso \code{\link{coi5p_pipe}}
+#' @name flatten_coi5p
+#' @export
+flatten_coi5p = function(x, keep_cols = "all"){
+  if(length(keep_cols) == 1 && keep_cols == "all"){
+    vals = names(x[[1]])
+    vals = vals[vals != "data"]
+  } else{
+    vals = keep_cols
+  }
+
+  data_list = list()
+  for(v in vals){
+    if(v == "data"){
+      stop("flatten_coi5p is not designed to return the data component of the coi5p object, it is for internal use only.")
+    }
+    if(!v %in% names(x[[1]])){
+      stop(paste("The coi5p objects you are flattening does not contain the column:", v))
+    }
+    if(v == "name"){
+      id_col = sapply(x, function(i) i[["name"]])
+      for(i in 1:length(id_col)){
+        if(length(id_col[[i]]) == 0){
+          id_col[[i]] = NA
+        }
+        data_list[[v]] = unlist(id_col)
+      }
+    }else{
+      data_list[[v]] = sapply(x, function(i) i[[v]])
+    }
+  }
+  return(as.data.frame(data_list))
+}

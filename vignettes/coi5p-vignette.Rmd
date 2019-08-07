@@ -120,9 +120,10 @@ example_barcode_data$coi_output = lapply(1:length(example_barcode_data$id), func
              name = example_barcode_data$id[i], 
              trans_table = example_barcode_data$genetic_code[i])
 })
+example_barcode_data$coi_output[[1]]
 ```
 
-The coi5p objects are nested within the dataframe. Individual components can extracted to 
+The coi5p objects are nested within the dataframe. Individual components can extracted from the object as needed using the dollar sign notation. Below lapply is used to extract the framed sequence from each coi5p object and turn it into its own column in the dataframe.
 
 ```{r}
 example_barcode_data$framed_seq = unlist(lapply(example_barcode_data$coi_output, function(x){
@@ -131,35 +132,17 @@ example_barcode_data$framed_seq = unlist(lapply(example_barcode_data$coi_output,
 
 example_barcode_data$framed_seq
 ```
+The lapply notation is rather clunky, so coi5p contains a helper function to aid the user in flattening the coi5p object components into a dataframe. This allows for all components of the coi5p object to be 
 
-# TODO - have a way to flatten a list of coi5p objects into a dataframe
-# TODO - add this into the package /R/ folder and document
 ```{r}
-# #try this, its very non optimal as the list is iterated over 7 times!:
-# flatten_coi5p = function(x, keep_columns = "all"){
-#   
-#   if(keep_columns == "all"){
-#    return(data.frame(id = sapply(x, function(i){i[["name"]]}),
-#                            raw = sapply(x, function(i){i[["raw"]]}),
-#                            framed = sapply(x, function(i){i[["framed"]]}),
-#                            aaSeq = sapply(x, function(i){i[["aaSeq"]]}),
-#                            aaScore = sapply(x, function(i){i[["aaScore"]]}), 
-#                            indel_likely = sapply(x, function(i){i[["indel_likely"]]}),
-#                            stop_codons = sapply(x, function(i){i[["stop_codons"]]}))
-#    )
-#     
-#   }else{
-#     #drop cols then 
-#   }
-# }
-# 
-# #or try a version where you use one of these solutions to flatten everythin but the highly nested data component.
-# #https://stackoverflow.com/questions/29674661/r-list-of-lists-to-data-frame
-# #i.e.:
-# data.frame(Reduce(rbind, example_barcode_data$coi_output))
-# 
-# coi5p_df = flatten(example_barcode_data$coi_output)
-# coi5p_df
+#extract only a single column
+flatten_coi5p(example_barcode_data$coi_output, keep_cols = 'aaSeq')
+#extract multiple columns
+flatten_coi5p(example_barcode_data$coi_output, keep_cols = c('framed','aaSeq'))
+#extract all columns
+full_coi5p_df = flatten_coi5p(example_barcode_data$coi_output)
+full_coi5p_df
+
 ```
 
 
