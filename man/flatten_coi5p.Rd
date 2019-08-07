@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipeline.r
 \name{flatten_coi5p}
 \alias{flatten_coi5p}
-\title{Flatten a list of coi5p output objects into a dataframe}
+\title{Flatten a list of coi5p output objects into a dataframe.}
 \usage{
 flatten_coi5p(x, keep_cols = "all")
 }

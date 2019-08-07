@@ -132,7 +132,8 @@ example_barcode_data$framed_seq = unlist(lapply(example_barcode_data$coi_output,
 
 example_barcode_data$framed_seq
 ```
-The lapply notation is rather clunky, so coi5p contains a helper function to aid the user in flattening the coi5p object components into a dataframe. This allows for all components of the coi5p object to be 
+
+The lapply notation above is rather clunky, so the coi5p package contains a helper function to aid the user in flattening a list of coi5p objects into a dataframe. By default all of the avaliable object components will be output to the dataframe, but the user can choose which components they wish to extract from the object. Note this function assumes that the coi5p objects in the list have be put through the same workflow, and therefore have a matching set of components. As an example of how you can break it, if you've applied the `translate` function to one member of the list and not the others then `flatten_coi5p` will not work properly.
 
 ```{r}
 #extract only a single column
@@ -147,14 +148,13 @@ full_coi5p_df
 
 
 
-
 ### Supplementary Information
 #### Loading and manipulating a fasta file
-The example of processing batch DNA sequence data within this vignette begins with the data in a clean dataframe. Since barcode data is not always obtained in a tidy format, some preprocessing by the user will likely be required. The following is provided to aid the user in developing a workflow for loading their barcode sequence data into R and constructing a tidy dataframe before beginning sequence analysis.
+The example of processing batch DNA barcode data above begins with the data in a clean dataframe. Since barcode data is not always obtained in a tidy format, some preprocessing by the user will likely be required. The following is provided to aid the user in developing a workflow for loading their barcode sequence data into R and constructing a tidy dataframe before beginning sequence analysis.
 
-This is an example of how one can load a fasta file containing DNA sequences into R and convert the sequence and header data into a tidy dataframe object. More information on the `read.fasta` function can be found in [the seqinr documentation](https://cran.r-project.org/web/packages/seqinr/index.html). 
+The example presented below shows how one can load a fasta file containing DNA sequences into R and convert the sequence and header data into a tidy dataframe object. More information on the `read.fasta` function can be found in [the seqinr documentation](https://cran.r-project.org/web/packages/seqinr/index.html). 
 
-Information found in the header lines of fasta files is variable, so the reader will likely need to alter this code for novel data. In this example the header contains four fields (id, genetic code, taxa and notes) separated by a pipe character (`|`). 
+Information found in the header lines of fasta files varies, so the reader will likely need to alter this code for novel data sources. In this example the header contains four fields (id, genetic code, taxa and notes) separated by a pipe character (`|`). The code below turns this fasta file into a dataframe that matches the `example_barcode_data` file used above.
 
 ```{r}
 library(seqinr)

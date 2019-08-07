@@ -57,7 +57,7 @@ coi5p_pipe = function(x, ... ,
 }
 
 
-#' Flatten a list of coi5p output objects into a dataframe
+#' Flatten a list of coi5p output objects into a dataframe.
 #'
 #' This helper function is designed to act upon a list of coi5p objects and extract the object components
 #' that the user requires.
@@ -107,5 +107,6 @@ flatten_coi5p = function(x, keep_cols = "all"){
       data_list[[v]] = sapply(x, function(i) i[[v]])
     }
   }
-  return(as.data.frame(data_list))
+  return(as.data.frame(data_list,
+                       stringsAsFactors = FALSE))
 }

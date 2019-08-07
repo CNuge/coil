@@ -4,6 +4,7 @@
 /home/cnuge/bin/coi5p/R/coi5p.r="40C175A0"
 /home/cnuge/bin/coi5p/R/datasets.r="AEA31243"
 /home/cnuge/bin/coi5p/R/deploy_PHMMs.r="4D7FF2AC"
+/home/cnuge/bin/coi5p/R/pipeline.r="4C680DFF"
 /home/cnuge/bin/coi5p/R/print.r="FF80849"
 /home/cnuge/bin/coi5p/R/translation.r="8052ABB8"
 /home/cnuge/bin/coi5p/README.md="97040209"
@@ -17,4 +18,5 @@
 /home/cnuge/bin/coi5p/tests/testthat/test_shortSeq.r="E6205FB9"
 /home/cnuge/bin/coi5p/tests/testthat/test_sparseSeq.r="D5A7A113"
 /home/cnuge/bin/coi5p/tests/testthat/test_translate.r="F3DAB2F1"
+/home/cnuge/bin/coi5p/tests/testthat/test_workflow.r="3669ECB9"
 /home/cnuge/bin/coi5p/vignettes/coi5p-vignette.Rmd="1C1A691"
