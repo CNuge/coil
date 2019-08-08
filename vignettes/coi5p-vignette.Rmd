@@ -8,7 +8,11 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
- 
+
+#BIG TODO - look at instances where the indel_check is failing and act accordingly
+# Possibly remove the indel_likely portion of the pipeline
+# would speed up the performance as we can avoid the AAPHMM altogether... or maybe need to refine this
+
 ```{r setup}
 library(coi5p)
 ```
@@ -51,7 +55,7 @@ example_nt_string
 output = coi5p_pipe(example_nt_string)
 output
 ```
-Executing the entire pipeline yields a coi5p object. Calling the name of the object variable prints the coi5p object's summary and shows us all of the important information, including the original raw sequence, the sequence set in reading frame, the amino acid sequence and the summary stats regarding the likelihood of the sequence containing an error.
+Executing the entire pipeline yields a coi5p object. Calling the variable name prints the coi5p object's summary and shows us all of the important information, including the original raw sequence, the sequence set in reading frame, the amino acid sequence and the summary stats regarding the likelihood of the sequence containing an error.
 
 We can obtain the individual components of the object using the dollar sign notation.
 ```{r}
@@ -67,21 +71,23 @@ By default the pipline conducts censored translation, avoiding translation of th
 ex_table_to_use = which_trans_table("Scyliorhinidae")
 ex_table_to_use
 ```
+
 The analysis can then be run with a non-censored translation step. Note below that the amino acid sequence is now devoid of question marks and the PHMM score is lower. 
+
 ```{r}
 output = coi5p_pipe(example_nt_string, trans_table = ex_table_to_use)
 output
 ```
+
 #### Calling functions individually
-There are four functions that constitute the coi5p analysis pipeline: `coi5p`, `frame`, `translate` and `indel_check`. These are avaliable to the user for instances where only part of the analysis pipeline is needed.
+There are four functions that constitute the coi5p analysis pipeline: `coi5p`, `frame`, `translate` and `indel_check`. These are avaliable to the user, for instances where only part of the analysis pipeline is needed.
 
 ```{r}
   #build the coi5p object
   dat = coi5p(example_nt_string, name="example_sequence_1")
   #frame the sequence
   dat = frame(dat)
- 
-  #since we figured out the genetic code above, we can use
+  #since we determined the genetic code above, we can use
   #the proper transaltion table as opposed to conducting 
   #the default censored translation
   dat = translate(dat, trans_table = 2)
@@ -91,7 +97,7 @@ There are four functions that constitute the coi5p analysis pipeline: `coi5p`, `
 ```
 
 #### Example of a batch analysis of barcode sequences
-Here we will be working with the example dataframe (`example_barcode_data`). Although DNA sequence data input/output is outside of the scope of the coi5p package, the supplementary section at the end of this vignette includes an example of how one can load a fasta file into a dataframe with the stucutre of `example_barcode_data`. 
+Here we will be working with the example dataframe (`example_barcode_data`). Although DNA sequence data input/output is outside of the scope of the coi5p package, the supplementary section at the end of this vignette includes an example of how one can load a fasta file into a dataframe with a stucutre matching that of `example_barcode_data`. 
 
 `example_barcode_data` contains 9 barcode sequences that demonstrate the different abilities of the `coi5p` package. Some sequences are longer than the barcode COI-5P barcode region, some are shorter and some have insertion or deletion errors.
 ```{r}
@@ -101,17 +107,7 @@ example_barcode_data
 
 ```
 
-The genetic_code column has some missing information, here we use the `which_trans_table` function to fill this based on the taxa column. In instances where the taxa is unknown, the genetic code value is filled with a 0, indicating that censored translation should be performed.
-```{r}
-for(i in 1:length(example_barcode_data$id)){
-  if(is.na(example_barcode_data$genetic_code[[i]])){
-    example_barcode_data[i, "genetic_code"] = which_trans_table(example_barcode_data$taxa[[i]])    
-  }
-}
-example_barcode_data
-```
-
-The `coi5p` analysis pipeline can then be applied to the whole dataframe at once, here the pipeline is implemented through the use of lapply, which lets the unique sequence, id and genetic code of each row in the dataframe be passed into the function.
+The `coi5p` analysis pipeline can be applied to the whole dataframe at once. Here the pipeline is implemented through the use of lapply, which lets the unique sequence, id and genetic code of each row in the dataframe be passed into the `coi5p_pipe` function. 
 
 ```{r}
 
@@ -120,10 +116,10 @@ example_barcode_data$coi_output = lapply(1:length(example_barcode_data$id), func
              name = example_barcode_data$id[i], 
              trans_table = example_barcode_data$genetic_code[i])
 })
-example_barcode_data$coi_output[[1]]
+example_barcode_data$coi_output[[1]] #example of the first output
 ```
 
-The coi5p objects are nested within the dataframe. Individual components can extracted from the object as needed using the dollar sign notation. Below lapply is used to extract the framed sequence from each coi5p object and turn it into its own column in the dataframe.
+The coi5p objects are nested within the dataframe. Individual components can extracted from the object as needed using the dollar sign notation. Below lapply is used to extract the framed sequence from each coi5p object and turn it into its own column in the dataframe. As we can see from the output below, dashes have been added to the front of the short sequence, if we compare the framed sequences from the long inputs (rows 5 and 6) to their original sequence, we see that coi5p has trimmed the sequence outside of the barcode region.
 
 ```{r}
 example_barcode_data$framed_seq = unlist(lapply(example_barcode_data$coi_output, function(x){
@@ -131,9 +127,14 @@ example_barcode_data$framed_seq = unlist(lapply(example_barcode_data$coi_output,
 }))
 
 example_barcode_data$framed_seq
+
+#has coi5p trimmed characters?
+nchar(example_barcode_data$framed_seq[[5]]) < nchar(example_barcode_data$sequence[[5]])
+
+
 ```
 
-The lapply notation above is rather clunky, so the coi5p package contains a helper function to aid the user in flattening a list of coi5p objects into a dataframe. By default all of the avaliable object components will be output to the dataframe, but the user can choose which components they wish to extract from the object. Note this function assumes that the coi5p objects in the list have be put through the same workflow, and therefore have a matching set of components. As an example of how you can break it, if you've applied the `translate` function to one member of the list and not the others then `flatten_coi5p` will not work properly.
+The lapply notation used above is rather clunky, so the coi5p package contains a helper function to aid the user in flattening a list of coi5p objects into a dataframe. By default all of the avaliable object components will be output to the dataframe, but the user can choose a subset of components they wish to extract from the object. Note this function assumes that the coi5p objects in the list have been put through the same workflow, and therefore have a matching set of components. As an example of how you can break it, if you've applied the `translate` function to one member of the list and not the others then `flatten_coi5p` will not work properly.
 
 ```{r}
 #extract only a single column

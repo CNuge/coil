@@ -75,7 +75,12 @@
 ###
 
 # save(example_barcode_data, file = 'data/example_barcode_data.RData')
-# load('data/example_barcode_data.RData')
+# load('data/example_barcode_data.RData' )
+# for(i in names(example_barcode_data)){
+#   example_barcode_data[[i]] = as.character(example_barcode_data[[i]])
+# }
+#
+# example_barcode_data[["genetic_code"]] = as.integer(example_barcode_data[["genetic_code"]])
 
 # save(trans_df, file = 'data/trans_df.RData')
 # save(nt_PHMM, file = 'data/nt_PHMM.RData')

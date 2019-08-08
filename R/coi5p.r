@@ -9,7 +9,7 @@
 # to check package run devtools::check(vignettes = FALSE) or
 # devtools::check() or hit ctrl-shift-E in rstudio
 
-# TODO - update the readme file so it provides details and examples of functionality.
+# TODO - update the readme file so it provides details and examples of functional ity.
 # TODO - write a vingnette to demonstrate how the function works
 # TODO - add an option to turn off the trimming of the back of the DNA sequence when framing.
 #       ^Note this will effect indel_check's output values
