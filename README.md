@@ -6,7 +6,6 @@ An R package for contextualization and evaluation of COI-5P barcode data
 
 `coi5p` is an R package designed to aid users in the cleaning and analysis of COI-5P DNA barcode data.
 
-
 ## Installation
 
 To download and install `coi5p` directly from cran, type the following commands into R.
@@ -59,9 +58,12 @@ dat
 All of the steps of the pipeline can be called at once through the `coi5p_pipe` function.
 ```
 output = coi5p_pipe(example_nt_string)
+```
+Calling the variable name prints the coi5p object's summary and shows us all of the important information, including: the original raw sequence, the sequence set in reading frame, the amino acid sequence and the summary stats regarding the likelihood of the sequence containing an error.
+```
 output
 ```
-Afterwards, the coi5p object has the following components that can be called by the user.
+The coi5p object has the following components that can be extracted by the user using the dollar sign notation.
 ```
 output$name         #the name of the sequence 
 output$raw          #the input DNA sequence

@@ -1,8 +1,9 @@
 # Some useful keyboard shortcuts for package authoring:
 #
-#   Install Package:           'Ctrl + Shift + B'
-#   Check Package:             'Ctrl + Shift + E'
-#   Test Package:              'Ctrl + Shift + T'
+#   Install Package:                         'Ctrl + Shift + B'
+#   Check Package:                           'Ctrl + Shift + E'
+#   Test Package:                            'Ctrl + Shift + T'
+#   Knit the vignette and preview the output:'Ctrl + Shift +k'
 # Run
 # devtools::document()
 # to convert roxygen comments to .Rd files. (devtools::document() calls roxygen2::roxygenise() to do the hard work.)
