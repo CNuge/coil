@@ -24,7 +24,13 @@ library(coi5p)
 
 ## How to use it
 
-The package is built around the custom `coi5p` object, which takes a COI-5P DNA barcode sequence as input. The package contains functions for: (a) setting the sequence in reading frame, (b) translating the sequence to amino acids and (c) checking the sequence for evidence of insertion or deletion errors.
+Below is a brief demonstration to get the user started, please consult the package vignette for a more detailed explanation of `coi5p`'s functionality.
+
+The package is built around the custom `coi5p` object, which takes a COI-5P DNA barcode sequence as input. The package contains functions for: 
+
+  - setting the sequence in reading frame
+  - translating the sequence to amino acids
+  - checking the sequence for evidence of insertion or deletion errors
 
 The basic `coi5p` analysis pipleine is as follows:
 ```
