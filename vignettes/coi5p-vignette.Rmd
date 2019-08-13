@@ -104,7 +104,7 @@ example_barcode_data
 
 ```
 
-The `coi5p` analysis pipeline can be applied to the whole dataframe at once. Here the pipeline is implemented through the use of lapply, which lets the unique sequence, id and genetic code of each row in the dataframe be passed into the `coi5p_pipe` function. 
+The `coi5p` analysis pipeline can be applied to the a dataframe in a iterative fashion. Here the pipeline is implemented through the use of lapply, which lets the unique sequence, id and genetic code of each row in the dataframe be passed into the `coi5p_pipe` function. 
 
 ```{r}
 
