@@ -153,9 +153,9 @@ colnames(full_coi5p_df) = c("name", "raw", "framed", "aaSeq", "aaScore", "indel_
 
 for(i in 1:length(example_barcode_data$id)){
 	print(paste("On sequence number:", i))
-	out_data = coi5p_pipe(indel_dat$sequence[i], 
-							name = indel_dat$id[i], 
-							trans_table = indel_dat$genetic_code[i])
+	out_data = coi5p_pipe(example_barcode_data$sequence[i], 
+							name = example_barcode_data$id[i], 
+							trans_table = example_barcode_data$genetic_code[i])
 
 	full_coi5p_df = rbind(full_coi5p_df, flatten_coi5p(list(out_data)))
 }
