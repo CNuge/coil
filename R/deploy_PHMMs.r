@@ -89,11 +89,18 @@ set_frame = function(org_seq , path_out){
 			org_seq_start = org_seq_start + 1
 		#for the first match seen, check to make sure it isn't a single match dangling
 		#in a sea of inserts or deletes
+
+		# extended check to four base pairs past the first seen match
+		# change also made: if a match is found and followed by non matches, that bp is omitted
+		# think this was the cause of the error in the framing of shorter seqs
+    #TODO - if the following does not work, then change the addition of the - for instances of dangling 1s followed by 0s
+
 		}else if( path_out[i] == 1 ){
-			if (path_out[i+1] == 2 & path_out[i+2] == 2){
+			if (2 %in% path_out[(i+1):(i+4)] ){
 				org_seq_start = org_seq_start + 1
-			}else if (path_out[i+1] == 0 & path_out[i+2] == 0){
-				front = c(front, '-')
+			}else if (0 %in% path_out[(i+1):(i+4)] ){
+			  org_seq_start = org_seq_start + 1
+			  front = c(front, '-')
 			}else{
 				break
 			}
@@ -114,10 +121,12 @@ set_frame = function(org_seq , path_out){
 		}else if ( path_out[i] == 1){
 			#in either of these instances we want to trim the last bp, as its
 			#dangling in a sea of inserts or deletes and likely a random profile match
-			if (path_out[i-1] == 2 & path_out[i-2] == 2){
+			#if (path_out[i-1] == 2 & path_out[i-2] == 2){
+			if (2 %in% path_out[(i-4):(i-1)]){
 				org_seq_end = org_seq_end - 1
-			}else if (path_out[i-1] == 0 & path_out[i-2] == 0){
-				org_seq_end = org_seq_end - 1
+			#}else if (path_out[i-1] == 0 & path_out[i-2] == 0){
+			}else if (0 %in% path_out[(i-4):(i-1)]){
+			  	org_seq_end = org_seq_end - 1
 			}else{
 				break
 			}
