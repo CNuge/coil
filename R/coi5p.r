@@ -10,16 +10,6 @@
 # to check package run devtools::check(vignettes = FALSE) or
 # devtools::check() or hit ctrl-shift-E in rstudio
 
-# TODO - update the readme file so it provides details and examples of functional ity.
-# TODO - write a vingnette to demonstrate how the function works
-# TODO - add an option to turn off the trimming of the back of the DNA sequence when framing.
-#       ^Note this will effect indel_check's output values
-# TODO - add a data file that has 8-10 barcode sequences with various errors/extra info in them
-#         #^ in the vignette demonstrate how the functons can be applied to the data in this format
-#         # via lapply and extraction of the coi5p component objects
-
-
-
 ########################
 # coi5p - Initialization of the class
 

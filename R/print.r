@@ -15,7 +15,7 @@ print.coi5p = function(x, ...){
   }
 
   l3 = paste("raw sequence:\n",
-              x$raw,
+              substr(x$raw,1, 25), "..." , substr(x$raw, (nchar(x$raw)-24), nchar(x$raw)),
              "\n",
               sep = "")
 
@@ -24,7 +24,7 @@ print.coi5p = function(x, ...){
   #addition if framed
   if( "framed" %in% names(x) ){
     l4 = paste("framed sequence:\n",
-               x$framed,
+               substr(x$framed,1, 25), "...", substr(x$framed, (nchar(x$framed)-24), nchar(x$framed)),
                "\n",
                sep = "")
     lines = c(lines, l4)
@@ -33,7 +33,7 @@ print.coi5p = function(x, ...){
   #addition if translated
   if( "aaSeq" %in% names(x) ){
     l5 = paste("Amino acid sequence:\n",
-               x$aaSeq,
+               substr(x$aaSeq, 1, 25), "...", substr(x$aaSeq, (nchar(x$aaSeq)-24), nchar(x$aaSeq)),
                "\n",
                sep = "")
     lines = c(lines, l5)
