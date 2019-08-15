@@ -211,7 +211,7 @@ indel_check = function(x, ...){
 ####
 #' @rdname indel_check
 #' @export
-indel_check.coi5p = function(x, ..., indel_threshold = -346.95 ){
+indel_check.coi5p = function(x, ..., indel_threshold = -363.87){
   if(is.null(x$framed)|is.null(x$aaSeq) ){
     stop("indel_check function accepts framed and translated coi5p objects. See functions: frame, translate.")
   }

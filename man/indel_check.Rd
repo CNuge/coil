@@ -7,7 +7,7 @@
 \usage{
 indel_check(x, ...)
 
-\method{indel_check}{coi5p}(x, ..., indel_threshold = -346.95)
+\method{indel_check}{coi5p}(x, ..., indel_threshold = -363.87)
 }
 \arguments{
 \item{x}{a coi5p class object for which frame() and translate() have been run.}

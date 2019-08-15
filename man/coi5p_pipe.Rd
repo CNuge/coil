@@ -5,7 +5,7 @@
 \title{Run the entire coi5p pipeline for am input sequence.}
 \usage{
 coi5p_pipe(x, ..., name = character(), trans_table = 0,
-  frame_offset = 0, indel_threshold = -346.95)
+  frame_offset = 0, indel_threshold = -363.87)
 }
 \arguments{
 \item{x}{a nucleotide string.

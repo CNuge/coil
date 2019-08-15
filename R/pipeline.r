@@ -48,7 +48,7 @@ coi5p_pipe = function(x, ... ,
                       name = character(),
                       trans_table = 0,
                       frame_offset = 0,
-                      indel_threshold = -346.95){
+                      indel_threshold = -363.87){
   dat = coi5p(x, name=name)
   dat = frame(dat )
   dat = translate(dat, trans_table = trans_table, frame_offset = frame_offset)
