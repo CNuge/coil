@@ -87,14 +87,8 @@ set_frame = function(org_seq , path_out){
 			#there was an extra bp at the front of the sequence
 			#not represented in the PHMMs, skip this bp in the original seq
 			org_seq_start = org_seq_start + 1
-		#for the first match seen, check to make sure it isn't a single match dangling
-		#in a sea of inserts or deletes
-
-		# extended check to four base pairs past the first seen match
-		# change also made: if a match is found and followed by non matches, that bp is omitted
-		# think this was the cause of the error in the framing of shorter seqs
-    #TODO - if the following does not work, then change the addition of the - for instances of dangling 1s followed by 0s
-
+		#for the first match seen, check to make sure it isn't a single match 
+		#or codon of dangling matches in a sea of inserts or deletes
 		}else if( path_out[i] == 1 ){
 			if (2 %in% path_out[(i+1):(i+4)] ){
 				org_seq_start = org_seq_start + 1
