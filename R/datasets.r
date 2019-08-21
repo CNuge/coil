@@ -45,6 +45,21 @@
 "aa_PHMM"
 ###############################################################################
 
+
+#TODO - found one error in the data from Tyler - Pyuridae had wrong translation table
+#should be 13 but was 11... need to do a big double check and make sure there aren't more erroneous ones.
+#then change here if needed and resave to the file
+#example below done for Pyuridae
+# load('R/sysdata.rda')
+# trans_df$trans_table[trans_df$taxon == 'Pyuridae'] = 13
+# trans_df$trans_table[trans_df$taxon ==	'Stolidobranchia'] = 0
+
+# added this to it:
+# trans_df$trans_table[trans_df$taxon ==	'Ascidiacea'] = 0
+#asc = data.frame(trans_table = 0, taxon = "Ascidiacea", level = "class")
+#trans_df = rbind(trans_df, asc)
+# head(trans_df)
+#need to look for more missing information!
 ###############################################################################
 #' Data frame containing the translation table recommendation.
 #'
@@ -70,20 +85,3 @@
 "example_barcode_data"
 ###############################################################################
 
-###
-# For storing data in the data folder -fallback
-###
-
-# save(example_barcode_data, file = 'data/example_barcode_data.RData')
-# load('data/example_barcode_data.RData' )
-# for(i in names(example_barcode_data)){
-#   example_barcode_data[[i]] = as.character(example_barcode_data[[i]])
-# }
-#
-# example_barcode_data[["genetic_code"]] = as.integer(example_barcode_data[["genetic_code"]])
-
-# save(trans_df, file = 'data/trans_df.RData')
-# save(nt_PHMM, file = 'data/nt_PHMM.RData')
-# save(aa_PHMM, file = 'data/aa_PHMM.RData')
-#
-#globalVariables(c("nt_PHMM", "aa_PHMM", "translation_table_data"))
