@@ -196,7 +196,7 @@ indel_check = function(x, ...){
 #' @export
 indel_check.coi5p = function(x, ..., indel_threshold = -363.87){
   if(is.null(x$framed)|is.null(x$aaSeq) ){
-    stop("indel_check function accepts framed and translated coi5p objects. See functions: frame, translate.")
+    stop("indel_check function only accepts framed and translated coi5p objects. See functions: frame, translate.")
   }
 
   x$data$aaBin = individual_AAbin(x$aaSeq)

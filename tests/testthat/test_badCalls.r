@@ -7,9 +7,9 @@ test_that("Bad function calls return the proper warnings.", {
 
   dat = coi5p(sequence)
 
-  expect_error(translate(dat), "translate function accepts framed coi5p objects. See function: frame.")
+  expect_error(translate(dat), "translate function only accepts framed coi5p objects. See function: frame.")
 
-  expect_error(indel_check(dat),"indel_check function accepts framed and translated coi5p objects. See functions: frame, translate.")
+  expect_error(indel_check(dat),"indel_check function only accepts framed and translated coi5p objects. See functions: frame, translate.")
 
 })
 
