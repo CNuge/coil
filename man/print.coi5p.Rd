@@ -2,7 +2,7 @@
 % Please edit documentation in R/print.r
 \name{print.coi5p}
 \alias{print.coi5p}
-\title{print summary of coi5p object}
+\title{print summary of coi5p object.}
 \usage{
 \method{print}{coi5p}(x, ...)
 }
@@ -12,6 +12,6 @@
 \item{...}{additional arguments to be passed between methods.}
 }
 \description{
-print summary of coi5p object
+print summary of coi5p object.
 }
 \keyword{internal}

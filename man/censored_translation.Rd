@@ -17,7 +17,7 @@ dropped from translation respectively.}
 Translate a DNA sequence using the censored translation table,
 this translates codons for which the amino acids is unambigious across the
 animal kingdom, and does not translate those for which the amino acid varies
-but rather outputs a ? in the string
+but rather outputs a ? in the string.
 }
 \details{
 Censored translation table:

@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipeline.r
 \name{coi5p_pipe}
 \alias{coi5p_pipe}
-\title{Run the entire coi5p pipeline for am input sequence.}
+\title{Run the entire coi5p pipeline for an input sequence.}
 \usage{
 coi5p_pipe(x, ..., name = character(), trans_table = 0,
   frame_offset = 0, indel_threshold = -363.87)
@@ -39,7 +39,7 @@ of the output (i.e. only want sequences in frame or translated), then the coi5p 
 can be called individually to avoid unnecessary computation.
 }
 \examples{
-dat = coi5p_pipe(example_nt_string )
+dat = coi5p_pipe(example_nt_string)
 #full coi5p object can then be printed
 dat
 #components of output coi5p object can be called individually:

@@ -7,7 +7,7 @@
 which_trans_table(x)
 }
 \arguments{
-\item{x}{a taxonomic designation (allowed ranks: family, order, class, phylum) first letter capitilizaed.}
+\item{x}{a taxonomic designation (allowed ranks: family, order, class, phylum).}
 }
 \value{
 an integer indicating the correct translation table.

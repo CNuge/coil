@@ -3,7 +3,7 @@
 \name{indel_check}
 \alias{indel_check}
 \alias{indel_check.coi5p}
-\title{Check is coi5p sequence likely contains an indel error.}
+\title{Check if coi5p sequence likely contains an indel error.}
 \usage{
 indel_check(x, ...)
 
@@ -15,14 +15,14 @@ indel_check(x, ...)
 \item{...}{additional arguments to be passed between methods.}
 
 \item{indel_threshold}{the log likelihood threshold used to assess whether or not sequences
-are likely to contain an indel. Default is -345.95. Values lower than this will be classified
+are likely to contain an indel. Default is -363.87. Values lower than this will be classified
 as likely to contain an indel and values higer will be classified as not likely to contain an indel.}
 }
 \value{
 an object of class code{"coi5p"}
 }
 \description{
-Check is coi5p sequence likely contains an indel error.
+Check if coi5p sequence likely contains an indel error.
 }
 \examples{
 #previously run functions:
