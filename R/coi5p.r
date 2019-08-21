@@ -1,15 +1,3 @@
-# Some useful keyboard shortcuts for package authoring:
-#
-#   Install Package:                         'Ctrl + Shift + B'
-#   Check Package:                           'Ctrl + Shift + E'
-#   Test Package:                            'Ctrl + Shift + T'
-#   Knit the vignette and preview the output:'Ctrl + Shift +k'
-# Run
-# devtools::document()
-# to convert roxygen comments to .Rd files. (devtools::document() calls roxygen2::roxygenise() to do the hard work.)
-# to check package run devtools::check(vignettes = FALSE) or
-# devtools::check() or hit ctrl-shift-E in rstudio
-
 ########################
 # coi5p - Initialization of the class
 
@@ -67,8 +55,6 @@ validate_coi5p = function(new_instance){
 #' @name coi5p
 #' @export
 coi5p = function(x = character(), name = character()){
-
-  #if vector, paste them together
   validate_coi5p(new_coi5p(tolower(x), name))
 }
 
@@ -102,7 +88,7 @@ frame = function(x, ...){
 #' @rdname frame
 #' @export
 frame.coi5p = function(x, ... ){
-  #input is the output structure from coi
+  #input is the output structure from coi5p
   #set the reading frame and store the framed string in $framed
 
   x$data$ntBin = individual_DNAbin(x$raw)
@@ -117,7 +103,6 @@ frame.coi5p = function(x, ... ){
   }
 
   x$framed = set_frame(trim_temp, x$data$ntPHMMout[['path']])
-
   return(x)
 }
 
@@ -132,7 +117,6 @@ frame.coi5p = function(x, ... ){
 #' is zero, so the first character in the framed sequence is considered the first nucelotide of the first codon.
 #' Passing frame_offset = 1 would make the second character in the framed sequence the the first nucelotide of
 #' the first codon.
-#'
 #'
 #' @return an object of class code{"coi5p"}
 #' @seealso \code{\link{coi5p}}
@@ -158,7 +142,7 @@ translate = function(x, ...){
 #' @export
 translate.coi5p = function(x, ..., trans_table = 0, frame_offset = 0){
   if(is.null(x$framed)){
-    stop("translate function accepts framed coi5p objects. See function: frame.")
+    stop("translate function only accepts framed coi5p objects. See function: frame.")
   }
 
   if(trans_table == 0){
@@ -177,13 +161,12 @@ translate.coi5p = function(x, ..., trans_table = 0, frame_offset = 0){
 }
 
 
-#' Check is coi5p sequence likely contains an indel error.
-#'
+#' Check if coi5p sequence likely contains an indel error.
 #'
 #' @param x a coi5p class object for which frame() and translate() have been run.
 #' @param ... additional arguments to be passed between methods.
 #' @param indel_threshold the log likelihood threshold used to assess whether or not sequences
-#' are likely to contain an indel. Default is -345.95. Values lower than this will be classified
+#' are likely to contain an indel. Default is -363.87. Values lower than this will be classified
 #' as likely to contain an indel and values higer will be classified as not likely to contain an indel.
 #'
 #' @return an object of class code{"coi5p"}
@@ -219,7 +202,7 @@ indel_check.coi5p = function(x, ..., indel_threshold = -363.87){
   x$data$aaBin = individual_AAbin(x$aaSeq)
   x$data$aaPHMMout = aphid::Viterbi(aa_PHMM, x$data$aaBin, odds = FALSE)
 
-  x$aaScore = x$data$aaPHMMout[['score']] #have this print a threshold
+  x$aaScore = x$data$aaPHMMout[['score']]
   if(x$aaScore > indel_threshold){
     x$indel_likely = FALSE
   }else{

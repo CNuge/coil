@@ -87,7 +87,7 @@ set_frame = function(org_seq , path_out){
 			#there was an extra bp at the front of the sequence
 			#not represented in the PHMMs, skip this bp in the original seq
 			org_seq_start = org_seq_start + 1
-		#for the first match seen, check to make sure it isn't a single match 
+		#for the first match seen, check to make sure it isn't a single match
 		#or codon of dangling matches in a sea of inserts or deletes
 		}else if( path_out[i] == 1 ){
 			if (2 %in% path_out[(i+1):(i+4)] ){
@@ -128,7 +128,4 @@ set_frame = function(org_seq , path_out){
 	}
 	return(paste(c(front,org_seq_vec[org_seq_start:org_seq_end]),collapse= ""))
 }
-
-
-
 

@@ -1,4 +1,4 @@
-#' print summary of coi5p object
+#' print summary of coi5p object.
 #' @param x a coi5p class object.
 #' @param ... additional arguments to be passed between methods.
 #' @keywords internal

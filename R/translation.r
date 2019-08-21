@@ -3,8 +3,8 @@
 #' Translate a DNA sequence using the censored translation table,
 #' this translates codons for which the amino acids is unambigious across the
 #' animal kingdom, and does not translate those for which the amino acid varies
-#' but rather outputs a ? in the string
-#' @param codon a three letter DNA string
+#' but rather outputs a ? in the string.
+#' @param codon a three letter DNA string.
 #' @details
 #' Censored translation table:
 #'            FFLLSSSSYY?*CCWWLLLLPPPPHHQQRRRRII?MTTTTNN?KSS??VVVVAAAADDEEGGGG
@@ -56,7 +56,7 @@ translate_codon = function(codon){
 #' Translate a DNA sequence using the censored translation table,
 #' this translates codons for which the amino acids is unambigious across the
 #' animal kingdom, and does not translate those for which the amino acid varies
-#' but rather outputs a ? in the string
+#' but rather outputs a ? in the string.
 #' @param dna_str The DNA string to be translated.
 #' @param reading_frame reading frame = 1 means the first bp in the string is the start of the
 #' first codon, can pass 1, 2 or 3. For 2 and 3 the first 1 and 2 bp will be
@@ -86,7 +86,7 @@ censored_translation = function(dna_str, reading_frame = 1){
 #'
 #' Recommends which translation table to use if taxonomic data is avaliable.
 #'
-#' @param x a taxonomic designation (allowed ranks: family, order, class, phylum) first letter capitilizaed.
+#' @param x a taxonomic designation (allowed ranks: family, order, class, phylum).
 #' @return an integer indicating the correct translation table.
 #' @examples
 #' which_trans_table("Chordata") #phylum
@@ -97,7 +97,7 @@ censored_translation = function(dna_str, reading_frame = 1){
 #' If which table is unable to identify a translation table to utilize, more information on translation tables can be found here: https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi
 #' @export
 which_trans_table = function(x) {
-    use_tab =  trans_df$trans_table[trans_df$taxon == x]
+    use_tab =  trans_df$trans_table[trans_df$taxon == tolower(x)]
     if(length(use_tab) == 0){
       return(0)
     }

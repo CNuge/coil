@@ -1,4 +1,4 @@
-#' Run the entire coi5p pipeline for am input sequence.
+#' Run the entire coi5p pipeline for an input sequence.
 #'
 #' This function will take a raw DNA sequence string and run each of the coi5p methods in turn
 #' (coi5p, frame, translate, indel_check). Note that if you are not intersted in all components
@@ -24,7 +24,7 @@
 #'
 #' @return an object of class code{"coi5p"}
 #' @examples
-#' dat = coi5p_pipe(example_nt_string )
+#' dat = coi5p_pipe(example_nt_string)
 #' #full coi5p object can then be printed
 #' dat
 #' #components of output coi5p object can be called individually:
@@ -63,7 +63,7 @@ coi5p_pipe = function(x, ... ,
 #' that the user requires.
 #' @param x a list of coi5p objects.
 #' @param keep_cols the name of a coi5p object component, or a vector of components that should be turned into
-#' dataframe columns. Avaliable components are: name, raw, framed, aaSeq, aaScore, indel_likely, stop_codons
+#' dataframe columns. Avaliable components are: name, raw, framed, aaSeq, aaScore, indel_likely, stop_codons.
 #' @return a dataframe with the coi5p object information flattened into columns.
 #' @examples
 #' #create a list of coi5p objects
