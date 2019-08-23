@@ -2,7 +2,7 @@
 title: "coi5p-vignette"
 author: "Cameron M. Nugent"
 data: "`r Sys.Date()`"
-output: rmarkdown::html_vignette #switch to pdf_document if you want to make the pdf via knit
+output:  pdf_document #if you want to make the pdf via knit
 vignette: >
   %\VignetteIndexEntry{coi5p-vignette}
   %\VignetteEngine{knitr::rmarkdown}
@@ -12,7 +12,7 @@ vignette: >
 ```{r setup}
 library(coi5p)
 ```
-
+*4th wall break - Hi Sally: long DNA sequences run off the right side of the page on the pdf as opposed to wrapping around... I'm workning to resolve this! -CMN*
 
 ## Abstract
 
@@ -22,7 +22,7 @@ library(coi5p)
 
 The backbone of the coi5p package is a pair of profile hidden Markov models (PHMMs) that have been trained using a representative sample of the COI-5P sequences available on [the BOLD database](http://www.boldsystems.org/index.php). A 657 nucleotide PHMM receives raw sequences from the user and uses the Viterbi algorithm (implemented via [the R package aphid](https://github.com/shaunpwilkinson/aphid)) to optimally match the input sequence against the COI-5P nucleotide profile. The second PHMM receives an amino acid sequence that is matched against the COI-5P amino acids profile. The model provides two boolean output metrics to the user: (a) the sequence contains stop codons (T/F), (b) is the sequence likely to contain an insertion or deletion error (T/F). The insertion or deletion boolean is based on the log likelihood of the amino acid sequence compared to the PHMM. A default indel likelihood threshold of -363.87 is set but this can be change by the user (see [paper]() for basis of this threshold and suggested alternatives). Sequences with likelihood values less than this threshold indicate the sequence is likely to contain an indel error, as the amino acid sequence is improbable and therefore indicative of a possible frame shift.
 
-The nucleotide and amino acid PHMMs are interfaced through the translate function, which takes the in frame nucleotide sequence and translates it to amino acids. This function uses [the sequinr package](https://cran.r-project.org/web/packages/seqinr/index.html) to conduct translation in all instances where [the genetic code associated with the sample](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi) is known. For samples without taxonomic IDs or known genetic codes an additional genetic code is provided. This genetic code is used to conduct censored translation, meaning that translation is conducted normally for codons that do not vary in the amino acid they code for across all known mitochondrial genetic codes. The codons that are known to vary in the amino acid they code for across taxa are not translated, rather a placeholder (`?`) is output to indicate that the amino acid at this location in the sequence cannot be stated with certainty. This functionality allows the `indel_check` function to assess the likelihood of sequences of unknown taxonomy without being overly stringent in its characterization of sequences as indels due to the appropriation of the wrong translation table.
+The nucleotide and amino acid PHMMs are interfaced through the translate function, which takes the in frame nucleotide sequence and translates it to amino acids. This function uses [the sequinr package](https://cran.r-project.org/web/packages/seqinr/index.html) to conduct translation in all instances where [the genetic code associated with the sample](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi) is known. For samples without taxonomic IDs or known genetic codes an additional genetic code is provided. This genetic code is used to conduct censored translation, meaning that translation is conducted normally for codons that do not vary in the amino acid they code for across all known animal mitochondrial genetic codes. The codons that are known to vary in the amino acid they code for across taxa are not translated, rather a placeholder (`?`) is output to indicate that the amino acid at this location in the sequence cannot be stated with certainty. This functionality allows the `indel_check` function to assess the likelihood of sequences of unknown taxonomy without being overly stringent in its characterization of sequences as indels due to the appropriation of the wrong translation table.
 
 The translation table employed in censored translation - five codons are translated to placeholder question marks, due to their ambiguity across different mitochondrial translation tables.
 
@@ -53,9 +53,9 @@ example_nt_string
 output = coi5p_pipe(example_nt_string)
 output
 ```
-Executing the entire pipeline yields a coi5p object. Calling the variable name prints the coi5p object's summary and shows us all of the important information, including the original raw sequence, the sequence set in reading frame, the amino acid sequence and the summary stats regarding the likelihood of the sequence containing an error.
+Executing the entire pipeline yields a coi5p object. Calling the variable name prints the coi5p object's summary and shows important information about the sequence. 
 
-We can obtain the individual components of the object using the dollar sign notation.
+Individual components can be obtained from the object using the dollar sign notation.
 ```{r}
 #see the avaliable components
 names(output)
@@ -63,7 +63,7 @@ names(output)
 output$aaSeq
 ```
 
-By default the pipeline conducts censored translation, avoiding translation of the codons that are known to [code for different amino acids within different species ](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi). If taxonomic information is available for the sample (available ranks: family, order, class, phylum), in most cases we can use the helper function `which_trans_table` to determine the proper translation table to use. If the taxonomic group contains species that have different genetic codes, a 0 is returned to indicate that its a good idea to stick to censored translation.
+By default the pipeline conducts censored translation, avoiding translation of the codons that are known to [code for different amino acids within different species ](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi). If taxonomic information is available for the sample (available ranks: family, order, class, phylum), in most cases you can use the helper function `which_trans_table` to determine the proper genetic code to use. If the taxonomic group contains species that have different genetic codes, a 0 is returned to indicate that its a good idea to stick to censored translation.
 
 ```{r}
 ex_table_to_use = which_trans_table("Scyliorhinidae")
@@ -78,7 +78,7 @@ output
 ```
 
 #### Calling functions individually
-There are four functions that constitute the coi5p analysis pipeline: `coi5p`, `frame`, `translate` and `indel_check`. These are available to the user, for instances where only part of the analysis pipeline is needed (i.e. if you wish to frame sequences but not resources translating them, you could run only `coi5p` and `frame`).
+There are four functions that constitute the coi5p analysis pipeline: `coi5p`, `frame`, `translate` and `indel_check`. These are available to the user individually, for instances where only part of the analysis pipeline is needed (i.e. if you wish to frame sequences but not waste resources translating them, you could run only `coi5p` and `frame`).
 
 ```{r}
   #build the coi5p object
@@ -95,7 +95,7 @@ There are four functions that constitute the coi5p analysis pipeline: `coi5p`, `
 ```
 
 #### Example of a batch analysis of barcode sequences
-Here we will be working with the example dataframe (`example_barcode_data`). Although DNA sequence data input and output is outside of the scope of the coi5p package, the supplementary section at the end of this vignette includes an example of how one can load a fasta file into a dataframe with a structure matching that of `example_barcode_data`. 
+Here we will be working with the example dataframe (`example_barcode_data`). Although loading and outputting DNA sequence data in R is outside of the scope of the coi5p package, the supplementary section at the end of this vignette includes an example of how one can load a fasta file into a dataframe with a structure matching that of `example_barcode_data`. 
 
 `example_barcode_data` contains 9 barcode sequences that demonstrate the different abilities of the `coi5p` package. Some sequences are longer than the barcode COI-5P barcode region, some are shorter and some have insertion or deletion errors.
 ```{r}
@@ -114,6 +114,7 @@ example_barcode_data$coi_output = lapply(1:length(example_barcode_data$id), func
              name = example_barcode_data$id[i], 
              trans_table = example_barcode_data$genetic_code[i])
 })
+
 example_barcode_data$coi_output[[1]] #example of the first output
 ```
 
@@ -132,7 +133,7 @@ nchar(example_barcode_data$framed_seq[[5]]) < nchar(example_barcode_data$sequenc
 
 ```
 
-The lapply notation used above is rather clunky, so the coi5p package contains a helper function to aid the user in flattening a list of coi5p objects into a dataframe. By default all of the available object components will be output to the dataframe, but the user can choose a subset of components they wish to extract from the object. Note: this function assumes that the coi5p objects in the list have been put through the same workflow, and therefore have a matching set of components. As an example of how you could break it, if you've applied the `translate` function to only one member of the list and not the others then the coi5p objects will have non matching sets of components and `flatten_coi5p` will not work properly.
+The lapply notation used above is rather clunky, so the coi5p package contains a helper function to aid the user in flattening a list of coi5p objects into a dataframe. By default all of the available object components will be output to the dataframe, but the user can choose a subset of components they wish to extract from the object. Note: this function assumes that the coi5p objects in the list have been put through the same workflow and therefore have a matching set of components. As an example of how you could break it, if you've applied the `translate` function to only one member of the list and not the others then the coi5p objects will have non matching sets of components and `flatten_coi5p` will not work properly.
 
 ```{r}
 #extract only a single column
@@ -169,7 +170,7 @@ As demonstrated here, the `coi5p` package allows for robust cleaning, contextual
 #### Loading and manipulating a fasta file
 The example of processing batch DNA barcode data above begins with the data in a clean dataframe. Since barcode data is not always obtained in a tidy format, some preprocessing by the user will likely be required. The following is provided to aid the user in developing a workflow for loading their barcode sequence data into R and constructing a tidy dataframe before beginning sequence analysis.
 
-The example presented below shows how one can load a fasta file containing DNA sequences into R and convert the sequence and header data into a tidy dataframe object. More information on the `read.fasta` function can be found in [the seqinr documentation](https://cran.r-project.org/web/packages/seqinr/index.html). 
+The example presented below shows how one can load a fasta file containing DNA sequences into R and then convert the sequence and header data into a tidy dataframe object. More information on the `read.fasta` function can be found in [the seqinr documentation](https://cran.r-project.org/web/packages/seqinr/index.html). 
 
 Information found in the header lines of fasta files varies, so the reader will likely need to alter this code for novel data sources. In this example the header contains four fields (id, genetic code, taxa and notes) separated by a pipe character (`|`). The code below turns this fasta file into a dataframe that matches the `example_barcode_data` file used above.
 
