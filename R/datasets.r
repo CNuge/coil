@@ -80,5 +80,5 @@
 #use_data(nt_PHMM , aa_PHMM, trans_df, example_nt_string, overwrite = TRUE, internal = TRUE)
 
 #This saves the data to the /data/ folder so it can be accessed by the package
-#seems better to put them in the sysdata.rda folder and use them internall
+#seems better to put them in the sysdata.rda folder and use them internally
 

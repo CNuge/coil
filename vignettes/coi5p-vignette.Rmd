@@ -2,7 +2,7 @@
 title: "coi5p-vignette"
 author: "Cameron M. Nugent"
 data: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: rmarkdown::html_vignette #switch to pdf_document if you want to make the pdf via knit
 vignette: >
   %\VignetteIndexEntry{coi5p-vignette}
   %\VignetteEngine{knitr::rmarkdown}
@@ -25,6 +25,7 @@ The backbone of the coi5p package is a pair of profile hidden Markov models (PHM
 The nucleotide and amino acid PHMMs are interfaced through the translate function, which takes the in frame nucleotide sequence and translates it to amino acids. This function uses [the sequinr package](https://cran.r-project.org/web/packages/seqinr/index.html) to conduct translation in all instances where [the genetic code associated with the sample](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi) is known. For samples without taxonomic IDs or known genetic codes an additional genetic code is provided. This genetic code is used to conduct censored translation, meaning that translation is conducted normally for codons that do not vary in the amino acid they code for across all known mitochondrial genetic codes. The codons that are known to vary in the amino acid they code for across taxa are not translated, rather a placeholder (`?`) is output to indicate that the amino acid at this location in the sequence cannot be stated with certainty. This functionality allows the `indel_check` function to assess the likelihood of sequences of unknown taxonomy without being overly stringent in its characterization of sequences as indels due to the appropriation of the wrong translation table.
 
 The translation table employed in censored translation - five codons are translated to placeholder question marks, due to their ambiguity across different mitochondrial translation tables.
+
 ```
  Censored translation table:
             FFLLSSSSYY?*CCWWLLLLPPPPHHQQRRRRII?MTTTTNN?KSS??VVVVAAAADDEEGGGG
@@ -202,5 +203,3 @@ example_barcode_data_from_scratch = data.frame(
 
 head(example_barcode_data_from_scratch)
 ```
-
-
