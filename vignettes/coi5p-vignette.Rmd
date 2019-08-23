@@ -2,7 +2,7 @@
 title: "coi5p-vignette"
 author: "Cameron M. Nugent"
 data: "`r Sys.Date()`"
-output:  pdf_document #if you want to make the pdf via knit
+output: rmarkdown::html_vignette #switch to pdf_document #if you want to make the pdf via knit
 vignette: >
   %\VignetteIndexEntry{coi5p-vignette}
   %\VignetteEngine{knitr::rmarkdown}
@@ -12,7 +12,6 @@ vignette: >
 ```{r setup}
 library(coi5p)
 ```
-*4th wall break - Hi Sally: long DNA sequences run off the right side of the page on the pdf as opposed to wrapping around... I'm workning to resolve this! -CMN*
 
 ## Abstract
 
