@@ -2,7 +2,7 @@
 title: "coi5p-vignette"
 author: "Cameron M. Nugent"
 data: "`r Sys.Date()`"
-output: rmarkdown::html_vignette #switch to pdf_document #if you want to make the pdf via knit
+output: rmarkdown::html_vignette #switch to pdf_document #if you want to make the pdf via knit #
 vignette: >
   %\VignetteIndexEntry{coi5p-vignette}
   %\VignetteEngine{knitr::rmarkdown}
@@ -12,7 +12,7 @@ vignette: >
 ```{r setup}
 library(coi5p)
 ```
-
+  
 ## Abstract
 
 **coi5p** is an R package designed for the cleaning, contextualization and assessment of cytochrome c oxidase I DNA barcode data ([COI-5P, or the five prime portion of COI](https://en.wikipedia.org/wiki/Cytochrome_c_oxidase_subunit_I)). It contains functions for placing COI-5P barcode sequences into a common reading frame, translating DNA sequences to amino acids and for assessing the likelihood that a given barcode sequence includes an insertion or deletion error. These functions are provided as a single function analysis pipeline and are also available individually for efficient and targeted analysis of barcode data.
@@ -35,9 +35,7 @@ The translation table employed in censored translation - five codons are transla
 
 ## The coi5p package
 ### Dependencies
-The `coi5p` package is dependent on [the `aphid` package](https://github.com/shaunpwilkinson/aphid) for comparison of sequences against the COI-5P PHMMs, which were originally trained using the `aphid` package as well. The `ape` package is a requirement as well because all `coi5p` internally converts DNA and amino acid sequences to the ape "DNAbin" and "AAbin" object types to increase computational efficiency.
-
-As previously stated, `coi5p` is also dependent on [the sequinr package](https://cran.r-project.org/web/packages/seqinr/index.html) for translation of sequences when [the genetic code associated with the sample](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi) is known.
+The `coi5p` package is dependent on [the `aphid` package](https://github.com/shaunpwilkinson/aphid) for comparison of sequences against the COI-5P PHMMs. The `ape` package is a requirement as well because `coi5p` internally converts all DNA and amino acid sequences to the ape "DNAbin" and "AAbin" object types to increase computational efficiency. As previously stated, `coi5p` is also dependent on [the sequinr package](https://cran.r-project.org/web/packages/seqinr/index.html) for translation of sequences when [the genetic code associated with the sample](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi) is known.
 
 
 ### Using the package
