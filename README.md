@@ -16,6 +16,11 @@ devtools::install_github("CNuge/coi5p", build_vignettes = TRUE)
 library(coi5p)
 ```
 
+The vignette can then be accessed from R using the following command:
+```
+vignette("coi5p-vignette")
+```
+
 ## How to use it
 
 Below is a brief demonstration to get the user started, please consult the package vignette for a more detailed explanation of `coi5p`'s functionality.
