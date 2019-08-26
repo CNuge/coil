@@ -56,7 +56,8 @@ output = coi5p_pipe(example_nt_string)
 ```
 Calling the variable name prints the coi5p object's summary and shows all of the important information, including: the original raw sequence, the sequence set in reading frame, the amino acid sequence and the summary stats regarding the likelihood of the sequence containing an error.
 ```
-output #will return:
+output 
+#calling output will return the following:
 #coi5p barcode sequence
 #raw sequence:
 #ctctacttgatttttggtgcatgag...ggacccaattctctatcaacactta
