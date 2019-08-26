@@ -45,13 +45,13 @@ print.coi5p = function(x, ...){
       l6 = paste("The sequence likely contains an insertion or deletion.\nStop codon present: ",
                  x$stop_codons,
                  ", Amino acid PHMM score:",
-                 x$aaScore,
+                 x$aaScore, '\n',
                  sep = "")
     }else{
       l6 = paste("The sequence likely does not contain an insertion or deletion.\nStop codon present: ",
                  x$stop_codons,
                  ", Amino acid PHMM score:",
-                 x$aaScore,
+                 x$aaScore, '\n',
                  sep = "")
     }
     lines = c(lines, l6)

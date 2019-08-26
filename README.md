@@ -56,7 +56,16 @@ output = coi5p_pipe(example_nt_string)
 ```
 Calling the variable name prints the coi5p object's summary and shows all of the important information, including: the original raw sequence, the sequence set in reading frame, the amino acid sequence and the summary stats regarding the likelihood of the sequence containing an error.
 ```
-output
+output #will return:
+#coi5p barcode sequence
+#raw sequence:
+#ctctacttgatttttggtgcatgag...ggacccaattctctatcaacactta
+#framed sequence:
+#---ctctacttgatttttggtgcat...ggacccaattctctatcaacactta
+#Amino acid sequence:
+#-LYLIFGAWAG?VG?ALSLLIRAEL...LTDRNLNTTFFDPAGGGDPILYQHL
+#The sequence likely does not contain an insertion or deletion.
+#Stop codon present: FALSE, Amino acid PHMM score:-209.98592
 ```
 The coi5p object has the following components that can be extracted by the user using the dollar sign notation.
 ```
