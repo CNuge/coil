@@ -16,13 +16,6 @@ devtools::install_github("CNuge/coi5p", build_vignettes = TRUE)
 library(coi5p)
 ```
 
-Not implemented for beta: *To download and install `coi5p` directly from cran, type the following commands into R.*
-```
-install.packages("coi5p")
-library(coi5p)
-```
-
-
 ## How to use it
 
 Below is a brief demonstration to get the user started, please consult the package vignette for a more detailed explanation of `coi5p`'s functionality.
