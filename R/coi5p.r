@@ -44,7 +44,7 @@ validate_coi5p = function(new_instance){
 #' The nucleotide string can be input as upper case, but will be automatically converted to lower case.
 #' @param name an optional character string. Identifier for the sequence.
 #'
-#' @return an object of class code{"coi5p"}
+#' @return an object of class \code{"coi5p"}
 #' @examples
 #' dat = coi5p(example_nt_string)
 #' #named coi5p sequence
@@ -68,7 +68,7 @@ coi5p = function(x = character(), name = character()){
 #' @param x a coi5p class object
 #' @param ... additional arguments to be passed between methods.
 #'
-#' @return an object of class code{"coi5p"}
+#' @return an object of class \code{"coi5p"}
 #' @seealso \code{\link{coi5p}}
 #' @examples
 #' #previously run function:
@@ -118,7 +118,7 @@ frame.coi5p = function(x, ... ){
 #' Passing frame_offset = 1 would make the second character in the framed sequence the the first nucelotide of
 #' the first codon.
 #'
-#' @return an object of class code{"coi5p"}
+#' @return an object of class \code{"coi5p"}
 #' @seealso \code{\link{coi5p}}
 #' @seealso \code{\link{frame}}
 #' @seealso \code{\link{which_trans_table}}
@@ -169,7 +169,7 @@ translate.coi5p = function(x, ..., trans_table = 0, frame_offset = 0){
 #' are likely to contain an indel. Default is -363.87. Values lower than this will be classified
 #' as likely to contain an indel and values higer will be classified as not likely to contain an indel.
 #'
-#' @return an object of class code{"coi5p"}
+#' @return an object of class \code{"coi5p"}
 #' @seealso \code{\link{coi5p}}
 #' @seealso \code{\link{frame}}
 #' @seealso \code{\link{translate}}

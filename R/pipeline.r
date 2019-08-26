@@ -22,7 +22,7 @@
 #' are likely to contain an indel. Default is -345.95. Values lower than this will be classified
 #' as likely to contain an indel and values higer will be classified as not likely to contain an indel.
 #'
-#' @return an object of class code{"coi5p"}
+#' @return an object of class \code{"coi5p"}
 #' @examples
 #' dat = coi5p_pipe(example_nt_string)
 #' #full coi5p object can then be printed
