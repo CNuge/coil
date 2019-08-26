@@ -95,6 +95,7 @@ There are four functions that constitute the coi5p analysis pipeline: `coi5p`, `
 Here we will be working with the example dataframe (`example_barcode_data`). Although loading and outputting DNA sequence data in R is outside of the scope of the coi5p package, the supplementary section at the end of this vignette includes an example of how one can load a fasta file into a dataframe with a structure matching that of `example_barcode_data`. 
 
 `example_barcode_data` contains 9 barcode sequences that demonstrate the different abilities of the `coi5p` package. Some sequences are longer than the barcode COI-5P barcode region, some are shorter and some have insertion or deletion errors.
+
 ```{r}
 #this is the example data 
 dim(example_barcode_data)
@@ -126,8 +127,6 @@ example_barcode_data$framed_seq
 
 #has coi5p trimmed characters?
 nchar(example_barcode_data$framed_seq[[5]]) < nchar(example_barcode_data$sequence[[5]])
-
-
 ```
 
 The lapply notation used above is rather clunky, so the coi5p package contains a helper function to aid the user in flattening a list of coi5p objects into a dataframe. By default all of the available object components will be output to the dataframe, but the user can choose a subset of components they wish to extract from the object. Note: this function assumes that the coi5p objects in the list have been put through the same workflow and therefore have a matching set of components. As an example of how you could break it, if you've applied the `translate` function to only one member of the list and not the others then the coi5p objects will have non matching sets of components and `flatten_coi5p` will not work properly.
@@ -140,13 +139,11 @@ flatten_coi5p(example_barcode_data$coi_output, keep_cols = c('framed','aaSeq'))
 #extract all columns
 full_coi5p_df = flatten_coi5p(example_barcode_data$coi_output)
 full_coi5p_df
-
 ```
 
 The memory requirements of the method demonstrated above are trivial because the example dataframe has only nine rows. If thousands or millions of sequences are being processed, keeping all of the coi5p objects in memory at once may prove infeasible (depending on the amount of RAM available on your machine). The following workflow may take slightly more time to execute, but keeps memory usage modest by instantiating only one coi5p object at a time.
 
 ```{r}
-
 full_coi5p_df = data.frame(matrix(ncol = 7, nrow = 0),stringsAsFactors = FALSE )
 colnames(full_coi5p_df) = c("name", "raw", "framed", "aaSeq", "aaScore", "indel_likely", "stop_codons")
 
@@ -158,7 +155,6 @@ for(i in 1:length(example_barcode_data$id)){
 
 	full_coi5p_df = rbind(full_coi5p_df, flatten_coi5p(list(out_data)))
 }
-
 ```
 
 As demonstrated here, the `coi5p` package allows for robust cleaning, contextualization and error assessment of novel COI-5P barcode data. The package's analysis pipeline is designed in a modular fashion, allowing the user to run only the functions required for their given use case. The pipeline is designed with scalability in mind; each sequence is processed individually, allowing for parallelization to optimize analysis speed (i.e. via mapreduce or R's mclapply function) when computational resources are abundant or for the sequential analysis of sequences when limited memory is available.

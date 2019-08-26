@@ -4,22 +4,24 @@ An R package for contextualization and evaluation of COI-5P barcode data
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 --------------------------------------------------------------------------
 
-`coi5p` is an R package designed to aid users in the cleaning and analysis of COI-5P DNA barcode data.
+**coi5p** is an R package designed for the cleaning, contextualization and assessment of cytochrome c oxidase I DNA barcode data ([COI-5P, or the five prime portion of COI](https://en.wikipedia.org/wiki/Cytochrome_c_oxidase_subunit_I)). It contains functions for placing COI-5P barcode sequences into a common reading frame, translating DNA sequences to amino acids and for assessing the likelihood that a given barcode sequence includes an insertion or deletion error. These functions are provided as a single function analysis pipeline and are also available individually for efficient and targeted analysis of barcode data.
 
 ## Installation
 
-To download and install `coi5p` directly from cran, type the following commands into R.
-```
-install.packages("coi5p")
-library(coi5p)
-```
-Alternatively, you can download the development version of `coi5p` directly from GitHub. You'll need to have the R package `devtools` installed and loaded.
+At the moment, you can download the development version of `coi5p` directly from GitHub. You'll need to have the R package `devtools` installed and loaded.
 ```
 #install.packages("devtools")
 #library(devtools)
 devtools::install_github("CNuge/coi5p", build_vignettes = TRUE)
 library(coi5p)
 ```
+
+Not implemented for beta: *To download and install `coi5p` directly from cran, type the following commands into R.*
+```
+install.packages("coi5p")
+library(coi5p)
+```
+
 
 ## How to use it
 
@@ -59,7 +61,7 @@ All of the steps of the pipeline can be called at once through the `coi5p_pipe` 
 ```
 output = coi5p_pipe(example_nt_string)
 ```
-Calling the variable name prints the coi5p object's summary and shows us all of the important information, including: the original raw sequence, the sequence set in reading frame, the amino acid sequence and the summary stats regarding the likelihood of the sequence containing an error.
+Calling the variable name prints the coi5p object's summary and shows all of the important information, including: the original raw sequence, the sequence set in reading frame, the amino acid sequence and the summary stats regarding the likelihood of the sequence containing an error.
 ```
 output
 ```
