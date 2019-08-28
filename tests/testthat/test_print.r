@@ -4,6 +4,9 @@ test_that("coi5p objects are printed properly", {
   seqname = "test_seq1"
   sequence = 'ctttacctgatttttggtgcatgagcaggtatagttggaacagccctaagtctcctaattcgagctgaacttgggcaacctggatcacttttaggagatgatcagatttataatgtaatcgtaaccgcccacgcttttgtaataatctttttcatggttataccaattataattggtggtttcggaaattgattagttcctttaataattggagcgccagatatagccttcccacgaataaataacataagtttctgacttcttccaccatcatttcttcttctcctcgcctctgctggagtagaagctggagcaggtactggttgaacagtttatcctccattagctagcaatctagcacatgctggaccatctgttgatttagctattttttctcttcacttagccggtgtttcatcaattttagcttcaattaattttatcacaaccattattaatataaaaccaccagctatttcccaatatcaaacaccattatttgtttgatctattcttgtaaccactattcttcttctcctctcacttccagttcttgcagcaggaattacaatattacttacagatcgtaaccttaatactacattctttgaccctgcaggtggaggagacccaatcctttatcaacattta'
 
+  sequence2 = 'ctttatttaatttttggtgcatgagcaggaatagttggaacggctttaagtcttctaatccgagctgaactaggaccaacctgggtctctcctagggggatgatcaaatttataatgtaattgtaaccgcccatgcttttgtaataattttctttatagtaatacctgtcataattggtggttttggaaattaactaattccattaataattggtgcacctgacatagccttcccacgaataaataacataagctcctgacttcttccaccatcatttctccttctcctcgcctccgctggggttgaagccggagcaggtaccggttgaacagtttaccccccactggcaagcaaccttgctcatgccggaccatctgttgatttagctatcttctccctccatttagctggtatttcatcaattttagcctcaatccaacttcatcacaactattattaatataaaacccccagccatttctcaatatcaaacaccactatttgtttgatctatccttgtaactactattcttctcctcctttccctcccagttcttgcagcaggaattacaatcttacttacagaccgcaaccttaatactacattctttgatcctgcaggtggaggagacccaatcctttaccaacaccta'
+
+
   dat = coi5p(sequence)
 
   expected1 = "coi5p barcode sequence
@@ -101,5 +104,25 @@ Stop codon present: FALSE, Amino acid PHMM score:-198.41257"
   dstr6 = capture_output(dat, print=TRUE)
 
   expect_equal(dstr6, expected6)
+
+
+  #test a sequence with errors prints properly
+
+  dat = coi5p_pipe(sequence2)
+
+  expected7 = "coi5p barcode sequence
+raw sequence:
+ctttatttaatttttggtgcatgag...agacccaatcctttaccaacaccta
+framed sequence:
+---ctttatttaatttttggtgcat...agacccaatcctttaccaacaccta
+Amino acid sequence:
+-LYLIFGAWAG?VGTALSLLIRAEL...LTDRNLNTTFFDPAGGGDPILYQHL
+The sequence likely contains an insertion or deletion.
+Stop codon present: TRUE, Amino acid PHMM score:-791.11943"
+
+  dstr7 = capture_output(dat, print=TRUE)
+
+  expect_equal(dstr7, expected7)
+
 
 })
