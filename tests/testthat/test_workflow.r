@@ -11,7 +11,7 @@ test_that("A normal sequence in framed and translated properly", {
   expect_equal(dat$name, seqname)
 
   #test the pipeline on a single instance
-  data_full = coi5p_pipe(sequence,name = seqname, trans_table = 5)
+  data_full = coi5p_pipe(sequence, name = seqname, trans_table = 5)
 
   expect_equal(data_full$raw, sequence)
   expect_equal(data_full$name, seqname)
@@ -26,7 +26,10 @@ test_that("A normal sequence in framed and translated properly", {
     coi5p_pipe(x)
   })
 
-  out_df = flatten_coi5p(coi_output, keep_cols = c("raw", "stop_codons"))
+  out_df = flatten_coi5p(coi_output)
+
+  out_df = flatten_coi5p(coi_output, keep_cols = c("name", "raw", "stop_codons"))
+
   expect_equal(out_df$stop_codons, c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE))
 
   expect_equal(out_df$raw, tolower(example_barcode_data$sequence))
@@ -36,5 +39,14 @@ test_that("A normal sequence in framed and translated properly", {
   expect_error(flatten_coi5p(coi_output, keep_cols =c("raw", "weird_name")),
                "The coi5p objects you are flattening does not contain the column: weird_name")
 
+  coi_output = lapply(1:length(example_barcode_data$sequence), function(i){
+    coi5p_pipe(example_barcode_data$sequence[[i]], name = example_barcode_data$id[[i]])
+  })
+
+  out_df = flatten_coi5p(coi_output)
+
+  out_df = flatten_coi5p(coi_output, keep_cols = c("name", "raw", "stop_codons"))
+
+  expect_equal(out_df$name, example_barcode_data$id)
 })
 
