@@ -25,12 +25,8 @@ validate_coi5p = function(new_instance){
   for(c in sort(unique(strsplit(new_instance$raw, "")[[1]]))){
     if(!c %in% allowed){
       stop(paste("Unallowed character in DNA string:", c,
-                 "\n Valid characters are: a t g c - n"))
+                 "\nValid characters are: a t g c - n"))
     }
-  }
-
-  if(new_instance$raw != tolower(new_instance$raw)){
-    stop("Unable to convert DNA string to lower case")
   }
 
   new_instance
