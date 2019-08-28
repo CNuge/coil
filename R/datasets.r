@@ -73,6 +73,10 @@
 # source('R/translation.r')
 # load('R/sysdata.rda')
 
+#trans_df = new_trans
+#new_trans = read.csv('/home/cnuge/bin/DAPR/scripts/family_tanslation_table.tsv' , sep = '\t')
+#new_trans$phylogeny = tolower(new_trans$phylogeny)
+
 ###
 # For storing data in the R folder - used currently
 ###
