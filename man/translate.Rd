@@ -24,7 +24,7 @@ Passing frame_offset = 1 would make the second character in the framed sequence 
 the first codon.}
 }
 \value{
-an object of class code{"coi5p"}
+an object of class \code{"coi5p"}
 }
 \description{
 Translate a coi5p sequence.

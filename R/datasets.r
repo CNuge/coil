@@ -73,16 +73,12 @@
 # source('R/translation.r')
 # load('R/sysdata.rda')
 
-#trans_df = new_trans
-#new_trans = read.csv('/home/cnuge/bin/DAPR/scripts/family_tanslation_table.tsv' , sep = '\t')
-#new_trans$phylogeny = tolower(new_trans$phylogeny)
-
 ###
 # For storing data in the R folder - used currently
 ###
 #
 #use_data(nt_PHMM , aa_PHMM, trans_df, example_nt_string, overwrite = TRUE, internal = TRUE)
 
-#This saves the data to the /data/ folder so it can be accessed by the package
-#seems better to put them in the sysdata.rda folder and use them internally
-
+#new_trans = read.csv('/home/cnuge/bin/DAPR/scripts/family_tanslation_table.tsv' , sep = '\t')
+#new_trans$phylogeny = tolower(new_trans$phylogeny)
+#trans_df = new_trans

@@ -30,7 +30,7 @@ are likely to contain an indel. Default is -345.95. Values lower than this will 
 as likely to contain an indel and values higer will be classified as not likely to contain an indel.}
 }
 \value{
-an object of class code{"coi5p"}
+an object of class \code{"coi5p"}
 }
 \description{
 This function will take a raw DNA sequence string and run each of the coi5p methods in turn

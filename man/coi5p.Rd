@@ -14,7 +14,7 @@ The nucleotide string can be input as upper case, but will be automatically conv
 \item{name}{an optional character string. Identifier for the sequence.}
 }
 \value{
-an object of class code{"coi5p"}
+an object of class \code{"coi5p"}
 }
 \description{
 Build a coi5p object from a DNA sequence string.

@@ -19,7 +19,7 @@ are likely to contain an indel. Default is -363.87. Values lower than this will 
 as likely to contain an indel and values higer will be classified as not likely to contain an indel.}
 }
 \value{
-an object of class code{"coi5p"}
+an object of class \code{"coi5p"}
 }
 \description{
 Check if coi5p sequence likely contains an indel error.
