@@ -2,8 +2,8 @@
 #'
 #' This function will take a raw DNA sequence string and run each of the coi5p methods in turn
 #' (coi5p, frame, translate, indel_check). Note that if you are not intersted in all components
-#' of the output (i.e. only want sequences in frame or translated), then the coi5p analysis functions
-#' can be called individually to avoid unnecessary computation.
+#' of the output (i.e. only want sequences set in frame reading  or translated), then the
+#' coi5p analysis functions can be called individually to avoid unnecessary computation.
 #'
 #'
 #' @param x a nucleotide string.
@@ -93,7 +93,7 @@ flatten_coi5p = function(x, keep_cols = "all"){
       stop("flatten_coi5p is not designed to return the data component of the coi5p object, it is for internal use only.")
     }
     if(!v %in% names(x[[1]])){
-      stop(paste("The coi5p objects you are flattening does not contain the column:", v))
+      stop(paste("The coi5p objects you are flattening do not contain the column:", v))
     }
     if(v == "name"){
       id_col = sapply(x, function(i) i[["name"]])
@@ -107,6 +107,5 @@ flatten_coi5p = function(x, keep_cols = "all"){
       data_list[[v]] = sapply(x, function(i) i[[v]])
     }
   }
-  return(as.data.frame(data_list,
-                       stringsAsFactors = FALSE))
+  return(as.data.frame(data_list, stringsAsFactors = FALSE))
 }

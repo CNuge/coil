@@ -37,7 +37,7 @@ test_that("A normal sequence in framed and translated properly", {
   expect_error(flatten_coi5p(coi_output, keep_cols = "data"),
                "flatten_coi5p is not designed to return the data component of the coi5p object, it is for internal use only.")
   expect_error(flatten_coi5p(coi_output, keep_cols =c("raw", "weird_name")),
-               "The coi5p objects you are flattening does not contain the column: weird_name")
+               "The coi5p objects you are flattening do not contain the column: weird_name")
 
   coi_output = lapply(1:length(example_barcode_data$sequence), function(i){
     coi5p_pipe(example_barcode_data$sequence[[i]], name = example_barcode_data$id[[i]])
