@@ -2,7 +2,7 @@
 % Please edit documentation in R/translation.r
 \name{translate_codon}
 \alias{translate_codon}
-\title{Censored Translation of a DNA string.}
+\title{Censored Translation of a codon.}
 \usage{
 translate_codon(codon)
 }
@@ -10,9 +10,10 @@ translate_codon(codon)
 \item{codon}{a three letter DNA string.}
 }
 \description{
-Translate a DNA sequence using the censored translation table,
-this translates codons for which the amino acids is unambigious across the
-animal kingdom, and does not translate those for which the amino acid varies
+Translate a codon of DNA sequence using the censored translation table.
+this translates codons for which the amino acids is unambigious across
+mitochondrial genetic codes across the animal kingdom and does not
+translate those for which the amino acid varies,
 but rather outputs a ? in the string.
 }
 \details{

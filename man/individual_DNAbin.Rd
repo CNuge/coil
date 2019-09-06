@@ -2,13 +2,11 @@
 % Please edit documentation in R/deploy_PHMMs.r
 \name{individual_DNAbin}
 \alias{individual_DNAbin}
-\title{build an DNAbin with ape.
-switches the - to n}
+\title{build an DNAbin with ape.}
 \usage{
 individual_DNAbin(dna_string)
 }
 \description{
-build an DNAbin with ape.
-switches the - to n
+Switches the dashes in the seq - to n
 }
 \keyword{internal}

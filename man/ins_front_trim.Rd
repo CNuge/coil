@@ -2,13 +2,13 @@
 % Please edit documentation in R/deploy_PHMMs.r
 \name{ins_front_trim}
 \alias{ins_front_trim}
-\title{check sequence for an early large string of deletions, if it exists then
-return the starting index by which to slice the path and the string}
+\title{Check sequence for an early large string of deletions.
+If it exists then return the starting index by which to slice the path and the string.}
 \usage{
 ins_front_trim(path_out, search_scope = 15)
 }
 \description{
-check sequence for an early large string of deletions, if it exists then
-return the starting index by which to slice the path and the string
+Check sequence for an early large string of deletions.
+If it exists then return the starting index by which to slice the path and the string.
 }
 \keyword{internal}

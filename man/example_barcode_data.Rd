@@ -3,20 +3,13 @@
 \docType{data}
 \name{example_barcode_data}
 \alias{example_barcode_data}
-\title{Example barcode data.
-A nine line dataframe with the following columns:
-id - the unique identifier for the sample
-genetic_code - the genetic code for translation of the sample (features NA for unknowns)
-taxa -  a taxonomic designation associated with the sample
-sequence - the DNA sequence associated with the sample
-notes - notes on the sequence structure}
+\title{Example barcode data.}
 \format{An object of class \code{data.frame} with 9 rows and 5 columns.}
 \usage{
 example_barcode_data
 }
 \description{
-Example barcode data.
-A nine line dataframe with the following columns:
+A nine line dataframe of coi5p barcode data with the following columns:
 id - the unique identifier for the sample
 genetic_code - the genetic code for translation of the sample (features NA for unknowns)
 taxa -  a taxonomic designation associated with the sample

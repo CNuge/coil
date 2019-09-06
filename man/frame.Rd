@@ -22,7 +22,7 @@ Take a coi5p sequence and place it in reading frame.
 }
 \examples{
 #previously run function:
-dat = coi5p(example_nt_string )
+dat = coi5p(example_nt_string)
 
 dat = frame(dat)
 

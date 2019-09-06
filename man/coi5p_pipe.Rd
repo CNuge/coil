@@ -35,8 +35,8 @@ an object of class \code{"coi5p"}
 \description{
 This function will take a raw DNA sequence string and run each of the coi5p methods in turn
 (coi5p, frame, translate, indel_check). Note that if you are not intersted in all components
-of the output (i.e. only want sequences in frame or translated), then the coi5p analysis functions
-can be called individually to avoid unnecessary computation.
+of the output (i.e. only want sequences set in frame reading  or translated), then the
+coi5p analysis functions can be called individually to avoid unnecessary computation.
 }
 \examples{
 dat = coi5p_pipe(example_nt_string)

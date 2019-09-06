@@ -14,9 +14,13 @@ an integer indicating the correct translation table.
 }
 \description{
 Recommends which translation table to use if taxonomic data is avaliable.
+The reccomendations are based on the translation tables reported for different
+taxonomic classifications on the barcode of life database
+(http://www.boldsystems.org/index.php).
 }
 \details{
-If which table is unable to identify a translation table to utilize, more information on translation tables can be found here: https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi
+If which_trans_table is unable to identify a translation table to utilize,
+more information on translation tables can be found here: https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi
 }
 \examples{
 which_trans_table("Chordata") #phylum

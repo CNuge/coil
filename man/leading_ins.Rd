@@ -2,15 +2,12 @@
 % Please edit documentation in R/deploy_PHMMs.r
 \name{leading_ins}
 \alias{leading_ins}
-\title{Check for a large number of leading inserted bases,
-if this is the case, TRUE is returned and the PHMM
-should be run a second time on the truncated data.}
+\title{Check for a large number of leading inserted bases.}
 \usage{
 leading_ins(seq_path)
 }
 \description{
-Check for a large number of leading inserted bases,
-if this is the case, TRUE is returned and the PHMM
+If this is the case, TRUE is returned and the PHMM
 should be run a second time on the truncated data.
 }
 \keyword{internal}
