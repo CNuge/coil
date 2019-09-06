@@ -1,27 +1,24 @@
-#' print summary of coi5p object.
+#' Print a summary of a coi5p object.
 #' @param x a coi5p class object.
 #' @param ... additional arguments to be passed between methods.
 #' @keywords internal
 print.coi5p = function(x, ...){
-
+  #header line
   l1 = "coi5p barcode sequence"
-
-  #addition if name
+  #line if the sequence has a name
   if(length(x$name) != 0 ){
     l2 = paste(": ", x$name, "\n",
                sep = "")
   }else{
     l2 = "\n"
   }
-
+  #line for the sequence
   l3 = paste("raw sequence:\n",
               substr(x$raw,1, 25), "..." , substr(x$raw, (nchar(x$raw)-24), nchar(x$raw)),
              "\n",
               sep = "")
-
   lines = c(l1, l2, l3)
-
-  #addition if framed
+  #line to add if sequence is framed
   if( "framed" %in% names(x) ){
     l4 = paste("framed sequence:\n",
                substr(x$framed,1, 25), "...", substr(x$framed, (nchar(x$framed)-24), nchar(x$framed)),
@@ -29,8 +26,7 @@ print.coi5p = function(x, ...){
                sep = "")
     lines = c(lines, l4)
   }
-
-  #addition if translated
+  #line to add if sequence is translated
   if( "aaSeq" %in% names(x) ){
     l5 = paste("Amino acid sequence:\n",
                substr(x$aaSeq, 1, 25), "...", substr(x$aaSeq, (nchar(x$aaSeq)-24), nchar(x$aaSeq)),
@@ -38,8 +34,7 @@ print.coi5p = function(x, ...){
                sep = "")
     lines = c(lines, l5)
   }
-
-  #addition if indel assessment
+  #line to add if indel assessment has been performed
   if( "indel_likely" %in% names(x) ){
     if (x$indel_likely == TRUE){
       l6 = paste("The sequence likely contains an insertion or deletion.\nStop codon present: ",
@@ -56,6 +51,6 @@ print.coi5p = function(x, ...){
     }
     lines = c(lines, l6)
   }
-
+  #join the lines into a single string
   cat(lines,sep = "")
 }
