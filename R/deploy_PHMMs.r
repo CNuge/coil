@@ -43,7 +43,7 @@ leading_ins = function(seq_path){
 }
 
 #' Check sequence for an early large string of deletions.
-#' if it exists then return the starting index by which to slice the path and the string
+#' If it exists then return the starting index by which to slice the path and the string.
 #' @keywords internal
 ins_front_trim = function(path_out, search_scope = 15){
 	if(sum(path_out[1:search_scope] == 2)>2){
@@ -121,10 +121,8 @@ set_frame = function(org_seq , path_out){
 		}else if ( path_out[i] == 1){
 			#in either of these instances we want to trim the last bp, as its
 			#dangling in a sea of inserts or deletes and likely a random profile match
-			#if (path_out[i-1] == 2 & path_out[i-2] == 2){
 			if (2 %in% path_out[(i-4):(i-1)]){
 				org_seq_end = org_seq_end - 1
-			#}else if (path_out[i-1] == 0 & path_out[i-2] == 0){
 			}else if (0 %in% path_out[(i-4):(i-1)]){
 			  	org_seq_end = org_seq_end - 1
 			}else{
