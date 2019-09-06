@@ -1,6 +1,7 @@
 
 #' build an DNAbin with ape.
-#' switches the - to n
+#'
+#' Switches the dashes in the seq - to n
 #'
 #' @keywords internal
 individual_DNAbin = function(dna_string){
@@ -15,8 +16,9 @@ individual_AAbin = function(aa_string){
 }
 
 
-#' Check for a large number of leading inserted bases,
-#' if this is the case, TRUE is returned and the PHMM
+#' Check for a large number of leading inserted bases.
+#'
+#' If this is the case, TRUE is returned and the PHMM
 #' should be run a second time on the truncated data.
 #' @keywords internal
 leading_ins = function(seq_path){
@@ -40,8 +42,8 @@ leading_ins = function(seq_path){
 	}
 }
 
-#' check sequence for an early large string of deletions, if it exists then
-#' return the starting index by which to slice the path and the string
+#' Check sequence for an early large string of deletions.
+#' if it exists then return the starting index by which to slice the path and the string
 #' @keywords internal
 ins_front_trim = function(path_out, search_scope = 15){
 	if(sum(path_out[1:search_scope] == 2)>2){
@@ -57,7 +59,11 @@ ins_front_trim = function(path_out, search_scope = 15){
 
 
 #' Take an input sequence and get it into the reading frame.
-#' Uses the path of the
+#'
+#' Uses the path of the ntPHMM to locate the first contigious
+#' set of 5 matching base pairs (5 sequential 1s) for both the
+#' front and the back of the sequence. Sequence information outside of this
+#' first set of matches is trimmed (low probability of being true barcode sequence).
 #' @keywords internal
 set_frame = function(org_seq , path_out){
 	org_seq_vec = strsplit(tolower(org_seq), split='')[[1]]

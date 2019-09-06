@@ -10,7 +10,6 @@ new_coi5p = function(x = character(), name = character()){
   if(length(x) == 0){
     stop("Must pass a DNA sequence.")
   }
-
   structure(list(name = name, raw = tolower(x)) , class = "coi5p")
 }
 
@@ -28,7 +27,6 @@ validate_coi5p = function(new_instance){
                  "\nValid characters are: a t g c - n"))
     }
   }
-
   new_instance
 }
 
@@ -68,7 +66,7 @@ coi5p = function(x = character(), name = character()){
 #' @seealso \code{\link{coi5p}}
 #' @examples
 #' #previously run function:
-#' dat = coi5p(example_nt_string )
+#' dat = coi5p(example_nt_string)
 #'
 #' dat = frame(dat)
 #'
@@ -84,9 +82,8 @@ frame = function(x, ...){
 #' @rdname frame
 #' @export
 frame.coi5p = function(x, ... ){
-  #input is the output structure from coi5p
+  #input is a coi5p object.
   #set the reading frame and store the framed string in $framed
-
   x$data$ntBin = individual_DNAbin(x$raw)
   x$data$ntPHMMout = aphid::Viterbi(nt_PHMM, x$data$ntBin, odds = FALSE)
 
@@ -97,7 +94,6 @@ frame.coi5p = function(x, ... ){
   }else{
     trim_temp = x$raw
   }
-
   x$framed = set_frame(trim_temp, x$data$ntPHMMout[['path']])
   return(x)
 }
@@ -111,8 +107,8 @@ frame.coi5p = function(x, ... ){
 #' of the sample is known, use the function which_trans_table() to determine the translation table to use.
 #' @param frame_offset The offset to the reading frame to be applied for translation. By default the offset
 #' is zero, so the first character in the framed sequence is considered the first nucelotide of the first codon.
-#' Passing frame_offset = 1 would make the second character in the framed sequence the the first nucelotide of
-#' the first codon.
+#' Passing frame_offset = 1 would offset the sequence by one and therefore make the second character in the
+#'  framed sequence the the first nucelotide of the first codon.
 #'
 #' @return an object of class \code{"coi5p"}
 #' @seealso \code{\link{coi5p}}
@@ -152,7 +148,6 @@ translate.coi5p = function(x, ..., trans_table = 0, frame_offset = 0){
 
     x$aaSeq = paste(aa_vec, collapse= "")
   }
-
   return(x)
 }
 
@@ -197,8 +192,8 @@ indel_check.coi5p = function(x, ..., indel_threshold = -363.87){
 
   x$data$aaBin = individual_AAbin(x$aaSeq)
   x$data$aaPHMMout = aphid::Viterbi(aa_PHMM, x$data$aaBin, odds = FALSE)
-
   x$aaScore = x$data$aaPHMMout[['score']]
+
   if(x$aaScore > indel_threshold){
     x$indel_likely = FALSE
   }else{
@@ -210,6 +205,5 @@ indel_check.coi5p = function(x, ..., indel_threshold = -363.87){
   }else{
     x$stop_codons = FALSE
   }
-
   return(x)
 }
