@@ -3,10 +3,12 @@ test_that("coi5p objects are printed properly", {
   #baseline obj
   seqname = "test_seq1"
   sequence = 'ctttacctgatttttggtgcatgagcaggtatagttggaacagccctaagtctcctaattcgagctgaacttgggcaacctggatcacttttaggagatgatcagatttataatgtaatcgtaaccgcccacgcttttgtaataatctttttcatggttataccaattataattggtggtttcggaaattgattagttcctttaataattggagcgccagatatagccttcccacgaataaataacataagtttctgacttcttccaccatcatttcttcttctcctcgcctctgctggagtagaagctggagcaggtactggttgaacagtttatcctccattagctagcaatctagcacatgctggaccatctgttgatttagctattttttctcttcacttagccggtgtttcatcaattttagcttcaattaattttatcacaaccattattaatataaaaccaccagctatttcccaatatcaaacaccattatttgtttgatctattcttgtaaccactattcttcttctcctctcacttccagttcttgcagcaggaattacaatattacttacagatcgtaaccttaatactacattctttgaccctgcaggtggaggagacccaatcctttatcaacattta'
-
+  #sequence 2 contians indel errors
   sequence2 = 'ctttatttaatttttggtgcatgagcaggaatagttggaacggctttaagtcttctaatccgagctgaactaggaccaacctgggtctctcctagggggatgatcaaatttataatgtaattgtaaccgcccatgcttttgtaataattttctttatagtaatacctgtcataattggtggttttggaaattaactaattccattaataattggtgcacctgacatagccttcccacgaataaataacataagctcctgacttcttccaccatcatttctccttctcctcgcctccgctggggttgaagccggagcaggtaccggttgaacagtttaccccccactggcaagcaaccttgctcatgccggaccatctgttgatttagctatcttctccctccatttagctggtatttcatcaattttagcctcaatccaacttcatcacaactattattaatataaaacccccagccatttctcaatatcaaacaccactatttgtttgatctatccttgtaactactattcttctcctcctttccctcccagttcttgcagcaggaattacaatcttacttacagaccgcaaccttaatactacattctttgatcctgcaggtggaggagacccaatcctttaccaacaccta'
 
-
+  #######
+  # print test 1
+  #######
   dat = coi5p(sequence)
 
   expected1 = "coi5p barcode sequence
@@ -17,6 +19,12 @@ ctttacctgatttttggtgcatgag...agacccaatcctttatcaacattta"
 
   expect_equal(dstr1, expected1)
 
+  #######
+  # print test 2
+  #######
+  # a coi5p object with a name
+
+  dat = coi5p_pipe(sequence, name = seqname)
 
   expected2 = "coi5p barcode sequence: test_seq1
 raw sequence:
@@ -28,26 +36,14 @@ Amino acid sequence:
 The sequence likely does not contain an insertion or deletion.
 Stop codon present: FALSE, Amino acid PHMM score:-198.41257"
 
-#obj with name
+  dstr2 = capture_output(dat, print=TRUE)
 
-dat = coi5p_pipe(sequence, name = seqname)
+  expect_equal(dstr2, expected2)
 
-expected2 = "coi5p barcode sequence: test_seq1
-raw sequence:
-ctttacctgatttttggtgcatgag...agacccaatcctttatcaacattta
-framed sequence:
----ctttacctgatttttggtgcat...agacccaatcctttatcaacattta
-Amino acid sequence:
--LYLIFGAWAG?VGTALSLLIRAEL...LTDRNLNTTFFDPAGGGDPILYQHL
-The sequence likely does not contain an insertion or deletion.
-Stop codon present: FALSE, Amino acid PHMM score:-198.41257"
-
-dstr2 = capture_output(dat, print=TRUE)
-
-expect_equal(dstr2, expected2)
-
-
-  #object after each stage
+  #######
+  # print test 3
+  #######
+  #test object print after each stage
   dat = coi5p(sequence, name = seqname)
 
   expected3 = "coi5p barcode sequence: test_seq1
@@ -58,7 +54,9 @@ ctttacctgatttttggtgcatgag...agacccaatcctttatcaacattta"
 
   expect_equal(dstr3, expected3)
 
-
+  #######
+  # print test 4
+  #######
 
   dat = frame(dat)
   expected4 = "coi5p barcode sequence: test_seq1
@@ -71,8 +69,9 @@ framed sequence:
 
   expect_equal(dstr4, expected4)
 
-
-
+  #######
+  # print test 5
+  #######
 
   dat = translate(dat)
 
@@ -88,6 +87,9 @@ Amino acid sequence:
 
   expect_equal(dstr5, expected5)
 
+  #######
+  # print test 6
+  #######
 
   dat = indel_check(dat)
 
@@ -105,7 +107,9 @@ Stop codon present: FALSE, Amino acid PHMM score:-198.41257"
 
   expect_equal(dstr6, expected6)
 
-
+  #######
+  # print test 7
+  #######
   #test a sequence with errors prints properly
 
   dat = coi5p_pipe(sequence2)
@@ -123,6 +127,5 @@ Stop codon present: TRUE, Amino acid PHMM score:-791.11943"
   dstr7 = capture_output(dat, print=TRUE)
 
   expect_equal(dstr7, expected7)
-
 
 })

@@ -1,8 +1,9 @@
-#' Censored Translation of a DNA string.
+#' Censored Translation of a codon.
 #'
-#' Translate a DNA sequence using the censored translation table,
-#' this translates codons for which the amino acids is unambigious across the
-#' animal kingdom, and does not translate those for which the amino acid varies
+#' Translate a codon of DNA sequence using the censored translation table.
+#' this translates codons for which the amino acids is unambigious across
+#' mitochondrial genetic codes across the animal kingdom and does not
+#' translate those for which the amino acid varies,
 #' but rather outputs a ? in the string.
 #' @param codon a three letter DNA string.
 #' @details
@@ -47,15 +48,15 @@ translate_codon = function(codon){
 	if(grepl('n', (codon),  fixed = TRUE)){
 	  return('-')
 	}
-
 	return(trans_table[[toupper(codon)]])
 }
 
 #' Censored Translation of a DNA string.
 #'
 #' Translate a DNA sequence using the censored translation table,
-#' this translates codons for which the amino acids is unambigious across the
-#' animal kingdom, and does not translate those for which the amino acid varies
+#' this translates codons for which the amino acids is unambigious across
+#' mitochondrial genetic codes across the animal kingdom and does not
+#' translate those for which the amino acid varies,
 #' but rather outputs a ? in the string.
 #' @param dna_str The DNA string to be translated.
 #' @param reading_frame reading frame = 1 means the first bp in the string is the start of the
@@ -63,10 +64,11 @@ translate_codon = function(codon){
 #' dropped from translation respectively.
 #' @details
 #' Censored translation table:
-#'            FFLLSSSSYY?*CCWWLLLLPPPPHHQQRRRRII?MTTTTNN?KSS??VVVVAAAADDEEGGGG
+#'      AA  = FFLLSSSSYY?*CCWWLLLLPPPPHHQQRRRRII?MTTTTNN?KSS??VVVVAAAADDEEGGGG
 #'   Base1  = TTTTTTTTTTTTTTTTCCCCCCCCCCCCCCCCAAAAAAAAAAAAAAAAGGGGGGGGGGGGGGGG
 #'   Base2  = TTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGG
 #'   Base3  = TCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAG
+#' @export
 censored_translation = function(dna_str, reading_frame = 1){
 	num_bp = nchar(dna_str)
 
@@ -85,6 +87,9 @@ censored_translation = function(dna_str, reading_frame = 1){
 #' Determine the translation table to use for a given phylogenetic group.
 #'
 #' Recommends which translation table to use if taxonomic data is avaliable.
+#' The reccomendations are based on the translation tables reported for different
+#' taxonomic classifications on the barcode of life database
+#' (http://www.boldsystems.org/index.php).
 #'
 #' @param x a taxonomic designation (allowed ranks: family, order, class, phylum).
 #' @return an integer indicating the correct translation table.
@@ -94,7 +99,8 @@ censored_translation = function(dna_str, reading_frame = 1){
 #' which_trans_table("Akentrogonida")  #order
 #' which_trans_table("Hydrobiidae") #family
 #' @details
-#' If which table is unable to identify a translation table to utilize, more information on translation tables can be found here: https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi
+#' If which_trans_table is unable to identify a translation table to utilize,
+#' more information on translation tables can be found here: https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi
 #' @export
 which_trans_table = function(x) {
     use_tab = trans_df$trans_table[trans_df$phylogeny == tolower(x)]

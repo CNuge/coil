@@ -1,7 +1,7 @@
 Package: coi5p
 Type: Package
 Title: Contextualization And Evaluation of COI-5P Barcode Data
-Version: 0.1.1
+Version: 1.0.0
 Author: Cameron M. Nugent
 Maintainer: Cameron M. Nugent <nugentc@uoguelph.ca>
 Description: 
