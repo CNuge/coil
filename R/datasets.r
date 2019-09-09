@@ -19,6 +19,9 @@
 "aa_PHMM"
 ###############################################################################
 
+#TODO - error in trans_df, some of the orders are double listed with a family
+#designation as well, need to make sure all taxonomy names are unique
+
 ###############################################################################
 #' Data frame containing the translation table recommendation.
 #'
