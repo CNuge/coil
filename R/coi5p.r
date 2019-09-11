@@ -84,17 +84,18 @@ frame = function(x, ...){
 frame.coi5p = function(x, ... ){
   #input is a coi5p object.
   #set the reading frame and store the framed string in $framed
-  x$data$ntBin = individual_DNAbin(x$raw)
-  x$data$ntPHMMout = aphid::Viterbi(nt_PHMM, x$data$ntBin, odds = FALSE)
+  ntBin = individual_DNAbin(x$raw)
+  ntPHMMout = aphid::Viterbi(nt_PHMM, ntBin, odds = FALSE)
 
-  if(leading_ins(x$data$ntPHMMout[['path']])){
-    trim_temp  = set_frame(x$raw, x$data$ntPHMMout[['path']])
-    x$data$ntBin = individual_DNAbin(trim_temp)
-    x$data$ntPHMMout = aphid::Viterbi(nt_PHMM, x$data$ntBin, odds = FALSE)
+  if(leading_ins(ntPHMMout[['path']])){
+    trim_temp  = set_frame(x$raw, ntPHMMout[['path']])
+    ntBin = individual_DNAbin(trim_temp)
+    ntPHMMout = aphid::Viterbi(nt_PHMM, ntBin, odds = FALSE)
   }else{
     trim_temp = x$raw
   }
-  x$framed = set_frame(trim_temp, x$data$ntPHMMout[['path']])
+  x$data$ntPath = ntPHMMout[['path']]
+  x$framed = set_frame(trim_temp, x$data$ntPath)
   return(x)
 }
 
@@ -190,9 +191,9 @@ indel_check.coi5p = function(x, ..., indel_threshold = -363.87){
     stop("indel_check function only accepts framed and translated coi5p objects. See functions: frame, translate.")
   }
 
-  x$data$aaBin = individual_AAbin(x$aaSeq)
-  x$data$aaPHMMout = aphid::Viterbi(aa_PHMM, x$data$aaBin, odds = FALSE)
-  x$aaScore = x$data$aaPHMMout[['score']]
+  aaBin = individual_AAbin(x$aaSeq)
+  aaPHMMout = aphid::Viterbi(aa_PHMM, aaBin, odds = FALSE)
+  x$aaScore = aaPHMMout[['score']]
 
   if(x$aaScore > indel_threshold){
     x$indel_likely = FALSE
