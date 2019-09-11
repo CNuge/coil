@@ -141,7 +141,7 @@ full_coi5p_df = flatten_coi5p(example_barcode_data$coi_output)
 full_coi5p_df
 ```
 
-The memory requirements of the method demonstrated above are trivial because the example dataframe has only nine rows. If thousands or millions of sequences are being processed, keeping all of the coi5p objects in memory at once may prove infeasible (depending on the amount of RAM available on your machine). The following workflow may take slightly more time to execute, but keeps memory usage modest by instantiating only one coi5p object at a time.
+The memory requirements of the method demonstrated above are trivial because the example dataframe has only nine rows. If millions of sequences are being processed, then keeping all of the coi5p objects in memory at once may become prohibitive. This will depend on the amount of RAM available on your machine. The average `coi5p_pipe` output is ~6KB in size, so processing 1 million sequences at once would occupy ~6GB of RAM. If you are trying to limit RAM usage, the following workflow can help keep RAM requirements modest by instantiating only one coi5p object at a time, but as a tradeoff may take slightly more time to execute.
 
 ```{r}
 full_coi5p_df = data.frame(matrix(ncol = 7, nrow = 0),stringsAsFactors = FALSE )
@@ -152,12 +152,13 @@ for(i in 1:length(example_barcode_data$id)){
 	out_data = coi5p_pipe(example_barcode_data$sequence[i], 
 							name = example_barcode_data$id[i], 
 							trans_table = example_barcode_data$genetic_code[i])
-
+  #for extreme memory conservation - could write each line of output to a .csv
+	#instead of binding it to an output dataframe.
 	full_coi5p_df = rbind(full_coi5p_df, flatten_coi5p(list(out_data)))
 }
 ```
 
-As demonstrated here, the `coi5p` package allows for robust cleaning, contextualization and error assessment of novel COI-5P barcode data. The package's analysis pipeline is designed in a modular fashion, allowing the user to run only the functions required for their given use case. The pipeline is designed with scalability in mind; each sequence is processed individually, allowing for parallelization to optimize analysis speed (i.e. via mapreduce or R's mclapply function) when computational resources are abundant or for the sequential analysis of sequences when limited memory is available.
+As demonstrated here, the `coi5p` package allows for robust cleaning, contextualization and error assessment of novel COI-5P barcode data. The package's analysis pipeline is designed in a modular fashion, allowing the user to run only the functions required for their given use case. The pipeline is designed with scalability in mind; each sequence is processed individually, allowing for parallelization to optimize analysis speed (i.e. via R's mclapply function) when computational resources are abundant or for the sequential analysis of sequences when limited memory is available.
 
 ### Supplementary Information
 #### Loading and manipulating a fasta file
