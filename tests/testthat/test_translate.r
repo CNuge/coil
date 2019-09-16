@@ -19,6 +19,7 @@ test_that("The translation related functions are performing as expected", {
   expect_equal(which_trans_table("Vespidae"), 5)
   expect_equal(which_trans_table("Rhagionidae"), 5)
   expect_equal(which_trans_table("Iguanidae"), 0)
+  expect_equal(which_trans_table("NotPhylogentic"), 0)
 
 })
 
