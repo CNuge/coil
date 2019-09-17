@@ -6,7 +6,7 @@
 # aa_filename = ''
 # new_aa = readPHMM(aa_filename)
 
-#use_data(nt_PHMM, aa_PHMM, trans_df, overwrite = TRUE, internal = TRUE)
+#use_data(nt_PHMM, aa_PHMM, trans_df, example_nt_string, overwrite = TRUE, internal = TRUE)
 
 #then load for dev with:
 # load('R/sysdata.rda')
