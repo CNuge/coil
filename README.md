@@ -32,7 +32,7 @@ The package is built around the custom `coi5p` object, which takes a COI-5P DNA 
   - translating the sequence to amino acids
   - checking the sequence for evidence of insertion or deletion errors
 
-The basic `coi5p` analysis pipleine is as follows:
+The basic `coi5p` analysis pipleline is as follows:
 ```
 example_nt_string #an input DNA string, contained in the coi5p package for demonstration purposes
 
