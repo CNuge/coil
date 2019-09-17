@@ -1,4 +1,18 @@
 
+#TODO - load in the non private data model you choose
+# nt_filename = ''
+# new_nt = readPHMM(nt_filename)
+
+# aa_filename = ''
+# new_aa = readPHMM(aa_filename)
+
+#use_data(nt_PHMM, aa_PHMM, trans_df, overwrite = TRUE, internal = TRUE)
+
+#then load for dev with:
+# load('R/sysdata.rda')
+
+
+
 ###############################################################################
 #' Nucleotide profile hidden markov model for coi5p.
 #'
