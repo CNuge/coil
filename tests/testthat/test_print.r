@@ -34,7 +34,7 @@ framed sequence:
 Amino acid sequence:
 -LYLIFGAWAG?VGTALSLLIRAEL...LTDRNLNTTFFDPAGGGDPILYQHL
 The sequence likely does not contain an insertion or deletion.
-Stop codon present: FALSE, Amino acid PHMM score:-197.41253"
+Stop codon present: FALSE, Amino acid PHMM score:-192.07366"
 
   dstr2 = capture_output(dat, print=TRUE)
 
@@ -101,7 +101,7 @@ framed sequence:
 Amino acid sequence:
 -LYLIFGAWAG?VGTALSLLIRAEL...LTDRNLNTTFFDPAGGGDPILYQHL
 The sequence likely does not contain an insertion or deletion.
-Stop codon present: FALSE, Amino acid PHMM score:-197.41253"
+Stop codon present: FALSE, Amino acid PHMM score:-192.07366"
 
   dstr6 = capture_output(dat, print=TRUE)
 
@@ -122,7 +122,7 @@ framed sequence:
 Amino acid sequence:
 -LYLIFGAWAG?VGTALSLLIRAEL...LTDRNLNTTFFDPAGGGDPILYQHL
 The sequence likely contains an insertion or deletion.
-Stop codon present: TRUE, Amino acid PHMM score:-757.47993"
+Stop codon present: TRUE, Amino acid PHMM score:-799.604549999999"
 
   dstr7 = capture_output(dat, print=TRUE)
 

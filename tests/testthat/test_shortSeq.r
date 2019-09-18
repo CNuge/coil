@@ -3,12 +3,12 @@
 test_that("A short sequence is framed and translated properly", {
 
   sequence = 'tatgctagggaccgcagttagtgtgattattcgtgctgagttaggacagccaggatcacttattgggaacgatcaaatttacaatacaattgtgactgctcatgcctttattataattttcttcatggtgatacctatcataatcggaggattcggtaattgactggtaccggtaatactaggagcaccagatatagctttccctcgtatgaacaacataagattttgattactccctccttccttaacccttcttataatcgggatactaacagaaagaggggcaggaacaggatgaactgtataccctcctctctcaagaaatatccctcactcaggagctagagtagacctaacaattttttcactacatttagctggagccaggtcacttcttggggctattaatttcatcacaacaattattaatatacgagcagctagaatatctcttgatcgaattcctttatttg'
-  sequence_framed = '--------------------------------tatgctagggaccgcagttagtgtgattattcgtgctgagttaggacagccaggatcacttattgggaacgatcaaatttacaatacaattgtgactgctcatgcctttattataattttcttcatggtgatacctatcataatcggaggattcggtaattgactggtaccggtaatactaggagcaccagatatagctttccctcgtatgaacaacataagattttgattactccctccttccttaacccttcttataatcgggatactaacagaaagaggggcaggaacaggatgaactgtataccctcctctctcaagaaatatccctcactcaggagctagagtagacctaacaattttttcactacatttagctggagccaggtcacttcttggggctattaatttcatcacaacaattattaatatacgagcagctagaatatctcttgatcgaattcctttattt'
+  sequence_framed = '---------------------------------atgctagggaccgcagttagtgtgattattcgtgctgagttaggacagccaggatcacttattgggaacgatcaaatttacaatacaattgtgactgctcatgcctttattataattttcttcatggtgatacctatcataatcggaggattcggtaattgactggtaccggtaatactaggagcaccagatatagctttccctcgtatgaacaacataagattttgattactccctccttccttaacccttcttataatcgggatactaacagaaagaggggcaggaacaggatgaactgtataccctcctctctcaagaaatatccctcactcaggagctagagtagacctaacaattttttcactacatttagctggagccaggtcacttcttggggctattaatttcatcacaacaattattaatatacgagcagctagaatatctcttgatcgaattcctttatt'
 
-  sequence_AAcensored = "-----------MLGTAVSVIIRAELGQPGSLIGNDQIYNTIVTAHAFI?IFFMV?PI?IGGFGNWLVPV?LGAPD?AFPRMNN??FWLLPPSLTLL?IG?LTE?GAGTGWTVYPPLS?NIPHSGA?VDLTIFSLHLAGA?SLLGAINFITTIIN?RAA??SLDRIPLF"
-  sequence_AA5 = "-----------MLGTAVSVIIRAELGQPGSLIGNDQIYNTIVTAHAFIMIFFMVMPIMIGGFGNWLVPVMLGAPDMAFPRMNNMSFWLLPPSLTLLMIGMLTESGAGTGWTVYPPLSSNIPHSGASVDLTIFSLHLAGASSLLGAINFITTIINMRAASMSLDRIPLF"
+  sequence_AAcensored = "-----------MLGTAVSVIIRAELGQPGSLIGNDQIYNTIVTAHAFI?IFFMV?PI?IGGFGNWLVPV?LGAPD?AFPRMNN??FWLLPPSLTLL?IG?LTE?GAGTGWTVYPPLS?NIPHSGA?VDLTIFSLHLAGA?SLLGAINFITTIIN?RAA??SLDRIPL-"
+  sequence_AA5 = "-----------MLGTAVSVIIRAELGQPGSLIGNDQIYNTIVTAHAFIMIFFMVMPIMIGGFGNWLVPVMLGAPDMAFPRMNNMSFWLLPPSLTLLMIGMLTESGAGTGWTVYPPLSSNIPHSGASVDLTIFSLHLAGASSLLGAINFITTIINMRAASMSLDRIPL"
 
-  dat = coi5p(sequence )
+  dat = coi5p(sequence)
   expect_equal(dat$raw, sequence)
   expect_identical(dat$name, character(0))
 
@@ -61,12 +61,12 @@ test_that("A short sequence is framed and translated properly", {
   expect_equal(dat2$indel_likely, FALSE)
   expect_equal(dat2$stop_codons, FALSE)
 
-  sequence_3 = 'ggcgctcttctgggggatgaccaaatctataacgtgatcgtcacagcccatgccttcgttatgattttctttatagtcatgccaattataatcgggggctttggaaactgattaattcccctaataatcggagcccctgatatggcattccctcgaataaataacataagcttctgactccttcctccatcctttctcctcctcctgtcttcatcaggagttgaagccggcgcgggtactggatgaacagtatacccccctctagccggcaacctcgcccacgcaggagcctctgttgatttaactatcttctcccttcatttagctggaatctcctcaattttaggagccattaattttattacgaccattattaacataaaacctccagccatctctcagtaccaaaccccccttttcgtttgagccgtgctagttactgctgtccttctattactttccctccccgtcctggca'
-  #trimmed version of this, 81 missing from front, 93 missing from back.
+  sequence_3 = 'caaatctataacgtgatcgtcacagcccatgccttcgttatgattttctttatagtcatgccaattataatcgggggctttggaaactgattaattcccctaataatcggagcccctgatatggcattccctcgaataaataacataagcttctgactccttcctccatcctttctcctcctcctgtcttcatcaggagttgaagccggcgcgggtactggatgaacagtatacccccctctagccggcaacctcgcccacgcaggagcctctgttgatttaactatcttctcccttcatttagctggaatctcctcaattttaggagccattaattttattacgaccattattaacataaaacctccagccatctctcagtaccaaaccccccttttcgtttgagccgtgctagttactgctgtccttctattactttccctccccgtcctggca'
+  #trimmed version of this, 102 missing from front, 93 missing from back.
   #"ctctatttagtatttggtgcctgagccgggatagtaggcaccgccctgagtctactgattcgggcggaactaagccagccgggcgctcttctgggggatgaccaaatctataacgtgatcgtcacagcccatgccttcgttatgattttctttatagtcatgccaattataatcgggggctttggaaactgattaattcccctaataatcggagcccctgatatggcattccctcgaataaataacataagcttctgactccttcctccatcctttctcctcctcctgtcttcatcaggagttgaagccggcgcgggtactggatgaacagtatacccccctctagccggcaacctcgcccacgcaggagcctctgttgatttaactatcttctcccttcatttagctggaatctcctcaattttaggagccattaattttattacgaccattattaacataaaacctccagccatctctcagtaccaaaccccccttttcgtttgagccgtgctagttactgctgtccttctattactttccctccccgtcctggcagcaggcattactatgttacttacagaccgaaatctaaacaccactttctttgacccggcaggcgggggagatccaattttataccaacacctc"
-  sequence3_framed = '------------------------------------------------------------------------------------ggcgctcttctgggggatgaccaaatctataacgtgatcgtcacagcccatgccttcgttatgattttctttatagtcatgccaattataatcgggggctttggaaactgattaattcccctaataatcggagcccctgatatggcattccctcgaataaataacataagcttctgactccttcctccatcctttctcctcctcctgtcttcatcaggagttgaagccggcgcgggtactggatgaacagtatacccccctctagccggcaacctcgcccacgcaggagcctctgttgatttaactatcttctcccttcatttagctggaatctcctcaattttaggagccattaattttattacgaccattattaacataaaacctccagccatctctcagtaccaaaccccccttttcgtttgagccgtgctagttactgctgtccttctattactttccctccccgtcctggca'
-  sequence3_AAcensored = '----------------------------GALLGDDQIYNVIVTAHAFVMIFF?VMPI?IGGFGNWLIPL?IGAPDMAFPR?NN?SFWLLPPSFLLLLSSSGVEAGAGTGWTVYPPLAGNLAHAGASVDLTIFSLHLAGISSILGAINFITTIIN??PPAISQYQTPLFVWAVLVTAVLLLLSLPVLA'
-  sequence3_AA5 = '----------------------------GALLGDDQIYNVIVTAHAFVMIFFMVMPIMIGGFGNWLIPLMIGAPDMAFPRMNNMSFWLLPPSFLLLLSSSGVEAGAGTGWTVYPPLAGNLAHAGASVDLTIFSLHLAGISSILGAINFITTIINMKPPAISQYQTPLFVWAVLVTAVLLLLSLPVLA'
+  sequence3_framed = '---------------------------------------------------------------------------------------------------------caaatctataacgtgatcgtcacagcccatgccttcgttatgattttctttatagtcatgccaattataatcgggggctttggaaactgattaattcccctaataatcggagcccctgatatggcattccctcgaataaataacataagcttctgactccttcctccatcctttctcctcctcctgtcttcatcaggagttgaagccggcgcgggtactggatgaacagtatacccccctctagccggcaacctcgcccacgcaggagcctctgttgatttaactatcttctcccttcatttagctggaatctcctcaattttaggagccattaattttattacgaccattattaacataaaacctccagccatctctcagtaccaaaccccccttttcgtttgagccgtgctagttactgctgtccttctattactttccctccccgtcctggc'
+  sequence3_AAcensored = '-----------------------------------QIYNVIVTAHAFVMIFF?VMPI?IGGFGNWLIPL?IGAPDMAFPR?NN?SFWLLPPSFLLLLSSSGVEAGAGTGWTVYPPLAGNLAHAGASVDLTIFSLHLAGISSILGAINFITTIIN??PPAISQYQTPLFVWAVLVTAVLLLLSLPVL-'
+  sequence3_AA5 = '-----------------------------------QIYNVIVTAHAFVMIFFMVMPIMIGGFGNWLIPLMIGAPDMAFPRMNNMSFWLLPPSFLLLLSSSGVEAGAGTGWTVYPPLAGNLAHAGASVDLTIFSLHLAGISSILGAINFITTIINMKPPAISQYQTPLFVWAVLVTAVLLLLSLPVL'
 
   dat3 = coi5p(sequence_3 )
   expect_equal(dat3$raw, sequence_3)
