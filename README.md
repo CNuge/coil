@@ -9,10 +9,11 @@ An R package for contextualization and evaluation of COI-5P barcode data
 
 ## Installation
 
-At the moment, you can download the development version of `coi5p` directly from GitHub. You'll need to have the R package `devtools` installed and loaded.
+At the moment, you can download the development version of `coi5p` directly from GitHub. You'll need to have the R package `devtools` installed and loaded. Also note if the `build_vignettes` option is set to true, you will need to have the R package `knitr` installed.
 ```
 #install.packages("devtools")
-#library(devtools)
+#install.packages("knitr") #if build_vignettes = TRUE
+#library(devtools) 
 devtools::install_github("CNuge/coi5p", build_vignettes = TRUE)
 library(coi5p)
 ```
