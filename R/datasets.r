@@ -1,10 +1,10 @@
 
 #TODO - pick the  final public data model to save
-# nt_filename = '/home/cnuge/bin/DAPR/public_only_PHMMs/nt_train_all_bold_coi_v2_5perc_subsample-PublicOnlyV1.PHMM'
+# nt_filename = '/home/cnuge/bin/DAPR/public_only_PHMMs/nt_train_all_bold_coi_v2_1perc_subsample-PublicOnly.PHMM'
 # new_nt = readPHMM(nt_filename)
 # nt_PHMM = new_nt
 
-# aa_filename = '/home/cnuge/bin/DAPR/public_only_PHMMs/aa_train_all_bold_coi_v2_5perc_subsample-PublicOnlyV1.PHMM'
+# aa_filename = '/home/cnuge/bin/DAPR/public_only_PHMMs/aa_train_all_bold_coi_v2_1perc_subsample-PublicOnly.PHMM'
 # new_aa = readPHMM(aa_filename)
 # aa_PHMM = new_aa
 
