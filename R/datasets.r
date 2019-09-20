@@ -8,12 +8,13 @@
 # new_aa = readPHMM(aa_filename)
 # aa_PHMM = new_aa
 
-#use_data(nt_PHMM, aa_PHMM, trans_df, example_nt_string, overwrite = TRUE, internal = TRUE)
+  #use_data(nt_PHMM, aa_PHMM, trans_df, example_nt_string, overwrite = TRUE, internal = TRUE)
 
 #then load for dev with:
 # load('R/sysdata.rda')
 
-
+#trans_df = read_tsv('/home/cnuge/Desktop/trans_df_revised.tsv')
+#trans_df = as.data.frame(trans_df)
 
 ###############################################################################
 #' Nucleotide profile hidden markov model for coi5p.
