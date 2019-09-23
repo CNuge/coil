@@ -158,7 +158,7 @@ translate.coi5p = function(x, ..., trans_table = 0, frame_offset = 0){
 #' @param x a coi5p class object for which frame() and translate() have been run.
 #' @param ... additional arguments to be passed between methods.
 #' @param indel_threshold the log likelihood threshold used to assess whether or not sequences
-#' are likely to contain an indel. Default is -363.87. Values lower than this will be classified
+#' are likely to contain an indel. Default is -358.88. Values lower than this will be classified
 #' as likely to contain an indel and values higer will be classified as not likely to contain an indel.
 #'
 #' @return an object of class \code{"coi5p"}
@@ -186,7 +186,7 @@ indel_check = function(x, ...){
 ####
 #' @rdname indel_check
 #' @export
-indel_check.coi5p = function(x, ..., indel_threshold = -363.87){
+indel_check.coi5p = function(x, ..., indel_threshold = -358.88){
   if(is.null(x$framed)|is.null(x$aaSeq) ){
     stop("indel_check function only accepts framed and translated coi5p objects. See functions: frame, translate.")
   }

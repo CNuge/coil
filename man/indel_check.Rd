@@ -7,7 +7,7 @@
 \usage{
 indel_check(x, ...)
 
-\method{indel_check}{coi5p}(x, ..., indel_threshold = -363.87)
+\method{indel_check}{coi5p}(x, ..., indel_threshold = -358.88)
 }
 \arguments{
 \item{x}{a coi5p class object for which frame() and translate() have been run.}
@@ -15,7 +15,7 @@ indel_check(x, ...)
 \item{...}{additional arguments to be passed between methods.}
 
 \item{indel_threshold}{the log likelihood threshold used to assess whether or not sequences
-are likely to contain an indel. Default is -363.87. Values lower than this will be classified
+are likely to contain an indel. Default is -358.88. Values lower than this will be classified
 as likely to contain an indel and values higer will be classified as not likely to contain an indel.}
 }
 \value{
