@@ -84,6 +84,6 @@ output$aaSeq        #the amino acid sequence
 output$aaScore      #the log likelihood score of the amino acid sequence - see vignette for details
 output$indel_likely #a boolean indicating whether the sequence should be double checked for indel errors
 output$stop_codons  #a boolean indicating whether the amino acid sequence contains stop codons.
-output$data         #used internally by the function for data storage
+output$data         #contains the generated nucleotide and amino acid hidden state paths.
 ```
 Most use cases will involve the analysis of multiple sequences. Please consult the package's vignette for a suggested workflow for batch analysis and demonstration of how the batch analysis helper function can be used to build dataframes out of multiple coi5p objects.

@@ -194,6 +194,7 @@ indel_check.coi5p = function(x, ..., indel_threshold = -358.88){
   aaBin = individual_AAbin(x$aaSeq)
   aaPHMMout = aphid::Viterbi(aa_PHMM, aaBin, odds = FALSE)
   x$aaScore = aaPHMMout[['score']]
+  x$data$aaPath = aaPHMMout[['path']]
 
   if(x$aaScore > indel_threshold){
     x$indel_likely = FALSE
