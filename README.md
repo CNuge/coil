@@ -73,7 +73,7 @@ output
 #Amino acid sequence:
 #-LYLIFGAWAG?VG?ALSLLIRAEL...LTDRNLNTTFFDPAGGGDPILYQHL
 #The sequence likely does not contain an insertion or deletion.
-#Stop codon present: FALSE, Amino acid PHMM score:-209.98592
+#Stop codon present: FALSE, Amino acid PHMM score:-206.22045
 ```
 The coi5p object has the following components that can be extracted by the user using the dollar sign notation.
 ```
