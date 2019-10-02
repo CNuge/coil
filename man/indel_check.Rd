@@ -16,7 +16,7 @@ indel_check(x, ...)
 
 \item{indel_threshold}{the log likelihood threshold used to assess whether or not sequences
 are likely to contain an indel. Default is -358.88. Values lower than this will be classified
-as likely to contain an indel and values higer will be classified as not likely to contain an indel.}
+as likely to contain an indel and values higher will be classified as not likely to contain an indel.}
 }
 \value{
 an object of class \code{"coi5p"}

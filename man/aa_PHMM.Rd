@@ -3,13 +3,13 @@
 \docType{data}
 \name{aa_PHMM}
 \alias{aa_PHMM}
-\title{Amino acid profile hidden markov model for coi5p.}
+\title{Amino acid profile hidden Markov model for coi5p.}
 \format{An object of class \code{PHMM} of length 14.}
 \usage{
 aa_PHMM
 }
 \description{
-This model is stored in the coi5p package and was trained on a representitive
+This model is stored in the coi5p package and was trained on a representative
 sample of the barcode of life database (http://www.boldsystems.org/index.php).
 }
 \keyword{internal}

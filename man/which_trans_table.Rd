@@ -13,8 +13,8 @@ which_trans_table(x)
 an integer indicating the correct translation table.
 }
 \description{
-Recommends which translation table to use if taxonomic data is avaliable.
-The reccomendations are based on the translation tables reported for different
+Recommends which translation table to use if taxonomic data is available.
+The recommendations are based on the translation tables reported for different
 taxonomic classifications on the barcode of life database
 (http://www.boldsystems.org/index.php).
 }

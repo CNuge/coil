@@ -1,11 +1,11 @@
 Package: coil
 Type: Package
-Title: Contextualization And Evaluation of COI-5P Barcode Data
+Title: Contextualization and Evaluation of COI-5P Barcode Data
 Version: 1.0.0
 Author: Cameron M. Nugent
 Maintainer: Cameron M. Nugent <nugentc@uoguelph.ca>
 Description: 
-    coil is an R package designed for the cleaning, contextualization and assessment of cytochrome c oxidase I DNA barcode data (COI-5P, or the five prime portion of COI). It contains functions for placing COI-5P barcode sequences into a common reading frame, translating DNA sequences to amino acids and for assessing the likelihood that a given barcode sequence includes an insertion or deletion error. These functions are provided as a single-function pipeline and are also available individually for efficient and targeted analysis of barcode data.
+    This package is designed for the cleaning, contextualization and assessment of cytochrome c oxidase I DNA barcode data (COI-5P, or the five prime portion of COI). It contains functions for placing COI-5P barcode sequences into a common reading frame, translating DNA sequences to amino acids and for assessing the likelihood that a given barcode sequence includes an insertion or deletion error. These functions are provided as a single-function pipeline and are also available individually for efficient and targeted analysis of barcode data.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -19,5 +19,6 @@ Suggests:
     knitr,
     rmarkdown,
     testthat
-VignetteBuilder: knitr
+VignetteBuilder: 
+    knitr
 RoxygenNote: 6.1.1

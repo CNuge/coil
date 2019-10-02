@@ -21,20 +21,20 @@ Default is 0, which indicates that censored translation should be performed. If 
 of the sample is known, use the function which_trans_table() to determine the translation table to use.}
 
 \item{frame_offset}{The offset to the reading frame to be applied for translation. By default the offset
-is zero, so the first character in the framed sequence is considered the first nucelotide of the first codon.
-Passing frame_offset = 1 would make the second character in the framed sequence the the first nucelotide of
+is zero, so the first character in the framed sequence is considered the first nucleotide of the first codon.
+Passing frame_offset = 1 would make the second character in the framed sequence the the first nucleotide of
 the first codon.}
 
 \item{indel_threshold}{the log likelihood threshold used to assess whether or not sequences
 are likely to contain an indel. Default is -345.95. Values lower than this will be classified
-as likely to contain an indel and values higer will be classified as not likely to contain an indel.}
+as likely to contain an indel and values higher will be classified as not likely to contain an indel.}
 }
 \value{
 an object of class \code{"coi5p"}
 }
 \description{
 This function will take a raw DNA sequence string and run each of the coi5p methods in turn
-(coi5p, frame, translate, indel_check). Note that if you are not intersted in all components
+(coi5p, frame, translate, indel_check). Note that if you are not interested in all components
 of the output (i.e. only want sequences set in frame reading  or translated), then the
 coi5p analysis functions can be called individually to avoid unnecessary computation.
 }

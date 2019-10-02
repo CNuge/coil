@@ -107,9 +107,9 @@ frame.coi5p = function(x, ... ){
 #' Default is 0, which indicates that censored translation should be performed. If the taxonomy
 #' of the sample is known, use the function which_trans_table() to determine the translation table to use.
 #' @param frame_offset The offset to the reading frame to be applied for translation. By default the offset
-#' is zero, so the first character in the framed sequence is considered the first nucelotide of the first codon.
+#' is zero, so the first character in the framed sequence is considered the first nucleotide of the first codon.
 #' Passing frame_offset = 1 would offset the sequence by one and therefore make the second character in the
-#'  framed sequence the the first nucelotide of the first codon.
+#'  framed sequence the the first nucleotide of the first codon.
 #'
 #' @return an object of class \code{"coi5p"}
 #' @seealso \code{\link{coi5p}}
@@ -159,7 +159,7 @@ translate.coi5p = function(x, ..., trans_table = 0, frame_offset = 0){
 #' @param ... additional arguments to be passed between methods.
 #' @param indel_threshold the log likelihood threshold used to assess whether or not sequences
 #' are likely to contain an indel. Default is -358.88. Values lower than this will be classified
-#' as likely to contain an indel and values higer will be classified as not likely to contain an indel.
+#' as likely to contain an indel and values higher will be classified as not likely to contain an indel.
 #'
 #' @return an object of class \code{"coi5p"}
 #' @seealso \code{\link{coi5p}}

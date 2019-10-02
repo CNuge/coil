@@ -7,7 +7,7 @@
 set_frame(org_seq, path_out)
 }
 \description{
-Uses the path of the ntPHMM to locate the first contigious
+Uses the path of the ntPHMM to locate the first contiguous
 set of 5 matching base pairs (5 sequential 1s) for both the
 front and the back of the sequence. Sequence information outside of this
 first set of matches is trimmed (low probability of being true barcode sequence).

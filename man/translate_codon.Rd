@@ -11,7 +11,7 @@ translate_codon(codon)
 }
 \description{
 Translate a codon of DNA sequence using the censored translation table.
-this translates codons for which the amino acids is unambigious across
+this translates codons for which the amino acids is unambiguous across
 mitochondrial genetic codes across the animal kingdom and does not
 translate those for which the amino acid varies,
 but rather outputs a ? in the string.

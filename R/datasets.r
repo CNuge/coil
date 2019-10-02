@@ -1,7 +1,7 @@
 ###############################################################################
-#' Nucleotide profile hidden markov model for coi5p.
+#' Nucleotide profile hidden Markov model for coi5p.
 #'
-#' This model is stored in the coi5p package and was trained on a representitive
+#' This model is stored in the coi5p package and was trained on a representative
 #' sample of the barcode of life database (http://www.boldsystems.org/index.php).
 #'
 #' @keywords internal
@@ -9,9 +9,9 @@
 ###############################################################################
 
 ###############################################################################
-#' Amino acid profile hidden markov model for coi5p.
+#' Amino acid profile hidden Markov model for coi5p.
 #'
-#' This model is stored in the coi5p package and was trained on a representitive
+#' This model is stored in the coi5p package and was trained on a representative
 #' sample of the barcode of life database (http://www.boldsystems.org/index.php).
 #'
 #' @keywords internal

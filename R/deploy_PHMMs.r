@@ -60,7 +60,7 @@ ins_front_trim = function(path_out, search_scope = 15){
 
 #' Take an input sequence and get it into the reading frame.
 #'
-#' Uses the path of the ntPHMM to locate the first contigious
+#' Uses the path of the ntPHMM to locate the first contiguous
 #' set of 5 matching base pairs (5 sequential 1s) for both the
 #' front and the back of the sequence. Sequence information outside of this
 #' first set of matches is trimmed (low probability of being true barcode sequence).

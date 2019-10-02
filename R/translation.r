@@ -1,7 +1,7 @@
 #' Censored Translation of a codon.
 #'
 #' Translate a codon of DNA sequence using the censored translation table.
-#' this translates codons for which the amino acids is unambigious across
+#' this translates codons for which the amino acids is unambiguous across
 #' mitochondrial genetic codes across the animal kingdom and does not
 #' translate those for which the amino acid varies,
 #' but rather outputs a ? in the string.
@@ -54,7 +54,7 @@ translate_codon = function(codon){
 #' Censored Translation of a DNA string.
 #'
 #' Translate a DNA sequence using the censored translation table,
-#' this translates codons for which the amino acids is unambigious across
+#' this translates codons for which the amino acids is unambiguous across
 #' mitochondrial genetic codes across the animal kingdom and does not
 #' translate those for which the amino acid varies,
 #' but rather outputs a ? in the string.
@@ -86,8 +86,8 @@ censored_translation = function(dna_str, reading_frame = 1){
 
 #' Determine the translation table to use for a given phylogenetic group.
 #'
-#' Recommends which translation table to use if taxonomic data is avaliable.
-#' The reccomendations are based on the translation tables reported for different
+#' Recommends which translation table to use if taxonomic data is available.
+#' The recommendations are based on the translation tables reported for different
 #' taxonomic classifications on the barcode of life database
 #' (http://www.boldsystems.org/index.php).
 #'

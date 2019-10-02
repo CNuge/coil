@@ -44,8 +44,6 @@ An example execution of the complete coi5p analysis pipeline with default option
 
 ```{r}
 example_nt_string = 'ctctacttgatttttggtgcatgagcaggaatagttggaatagctttaagtttactaattcgcgctgaactaggtcaacccggatctcttttaggggatgatcagatttataatgtgatcgtaaccgcccatgcctttgtaataatcttttttatggttatacctgtaataattggtggctttggcaattgacttgttcctttaataattggtgcaccagatatagcattccctcgaataaataatataagtttctggcttcttcctccttcgttcttacttctcctggcctccgcaggagtagaagctggagcaggaaccggatgaactgtatatcctcctttagcaggtaatttagcacatgctggcccctctgttgatttagccatcttttcccttcatttggccggtatctcatcaattttagcctctattaattttattacaactattattaatataaaacccccaactatttctcaatatcaaacaccattatttgtttgatctattcttatcaccactgttcttctactccttgctctccctgttcttgcagccggaattacaatattattaacagaccgcaacctcaacactacattctttgaccccgcagggggaggggacccaattctctatcaacactta'
-example_nt_string
-
 
 output = coi5p_pipe(example_nt_string)
 output
@@ -57,7 +55,7 @@ Individual components can be obtained from the object using the dollar sign nota
 #see the available components
 names(output)
 #retrieve only the amino acid sequence from the object
-output$aaSeq
+output$aaScore
 ```
 
 By default the pipeline conducts censored translation, avoiding translation of the codons that are known to [code for different amino acids within different species ](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi). If taxonomic information is available for the sample (available ranks: family, order, class, phylum), in most cases you can use the helper function `which_trans_table` to determine the proper genetic code to use. If the taxonomic group contains species that have different genetic codes, a 0 is returned to indicate that it is a good idea to stick to censored translation.
@@ -99,8 +97,9 @@ Here we will be working with the example dataframe: `example_barcode_data`. Alth
 ```{r}
 #this is the example data 
 dim(example_barcode_data)
-example_barcode_data
-
+names(example_barcode_data)
+# to look at the full dataframe:
+# example_barcode_data
 ```
 
 The coi5p analysis pipeline can be applied to the a dataframe in a iterative fashion. Here the pipeline is implemented through the use of the `lapply` function, which lets the unique sequence, id and genetic code of each row in the dataframe be passed into the `coi5p_pipe` function. 
@@ -123,8 +122,6 @@ example_barcode_data$framed_seq = unlist(lapply(example_barcode_data$coi_output,
   x$framed
 }))
 
-example_barcode_data$framed_seq
-
 #has coi5p trimmed characters?
 nchar(example_barcode_data$framed_seq[[5]]) < nchar(example_barcode_data$sequence[[5]])
 ```
@@ -133,12 +130,12 @@ The `lapply` notation used above is rather clunky, so the coi5p package contains
 
 ```{r}
 #extract only a single column
-flatten_coi5p(example_barcode_data$coi_output, keep_cols = 'aaSeq')
+col_df = flatten_coi5p(example_barcode_data$coi_output, keep_cols = 'aaSeq')
 #extract multiple columns
-flatten_coi5p(example_barcode_data$coi_output, keep_cols = c('framed','aaSeq'))
+multi_df = flatten_coi5p(example_barcode_data$coi_output, keep_cols = c('framed','aaSeq'))
 #extract all columns
 full_coi5p_df = flatten_coi5p(example_barcode_data$coi_output)
-full_coi5p_df
+#full_coi5p_df
 ```
 
 The memory requirements of the method demonstrated above are trivial because the example dataframe has only nine rows. If millions of sequences are being processed, then keeping all of the coi5p objects in memory at once may become prohibitive. This will depend on the amount of RAM available on your machine. The average `coi5p_pipe` output is ~6KB in size, so processing 1 million sequences at once would occupy ~6GB of RAM. If you are trying to limit RAM usage, the following workflow can help keep RAM requirements modest by instantiating only one coi5p object at a time, but as a tradeoff may take slightly more time to execute.
@@ -148,7 +145,6 @@ full_coi5p_df = data.frame(matrix(ncol = 7, nrow = 0),stringsAsFactors = FALSE )
 colnames(full_coi5p_df) = c("name", "raw", "framed", "aaSeq", "aaScore", "indel_likely", "stop_codons")
 
 for(i in 1:length(example_barcode_data$id)){
-	print(paste("On sequence number:", i))
 	out_data = coi5p_pipe(example_barcode_data$sequence[i], 
 							name = example_barcode_data$id[i], 
 							trans_table = example_barcode_data$genetic_code[i])
@@ -179,7 +175,7 @@ ex_fasta_file = system.file("extdata/example_barcode_data.fasta", package = "coi
 ex_data = seqinr::read.fasta(ex_fasta_file, as.string = TRUE)
 
 #here is what the output from read.fasta looks like
-head(ex_data)
+#head(ex_data)
 
 #parse the data in the header line by splitting the name on the | character
 parsed_names_data = lapply(1:length(ex_data), function(i){
@@ -196,5 +192,5 @@ example_barcode_data_from_scratch = data.frame(
   notes = sapply(parsed_names_data, function(x) x[[4]])
 )
 
-head(example_barcode_data_from_scratch)
+#head(example_barcode_data_from_scratch)
 ```

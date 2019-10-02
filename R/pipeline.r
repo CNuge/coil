@@ -1,7 +1,7 @@
 #' Run the entire coi5p pipeline for an input sequence.
 #'
 #' This function will take a raw DNA sequence string and run each of the coi5p methods in turn
-#' (coi5p, frame, translate, indel_check). Note that if you are not intersted in all components
+#' (coi5p, frame, translate, indel_check). Note that if you are not interested in all components
 #' of the output (i.e. only want sequences set in frame reading  or translated), then the
 #' coi5p analysis functions can be called individually to avoid unnecessary computation.
 #'
@@ -15,12 +15,12 @@
 #' Default is 0, which indicates that censored translation should be performed. If the taxonomy
 #' of the sample is known, use the function which_trans_table() to determine the translation table to use.
 #' @param frame_offset The offset to the reading frame to be applied for translation. By default the offset
-#' is zero, so the first character in the framed sequence is considered the first nucelotide of the first codon.
-#' Passing frame_offset = 1 would make the second character in the framed sequence the the first nucelotide of
+#' is zero, so the first character in the framed sequence is considered the first nucleotide of the first codon.
+#' Passing frame_offset = 1 would make the second character in the framed sequence the the first nucleotide of
 #' the first codon.
 #' @param indel_threshold the log likelihood threshold used to assess whether or not sequences
 #' are likely to contain an indel. Default is -345.95. Values lower than this will be classified
-#' as likely to contain an indel and values higer will be classified as not likely to contain an indel.
+#' as likely to contain an indel and values higher will be classified as not likely to contain an indel.
 #'
 #' @return an object of class \code{"coi5p"}
 #' @examples
@@ -63,7 +63,7 @@ coi5p_pipe = function(x, ... ,
 #' that the user requires.
 #' @param x a list of coi5p objects.
 #' @param keep_cols the name of a coi5p object component, or a vector of components that should be turned into
-#' dataframe columns. Avaliable components are: name, raw, framed, aaSeq, aaScore, indel_likely, stop_codons.
+#' dataframe columns. Available components are: name, raw, framed, aaSeq, aaScore, indel_likely, stop_codons.
 #' @return a dataframe with the coi5p object information flattened into columns.
 #' @examples
 #' #create a list of coi5p objects
