@@ -12,10 +12,10 @@ An R package for contextualization and evaluation of COI-5P barcode data
 At the moment, you can download the development version of `coil` directly from GitHub. You'll need to have the R package `devtools` installed and loaded. Also note if the `build_vignettes` option is set to true, you will need to have the R package `knitr` installed.
 ```
 #install.packages("devtools")
-#install.packages("knitr") #if build_vignettes = TRUE
+#install.packages("knitr") #required if build_vignettes = TRUE
 #library(devtools) 
 devtools::install_github("CNuge/coil", build_vignettes = TRUE)
-library(coi5p)
+library(coil)
 ```
 
 The vignette can then be accessed from R using the following command:
