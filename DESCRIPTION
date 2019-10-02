@@ -1,7 +1,7 @@
 Package: coil
 Type: Package
 Title: Contextualization And Evaluation of COI-5P Barcode Data
-Version: 1.1.0
+Version: 1.0.0
 Author: Cameron M. Nugent
 Maintainer: Cameron M. Nugent <nugentc@uoguelph.ca>
 Description: 
