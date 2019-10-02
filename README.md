@@ -1,31 +1,31 @@
-# coi5p 
+# coil 
 An R package for contextualization and evaluation of COI-5P barcode data
 [![Build Status](https://travis-ci.com/CNuge/coi5p.svg?token=H6eQaqsE1kLqYX3zZ1Xz&branch=master)](https://travis-ci.com/CNuge/coi5p)
 [![codecov](https://codecov.io/gh/CNuge/coi5p/branch/master/graph/badge.svg)](https://codecov.io/gh/CNuge/coi5p)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 --------------------------------------------------------------------------
 
-**coi5p** is an R package designed for the cleaning, contextualization and assessment of cytochrome c oxidase I DNA barcode data ([COI-5P, or the five prime portion of COI](https://en.wikipedia.org/wiki/Cytochrome_c_oxidase_subunit_I)). It contains functions for placing COI-5P barcode sequences into a common reading frame, translating DNA sequences to amino acids and for assessing the likelihood that a given barcode sequence includes an insertion or deletion error. These functions are provided as a single function analysis pipeline and are also available individually for efficient and targeted analysis of barcode data.
+**coil** is an R package designed for the cleaning, contextualization and assessment of cytochrome c oxidase I DNA barcode data ([COI-5P, or the five prime portion of COI](https://en.wikipedia.org/wiki/Cytochrome_c_oxidase_subunit_I)). It contains functions for placing COI-5P barcode sequences into a common reading frame, translating DNA sequences to amino acids and for assessing the likelihood that a given barcode sequence includes an insertion or deletion error. These functions are provided as a single function analysis pipeline and are also available individually for efficient and targeted analysis of barcode data.
 
 ## Installation
 
-At the moment, you can download the development version of `coi5p` directly from GitHub. You'll need to have the R package `devtools` installed and loaded. Also note if the `build_vignettes` option is set to true, you will need to have the R package `knitr` installed.
+At the moment, you can download the development version of `coil` directly from GitHub. You'll need to have the R package `devtools` installed and loaded. Also note if the `build_vignettes` option is set to true, you will need to have the R package `knitr` installed.
 ```
 #install.packages("devtools")
 #install.packages("knitr") #if build_vignettes = TRUE
 #library(devtools) 
-devtools::install_github("CNuge/coi5p", build_vignettes = TRUE)
+devtools::install_github("CNuge/coil", build_vignettes = TRUE)
 library(coi5p)
 ```
 
 The vignette can then be accessed from R using the following command:
 ```
-vignette("coi5p-vignette")
+vignette("coil-vignette")
 ```
 
 ## How to use it
 
-Below is a brief demonstration to get the user started, please consult the package vignette for a more detailed explanation of `coi5p`'s functionality.
+Below is a brief demonstration to get the user started, please consult the package vignette for a more detailed explanation of `coil`'s functionality.
 
 The package is built around the custom `coi5p` object, which takes a COI-5P DNA barcode sequence as input. The package contains functions for: 
 
@@ -35,7 +35,7 @@ The package is built around the custom `coi5p` object, which takes a COI-5P DNA 
 
 The basic `coi5p` analysis pipleline is as follows:
 ```
-example_nt_string #an input DNA string, contained in the coi5p package for demonstration purposes
+example_nt_string #an input DNA string, contained in the coil package for demonstration purposes
 
 #step 1: build the coi5p object
 dat = coi5p(example_nt_string, name="example_sequence_1")

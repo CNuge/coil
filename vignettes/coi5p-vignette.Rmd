@@ -1,21 +1,21 @@
 ---
-title: "coi5p-vignette"
+title: "coil-vignette"
 author: "Cameron M. Nugent"
 data: "`r Sys.Date()`"
 output: rmarkdown::html_vignette #switch to pdf_document #if you want to make the pdf via knit #
 vignette: >
-  %\VignetteIndexEntry{coi5p-vignette}
+  %\VignetteIndexEntry{coil-vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup}
-library(coi5p)
+library(coil)
 ```
   
 ## Abstract
 
-**coi5p** is an R package designed for the cleaning, contextualization and assessment of cytochrome c oxidase I DNA barcode data ([COI-5P, or the five prime portion of COI](https://en.wikipedia.org/wiki/Cytochrome_c_oxidase_subunit_I)). It contains functions for placing COI-5P barcode sequences into a common reading frame, translating DNA sequences to amino acids and for assessing the likelihood that a given barcode sequence includes an insertion or deletion error. These functions are provided as a single function analysis pipeline and are also available individually for efficient and targeted analysis of barcode data.
+**coil** is an R package designed for the cleaning, contextualization and assessment of cytochrome c oxidase I DNA barcode data ([COI-5P, or the five prime portion of COI](https://en.wikipedia.org/wiki/Cytochrome_c_oxidase_subunit_I)). It contains functions for placing COI-5P barcode sequences into a common reading frame, translating DNA sequences to amino acids and for assessing the likelihood that a given barcode sequence includes an insertion or deletion error. These functions are provided as a single function analysis pipeline and are also available individually for efficient and targeted analysis of barcode data.
 
 ## Introduction
 
@@ -35,7 +35,7 @@ The translation table employed in censored translation - five codons are transla
 
 ## The coi5p package
 ### Dependencies
-The `coi5p` package is dependent on [the `aphid` package](https://github.com/shaunpwilkinson/aphid) for comparison of sequences against the COI-5P PHMMs. The `ape` package is a requirement as well because `coi5p` internally converts all DNA and amino acid sequences to the ape "DNAbin" and "AAbin" object types to increase computational efficiency. As previously stated, `coi5p` is also dependent on [the sequinr package](https://cran.r-project.org/web/packages/seqinr/index.html) for translation of sequences when [the genetic code associated with the sample](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi) is known.
+The `coil` package is dependent on [the `aphid` package](https://github.com/shaunpwilkinson/aphid) for comparison of sequences against the COI-5P PHMMs. The `ape` package is a requirement as well because `coil` internally converts all DNA and amino acid sequences to the ape "DNAbin" and "AAbin" object types to increase computational efficiency. As previously stated, `coil` is also dependent on [the sequinr package](https://cran.r-project.org/web/packages/seqinr/index.html) for translation of sequences when [the genetic code associated with the sample](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi) is known.
 
 
 ### Using the package
@@ -92,9 +92,9 @@ There are four functions that constitute the coi5p analysis pipeline: `coi5p`, `
 ```
 
 #### Example of a batch analysis of barcode sequences
-Here we will be working with the example dataframe: `example_barcode_data`. Although loading and outputting DNA sequence data in R is outside of the scope of the coi5p package, the supplementary section at the end of this vignette includes an example of how one can load a fasta file into a dataframe with a structure matching that of `example_barcode_data`. 
+Here we will be working with the example dataframe: `example_barcode_data`. Although loading and outputting DNA sequence data in R is outside of the scope of the `coil` package, the supplementary section at the end of this vignette includes an example of how one can load a fasta file into a dataframe with a structure matching that of `example_barcode_data`. 
 
-`example_barcode_data` contains 9 barcode sequences that demonstrate the different abilities of the `coi5p` package. Some sequences are longer than the barcode COI-5P barcode region, some are shorter and some have insertion or deletion errors.
+`example_barcode_data` contains 9 barcode sequences that demonstrate the different abilities of the `coil` package. Some sequences are longer than the barcode COI-5P barcode region, some are shorter and some have insertion or deletion errors.
 
 ```{r}
 #this is the example data 
@@ -158,7 +158,7 @@ for(i in 1:length(example_barcode_data$id)){
 }
 ```
 
-As demonstrated here, the `coi5p` package allows for robust cleaning, contextualization and error assessment of novel COI-5P barcode data. The package's analysis pipeline is designed in a modular fashion, allowing the user to run only the functions required for their given use case. The pipeline is designed with scalability in mind; each sequence is processed individually, allowing for parallelization to optimize analysis speed (i.e. via R's `mclapply` function) when computational resources are abundant or for the sequential analysis of sequences when limited memory is available.
+As demonstrated here, the `coil` package allows for robust cleaning, contextualization and error assessment of novel COI-5P barcode data. The package's analysis pipeline is designed in a modular fashion, allowing the user to run only the functions required for their given use case. The pipeline is designed with scalability in mind; each sequence is processed individually, allowing for parallelization to optimize analysis speed (i.e. via R's `mclapply` function) when computational resources are abundant or for the sequential analysis of sequences when limited memory is available.
 
 ### Supplementary Information
 #### Loading and manipulating a fasta file
@@ -170,10 +170,10 @@ Information found in the header lines of fasta files varies, so the reader will 
 
 ```{r}
 library(seqinr)
-# load the example fasta file included with coi5p
+# load the example fasta file included with coil
 # included in the file's header line:
 # the name of the sample, its genetic code, taxonomic designation and some notes
-ex_fasta_file = system.file("extdata/example_barcode_data.fasta", package = "coi5p")
+ex_fasta_file = system.file("extdata/example_barcode_data.fasta", package = "coil")
 
 #read in the example fasta file using seqinr
 ex_data = seqinr::read.fasta(ex_fasta_file, as.string = TRUE)

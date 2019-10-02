@@ -1,4 +1,4 @@
 library(testthat)
-library(coi5p)
+library(coil)
 
-test_check("coi5p")
+test_check("coil")
