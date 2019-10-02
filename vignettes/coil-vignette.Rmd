@@ -1,5 +1,5 @@
 ---
-title: "coil-vignette"
+title: "The coil package for DNA barcode data cleaning and error assessment"
 author: "Cameron M. Nugent"
 date: "2019-08-02"
 output: rmarkdown::html_vignette #html_vignette #switch to pdf_document #if you want to make the pdf via knit #
