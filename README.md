@@ -1,7 +1,7 @@
 # coil 
 An R package for contextualization and evaluation of COI-5P barcode data
-[![Build Status](https://travis-ci.com/CNuge/coi5p.svg?token=H6eQaqsE1kLqYX3zZ1Xz&branch=master)](https://travis-ci.com/CNuge/coi5p)
-[![codecov](https://codecov.io/gh/CNuge/coi5p/branch/master/graph/badge.svg)](https://codecov.io/gh/CNuge/coi5p)
+[![Build Status](https://travis-ci.com/CNuge/coil.svg?branch=master)](https://travis-ci.com/CNuge/coil)
+[![codecov](https://codecov.io/gh/CNuge/coil/branch/master/graph/badge.svg)](https://codecov.io/gh/CNuge/coil)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 --------------------------------------------------------------------------
 
