@@ -20,10 +20,9 @@ mitochondrial genetic codes across the animal kingdom and does not
 translate those for which the amino acid varies,
 but rather outputs a ? in the string.
 }
-\details{
-Censored translation table:
-     AA  = FFLLSSSSYY?*CCWWLLLLPPPPHHQQRRRRII?MTTTTNN?KSS??VVVVAAAADDEEGGGG
-  Base1  = TTTTTTTTTTTTTTTTCCCCCCCCCCCCCCCCAAAAAAAAAAAAAAAAGGGGGGGGGGGGGGGG
-  Base2  = TTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGG
-  Base3  = TCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAG
+\examples{
+#translate a string of DNA:
+censored_translation(example_nt_string)
+#manually override the reading frame:
+censored_translation(example_nt_string, reading_frame = 2)
 }
