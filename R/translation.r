@@ -62,12 +62,11 @@ translate_codon = function(codon){
 #' @param reading_frame reading frame = 1 means the first bp in the string is the start of the
 #' first codon, can pass 1, 2 or 3. For 2 and 3 the first 1 and 2 bp will be
 #' dropped from translation respectively.
-#' @details
-#' Censored translation table:
-#'      AA  = FFLLSSSSYY?*CCWWLLLLPPPPHHQQRRRRII?MTTTTNN?KSS??VVVVAAAADDEEGGGG
-#'   Base1  = TTTTTTTTTTTTTTTTCCCCCCCCCCCCCCCCAAAAAAAAAAAAAAAAGGGGGGGGGGGGGGGG
-#'   Base2  = TTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGG
-#'   Base3  = TCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAG
+#' @examples
+#' #translate a string of DNA:
+#' censored_translation(example_nt_string)
+#' #manually override the reading frame:
+#' censored_translation(example_nt_string, reading_frame = 2)
 #' @export
 censored_translation = function(dna_str, reading_frame = 1){
 	num_bp = nchar(dna_str)
