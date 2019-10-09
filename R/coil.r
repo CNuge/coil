@@ -24,7 +24,6 @@
 #'\item \code{\link{censored_translation}} Conducts translation, but ambigious codons are translated to placeholders.
 #'\item \code{\link{translate}} Translate a DNA sequence to amino acids.
 #'\item \code{\link{indel_check}} Check to see if an insertion or deletion error is likely.
-#'
 #'}
 #'
 #'@section Data
