@@ -11,7 +11,7 @@ An R package for contextualization and evaluation of COI-5P barcode data
 `coil` can be installed directly from CRAN.
 
 ```
-install.packages('coil')
+install.packages("coil")
 library(coil)
 ```
 
