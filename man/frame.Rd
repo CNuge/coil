@@ -15,7 +15,7 @@ frame(x, ...)
 \item{...}{Additional arguments to be passed between methods.}
 }
 \value{
-an object of class \code{"coi5p"}
+An object of class \code{"coi5p"}
 }
 \description{
 Take a coi5p sequence and place it in reading frame.

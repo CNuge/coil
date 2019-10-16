@@ -29,7 +29,7 @@
 #'
 #' This string of barcode data is used in the package documentation's examples
 #' and within the vignette demonstrating how to use the package.
-#' The variable is:
+#'
 "example_nt_string"
 ###############################################################################
 
@@ -37,10 +37,15 @@
 #' Example barcode data.
 #'
 #' A nine line dataframe of coi5p barcode data with the following columns:
+#'
 #' id - the unique identifier for the sample
+#'
 #' genetic_code - the genetic code for translation of the sample (features NA for unknowns)
+#'
 #' taxa -  a taxonomic designation associated with the sample
+#'
 #' sequence - the DNA sequence associated with the sample
+#'
 #' notes - notes on the sequence structure
 #'
 "example_barcode_data"

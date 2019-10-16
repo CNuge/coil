@@ -7,10 +7,10 @@
 which_trans_table(x)
 }
 \arguments{
-\item{x}{a taxonomic designation (allowed ranks: family, order, class, phylum).}
+\item{x}{A taxonomic designation (allowed ranks: family, order, class, phylum).}
 }
 \value{
-an integer indicating the correct translation table.
+An integer indicating the correct translation table.
 }
 \description{
 Recommends which translation table to use if taxonomic data is available.

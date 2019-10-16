@@ -90,8 +90,8 @@ censored_translation = function(dna_str, reading_frame = 1){
 #' taxonomic classifications on the barcode of life database
 #' (http://www.boldsystems.org/index.php).
 #'
-#' @param x a taxonomic designation (allowed ranks: family, order, class, phylum).
-#' @return an integer indicating the correct translation table.
+#' @param x A taxonomic designation (allowed ranks: family, order, class, phylum).
+#' @return An integer indicating the correct translation table.
 #' @examples
 #' which_trans_table("Chordata") #phylum
 #' which_trans_table("Actinopterygii") #class

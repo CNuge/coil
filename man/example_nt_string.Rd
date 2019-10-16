@@ -11,6 +11,5 @@ example_nt_string
 \description{
 This string of barcode data is used in the package documentation's examples
 and within the vignette demonstrating how to use the package.
-The variable is:
 }
 \keyword{datasets}

@@ -61,10 +61,10 @@ coi5p_pipe = function(x, ... ,
 #'
 #' This helper function is designed to act upon a list of coi5p objects and extract the object components
 #' that the user requires.
-#' @param x a list of coi5p objects.
-#' @param keep_cols the name of a coi5p object component, or a vector of components that should be turned into
+#' @param x A list of coi5p objects.
+#' @param keep_cols The name of a coi5p object component, or a vector of components that should be turned into
 #' dataframe columns. Available components are: name, raw, framed, aaSeq, aaScore, indel_likely, stop_codons.
-#' @return a dataframe with the coi5p object information flattened into columns.
+#' @return A dataframe with the coi5p object information flattened into columns.
 #' @examples
 #' #create a list of coi5p objects
 #' coi_output = lapply(example_barcode_data$sequence, function(x){

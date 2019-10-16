@@ -63,7 +63,7 @@ coi5p = function(x = character(), name = character()){
 #' @param x A coi5p class object.
 #' @param ... Additional arguments to be passed between methods.
 #'
-#' @return an object of class \code{"coi5p"}
+#' @return An object of class \code{"coi5p"}
 #' @seealso \code{\link{coi5p}}
 #' @details
 #' This function compares the raw sequence against the nucleotide PHMM using the Viterbi algorithm. The path of hidden states
@@ -117,9 +117,9 @@ frame.coi5p = function(x, ... ){
 #' @param frame_offset The offset to the reading frame to be applied for translation. By default the offset
 #' is zero, so the first character in the framed sequence is considered the first nucleotide of the first codon.
 #' Passing frame_offset = 1 would offset the sequence by one and therefore make the second character in the
-#'  framed sequence the the first nucleotide of the first codon.
+#' framed sequence the the first nucleotide of the first codon.
 #'
-#' @return an object of class \code{"coi5p"}
+#' @return An object of class \code{"coi5p"}
 #' @seealso \code{\link{coi5p}}
 #' @seealso \code{\link{frame}}
 #' @seealso \code{\link{which_trans_table}}
@@ -165,7 +165,7 @@ translate.coi5p = function(x, ..., trans_table = 0, frame_offset = 0){
 }
 
 
-#' Check if coi5p sequence likely contains an indel error.
+#' Check if a coi5p sequence likely contains an error.
 #'
 #' @param x A coi5p class object for which frame() and translate() have been run.
 #' @param ... Additional arguments to be passed between methods.
@@ -173,7 +173,7 @@ translate.coi5p = function(x, ..., trans_table = 0, frame_offset = 0){
 #' are likely to contain an indel. Default is -358.88. Values lower than this will be classified
 #' as likely to contain an indel and values higher will be classified as not likely to contain an indel.
 #'
-#' @return an object of class \code{"coi5p"}
+#' @return An object of class \code{"coi5p"}
 #' @seealso \code{\link{coi5p}}
 #' @seealso \code{\link{frame}}
 #' @seealso \code{\link{translate}}
@@ -197,8 +197,11 @@ translate.coi5p = function(x, ..., trans_table = 0, frame_offset = 0){
 #' combinations.
 #'
 #' Short barcode sequences, known genetic code: indel_threshold = -354.44
+#'
 #' Short barcode sequences, unknown genetic code: indel_threshold = -440.24
+#'
 #' Full length barcode sequences, known genetic code: indel_threshold = -246.20
+#'
 #' Full length barcode sequences, unknown genetic code: indel_threshold = -358.88
 #'
 #' @examples

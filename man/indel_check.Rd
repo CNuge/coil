@@ -3,7 +3,7 @@
 \name{indel_check}
 \alias{indel_check}
 \alias{indel_check.coi5p}
-\title{Check if coi5p sequence likely contains an indel error.}
+\title{Check if a coi5p sequence likely contains an error.}
 \usage{
 indel_check(x, ...)
 
@@ -19,10 +19,10 @@ are likely to contain an indel. Default is -358.88. Values lower than this will 
 as likely to contain an indel and values higher will be classified as not likely to contain an indel.}
 }
 \value{
-an object of class \code{"coi5p"}
+An object of class \code{"coi5p"}
 }
 \description{
-Check if coi5p sequence likely contains an indel error.
+Check if a coi5p sequence likely contains an error.
 }
 \details{
 The indel check function analyzes the framed and translated DNA sequences in two ways in order to
@@ -44,8 +44,11 @@ and length of the sequences. Below are experimentally determined suggested value
 combinations.
 
 Short barcode sequences, known genetic code: indel_threshold = -354.44
+
 Short barcode sequences, unknown genetic code: indel_threshold = -440.24
+
 Full length barcode sequences, known genetic code: indel_threshold = -246.20
+
 Full length barcode sequences, unknown genetic code: indel_threshold = -358.88
 }
 \examples{

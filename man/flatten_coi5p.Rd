@@ -7,13 +7,13 @@
 flatten_coi5p(x, keep_cols = "all")
 }
 \arguments{
-\item{x}{a list of coi5p objects.}
+\item{x}{A list of coi5p objects.}
 
-\item{keep_cols}{the name of a coi5p object component, or a vector of components that should be turned into
+\item{keep_cols}{The name of a coi5p object component, or a vector of components that should be turned into
 dataframe columns. Available components are: name, raw, framed, aaSeq, aaScore, indel_likely, stop_codons.}
 }
 \value{
-a dataframe with the coi5p object information flattened into columns.
+A dataframe with the coi5p object information flattened into columns.
 }
 \description{
 This helper function is designed to act upon a list of coi5p objects and extract the object components
