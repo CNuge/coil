@@ -6,11 +6,11 @@
 #' coi5p analysis functions can be called individually to avoid unnecessary computation.
 #'
 #'
-#' @param x a nucleotide string.
-#' Valid characters within the nucleotide string are: a,t,g,c,-,n.
+#' @param x A nucleotide string.
+#' Valid characters within the nucleotide string are: 'a', 't', 'g', 'c', '-', and 'n'.
 #' The nucleotide string can be input as upper case, but will be automatically converted to lower case.
-#' @param ... additional arguments to be passed between methods.
-#' @param name an optional character string. Identifier for the sequence.
+#' @param ... Additional arguments to be passed between methods.
+#' @param name An optional character string. Identifier for the sequence.
 #' @param trans_table The translation table to use for translating from nucleotides to amino acids.
 #' Default is 0, which indicates that censored translation should be performed. If the taxonomy
 #' of the sample is known, use the function which_trans_table() to determine the translation table to use.
@@ -18,11 +18,11 @@
 #' is zero, so the first character in the framed sequence is considered the first nucleotide of the first codon.
 #' Passing frame_offset = 1 would make the second character in the framed sequence the the first nucleotide of
 #' the first codon.
-#' @param indel_threshold the log likelihood threshold used to assess whether or not sequences
+#' @param indel_threshold The log likelihood threshold used to assess whether or not sequences
 #' are likely to contain an indel. Default is -345.95. Values lower than this will be classified
 #' as likely to contain an indel and values higher will be classified as not likely to contain an indel.
 #'
-#' @return an object of class \code{"coi5p"}
+#' @return An object of class \code{"coi5p"}
 #' @examples
 #' dat = coi5p_pipe(example_nt_string)
 #' #full coi5p object can then be printed

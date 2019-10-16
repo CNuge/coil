@@ -33,17 +33,18 @@ validate_coi5p = function(new_instance){
 
 #' Build a coi5p object from a DNA sequence string.
 #'
-#' @param x a nucleotide string.
-#' Valid characters within the nucleotide string are: a,t,g,c,-,n.
+#' @param x A nucleotide string.
+#' Valid characters within the nucleotide string are: 'a', 't', 'g', 'c', '-', and 'n'.
 #' The nucleotide string can be input as upper case, but will be automatically converted to lower case.
-#' @param name an optional character string. Identifier for the sequence.
+#' @param name An optional character string that serves as the identifier for the sequence.
 #'
-#' @return an object of class \code{"coi5p"}
+#' @return An object of class \code{"coi5p"}
 #' @examples
+#' #build an unnamed coi5p object
 #' dat = coi5p(example_nt_string)
-#' #named coi5p sequence
+#' #build a named coi5p sequence
 #' dat = coi5p(example_nt_string, name = "example_seq1")
-#' #components in output coi5p object:
+#' #available components in the coi5p object:
 #' dat$raw
 #' dat$name
 #' @name coi5p
@@ -59,11 +60,18 @@ coi5p = function(x = character(), name = character()){
 
 #' Take a coi5p sequence and place it in reading frame.
 #'
-#' @param x a coi5p class object
-#' @param ... additional arguments to be passed between methods.
+#' @param x A coi5p class object.
+#' @param ... Additional arguments to be passed between methods.
 #'
 #' @return an object of class \code{"coi5p"}
 #' @seealso \code{\link{coi5p}}
+#' @details
+#' This function compares the raw sequence against the nucleotide PHMM using the Viterbi algorithm. The path of hidden states
+#' produced by the comparison is used to establish the reading frame of the sequence. If leading insert states are present, the
+#' front of the sequence is trimmed to the first continuous set of match states and the sequence is re-compared to the
+#' nucleotide PHMM. This is done because spurious or outlier matches early in the sequence can lead to incorrect establishment
+#' of the reading frame. Realigning only the truncated version of the sequence to the PHMM improves correct reading frame establishment,
+#' although this can also result in the loss of a few bp of true barcode sequence on the peripherals of the sequence.
 #' @examples
 #' #previously run function:
 #' dat = coi5p(example_nt_string)
@@ -101,8 +109,8 @@ frame.coi5p = function(x, ... ){
 
 #' Translate a coi5p sequence.
 #'
-#' @param x a coi5p class object for which frame() has been run.
-#' @param ... additional arguments to be passed between methods.
+#' @param x A coi5p class object for which frame() has been run.
+#' @param ... Additional arguments to be passed between methods.
 #' @param trans_table The translation table to use for translating from nucleotides to amino acids.
 #' Default is 0, which indicates that censored translation should be performed. If the taxonomy
 #' of the sample is known, use the function which_trans_table() to determine the translation table to use.
@@ -115,6 +123,10 @@ frame.coi5p = function(x, ... ){
 #' @seealso \code{\link{coi5p}}
 #' @seealso \code{\link{frame}}
 #' @seealso \code{\link{which_trans_table}}
+#' @details
+#' The translate allows for the translation of framed sequences from nucleotides to amino acids, both
+#' in instances when the correct genetic code corresponding to a sequence is known, and in instances when phylogenetic
+#' information is unavailable or unreliable.
 #' @examples
 #' #previously run functions:
 #' dat = coi5p(example_nt_string )
@@ -155,9 +167,9 @@ translate.coi5p = function(x, ..., trans_table = 0, frame_offset = 0){
 
 #' Check if coi5p sequence likely contains an indel error.
 #'
-#' @param x a coi5p class object for which frame() and translate() have been run.
-#' @param ... additional arguments to be passed between methods.
-#' @param indel_threshold the log likelihood threshold used to assess whether or not sequences
+#' @param x A coi5p class object for which frame() and translate() have been run.
+#' @param ... Additional arguments to be passed between methods.
+#' @param indel_threshold The log likelihood threshold used to assess whether or not sequences
 #' are likely to contain an indel. Default is -358.88. Values lower than this will be classified
 #' as likely to contain an indel and values higher will be classified as not likely to contain an indel.
 #'
@@ -165,6 +177,30 @@ translate.coi5p = function(x, ..., trans_table = 0, frame_offset = 0){
 #' @seealso \code{\link{coi5p}}
 #' @seealso \code{\link{frame}}
 #' @seealso \code{\link{translate}}
+#' @details
+#' The indel check function analyzes the framed and translated DNA sequences in two ways in order to
+#' allow users to make an informed decision about whether or not a DNA sequence contains a frameshift error.
+#' This test is designed to detect insertion or deletion errors resulting from technical errors in DNA sequencing,
+#' but can in some instances identify biological contaminants (i.e. if the contaminant sequence uses a different
+#' genetic code than the target, or if the contaminants are things such as pseudogenes that possess sequences that
+#' are highly divergent from animal COI-5P sequences).
+#'
+#' The two tests performed are: (1) a query for stop codons in the amino acid sequence and (2) an evaluation of the
+#' log likelihood value resulting from the comparison of the framed coi5p amino acid sequence against the COI-5P
+#' amino acid PHMM. The default likelihood value for identifying a sequence is likely erroneous is -358.88. sequences with
+#' likelihood values lower than this will receive an indel_likely value of TRUE. The threshold of -358.88 was experimentally
+#' determined to be the optimal likelihood threshold for separating of full length sequences with and without errors when
+#' the censored translation option is used. Sequences will have higher likelihood values when a specific genetic code is used.
+#' Sequences will have lower likelihood values when they are not complete barcode sequences (i.e. <500bp in length). For these
+#' reasons the likelihood threshold is not a specific value but a parameter that can be altered based on the type of translation
+#' and length of the sequences. Below are experimentally determined suggested values for different size and translation table
+#' combinations.
+#'
+#' Short barcode sequences, known genetic code: indel_threshold = -354.44
+#' Short barcode sequences, unknown genetic code: indel_threshold = -440.24
+#' Full length barcode sequences, known genetic code: indel_threshold = -246.20
+#' Full length barcode sequences, unknown genetic code: indel_threshold = -358.88
+#'
 #' @examples
 #' #previously run functions:
 #' dat = coi5p(example_nt_string)
@@ -176,7 +212,7 @@ translate.coi5p = function(x, ..., trans_table = 0, frame_offset = 0){
 #' dat = indel_check(dat, indel_threshold = -400)
 #' #additional components in output coi5p object:
 #' dat$stop_codons #Boolean - Indicates if there are stop codons in the amino acid sequence.
-#' dat$indel_likely #Boolean - Indicates if there is likely a insertion or deletion in the sequence.
+#' dat$indel_likely #Boolean - Indicates if the likelihood score below the specified indel_threshold.
 #' dat$aaScore #view the amino acid log likelihood score
 #' @name indel_check
 indel_check = function(x, ...){

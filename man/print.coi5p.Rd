@@ -7,9 +7,9 @@
 \method{print}{coi5p}(x, ...)
 }
 \arguments{
-\item{x}{a coi5p class object.}
+\item{x}{A coi5p class object.}
 
-\item{...}{additional arguments to be passed between methods.}
+\item{...}{Additional arguments to be passed between methods.}
 }
 \description{
 Print a summary of a coi5p object.

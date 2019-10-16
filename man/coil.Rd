@@ -4,7 +4,7 @@
 \name{coil}
 \alias{coil}
 \alias{coil-package}
-\title{\pkg{coil}: contextualization and evaluation of COI-5P barcode data}
+\title{\pkg{coil}: evaluation of COI-5P barcode data}
 \description{
 \pkg{coil} is an R package designed for the cleaning, contextualization and assessment of cytochrome c oxidase I DNA
  barcode data (\href{https://en.wikipedia.org/wiki/Cytochrome_c_oxidase_subunit_I}{COI-5P}, or the five prime portion of COI).

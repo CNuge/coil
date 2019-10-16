@@ -8,13 +8,13 @@ coi5p_pipe(x, ..., name = character(), trans_table = 0,
   frame_offset = 0, indel_threshold = -363.87)
 }
 \arguments{
-\item{x}{a nucleotide string.
-Valid characters within the nucleotide string are: a,t,g,c,-,n.
+\item{x}{A nucleotide string.
+Valid characters within the nucleotide string are: 'a', 't', 'g', 'c', '-', and 'n'.
 The nucleotide string can be input as upper case, but will be automatically converted to lower case.}
 
-\item{...}{additional arguments to be passed between methods.}
+\item{...}{Additional arguments to be passed between methods.}
 
-\item{name}{an optional character string. Identifier for the sequence.}
+\item{name}{An optional character string. Identifier for the sequence.}
 
 \item{trans_table}{The translation table to use for translating from nucleotides to amino acids.
 Default is 0, which indicates that censored translation should be performed. If the taxonomy
@@ -25,12 +25,12 @@ is zero, so the first character in the framed sequence is considered the first n
 Passing frame_offset = 1 would make the second character in the framed sequence the the first nucleotide of
 the first codon.}
 
-\item{indel_threshold}{the log likelihood threshold used to assess whether or not sequences
+\item{indel_threshold}{The log likelihood threshold used to assess whether or not sequences
 are likely to contain an indel. Default is -345.95. Values lower than this will be classified
 as likely to contain an indel and values higher will be classified as not likely to contain an indel.}
 }
 \value{
-an object of class \code{"coi5p"}
+An object of class \code{"coi5p"}
 }
 \description{
 This function will take a raw DNA sequence string and run each of the coi5p methods in turn

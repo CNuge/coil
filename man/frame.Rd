@@ -10,15 +10,23 @@ frame(x, ...)
 \method{frame}{coi5p}(x, ...)
 }
 \arguments{
-\item{x}{a coi5p class object}
+\item{x}{A coi5p class object.}
 
-\item{...}{additional arguments to be passed between methods.}
+\item{...}{Additional arguments to be passed between methods.}
 }
 \value{
 an object of class \code{"coi5p"}
 }
 \description{
 Take a coi5p sequence and place it in reading frame.
+}
+\details{
+This function compares the raw sequence against the nucleotide PHMM using the Viterbi algorithm. The path of hidden states
+produced by the comparison is used to establish the reading frame of the sequence. If leading insert states are present, the
+front of the sequence is trimmed to the first continuous set of match states and the sequence is re-compared to the
+nucleotide PHMM. This is done because spurious or outlier matches early in the sequence can lead to incorrect establishment
+of the reading frame. Realigning only the truncated version of the sequence to the PHMM improves correct reading frame establishment,
+although this can also result in the loss of a few bp of true barcode sequence on the peripherals of the sequence.
 }
 \examples{
 #previously run function:

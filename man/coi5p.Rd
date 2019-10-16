@@ -7,23 +7,24 @@
 coi5p(x = character(), name = character())
 }
 \arguments{
-\item{x}{a nucleotide string.
-Valid characters within the nucleotide string are: a,t,g,c,-,n.
+\item{x}{A nucleotide string.
+Valid characters within the nucleotide string are: 'a', 't', 'g', 'c', '-', and 'n'.
 The nucleotide string can be input as upper case, but will be automatically converted to lower case.}
 
-\item{name}{an optional character string. Identifier for the sequence.}
+\item{name}{An optional character string that serves as the identifier for the sequence.}
 }
 \value{
-an object of class \code{"coi5p"}
+An object of class \code{"coi5p"}
 }
 \description{
 Build a coi5p object from a DNA sequence string.
 }
 \examples{
+#build an unnamed coi5p object
 dat = coi5p(example_nt_string)
-#named coi5p sequence
+#build a named coi5p sequence
 dat = coi5p(example_nt_string, name = "example_seq1")
-#components in output coi5p object:
+#available components in the coi5p object:
 dat$raw
 dat$name
 }

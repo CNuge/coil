@@ -59,9 +59,9 @@ translate_codon = function(codon){
 #' translate those for which the amino acid varies,
 #' but rather outputs a ? in the string.
 #' @param dna_str The DNA string to be translated.
-#' @param reading_frame reading frame = 1 means the first bp in the string is the start of the
-#' first codon, can pass 1, 2 or 3. For 2 and 3 the first 1 and 2 bp will be
-#' dropped from translation respectively.
+#' @param reading_frame Set the reading frame of the sequence. reading_frame = 1 (default)
+#' means the first bp in the string is the start of the first codon, can pass either 1, 2 or 3.
+#' i.e. reading_frame = 2 indicates that the second bp in the string is the start of the first codon.
 #' @examples
 #' #translate a string of DNA:
 #' censored_translation(example_nt_string)
