@@ -3,6 +3,8 @@ An R package for contextualization and evaluation of COI-5P barcode data
 [![Build Status](https://travis-ci.com/CNuge/coil.svg?branch=master)](https://travis-ci.com/CNuge/coil)
 [![codecov](https://codecov.io/gh/CNuge/coil/branch/master/graph/badge.svg)](https://codecov.io/gh/CNuge/coil)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/coil)](https://CRAN.R-project.org/package=coil)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/coil)](https://CRAN.R-project.org/package=coil)
 --------------------------------------------------------------------------
 
 **coil** is an R package designed for the cleaning, contextualization and assessment of cytochrome c oxidase I DNA barcode data ([COI-5P, or the five prime portion of COI](https://en.wikipedia.org/wiki/Cytochrome_c_oxidase_subunit_I)). It contains functions for placing COI-5P barcode sequences into a common reading frame, translating DNA sequences to amino acids and for assessing the likelihood that a given barcode sequence includes an insertion or deletion error. These functions are provided as a single function analysis pipeline and are also available individually for efficient and targeted analysis of barcode data.
