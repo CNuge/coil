@@ -1,15 +1,15 @@
 ---
 title: "The coil package for DNA barcode data cleaning and error assessment"
 author: "Cameron M. Nugent"
-date: "2019-08-02"
-output: rmarkdown::html_vignette #html_vignette #switch to pdf_document #if you want to make the pdf via knit #
+date: "2019-11-01"
+output: rmarkdown::html_vignette #switch to pdf_document #if you want to make the pdf via knit #
 vignette: >
   %\VignetteIndexEntry{Introduction to the coil package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
-```{r setup, echo = FALSE}
+ 
+```{r loadlib, echo=TRUE, results='hide', message=FALSE, warning=FALSE}
 library(coil)
 ```
   

@@ -96,3 +96,8 @@ output$stop_codons  #a boolean indicating whether the amino acid sequence contai
 output$data         #contains the generated nucleotide and amino acid hidden state paths.
 ```
 Most use cases will involve the analysis of multiple sequences. Please consult the package's vignette for a suggested workflow for batch analysis and demonstration of how the batch analysis helper function can be used to build dataframes out of multiple coi5p objects.
+
+## Acknowledgements
+
+Funding for the development of this software was provided by grants in Bioinformatics and Computational Biology from the Government of Canada through Genome Canada and Ontario Genomics and from the Ontario Research Fund. Funders played no role in the study design or preparation of this software. Thank you to Sarah J. Adamowicz and Sujeevan Ratnasingham who contributed to the conceptualization of this software. Thank you to Tyler A. Elliot for aiding in the acquisition and curation of data. Thank you to [Samantha Majoros](https://github.com/S-Majoros) for aiding in the initial testing of this package.
+
