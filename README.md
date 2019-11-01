@@ -34,7 +34,7 @@ vignette("coil-vignette")
 
 ## How to use it
 
-Below is a brief demonstration to get the user started, please consult the package vignette for a more detailed explanation of `coil`'s functionality.
+Below is a brief demonstration to get the user started, please consult [the package's vignette](https://github.com/CNuge/coil/blob/master/vignettes/coil-vignette.Rmd) for a more detailed explanation of `coil`'s functionality.
 
 The package is built around the custom `coi5p` object, which takes a COI-5P DNA barcode sequence as input. The package contains functions for: 
 
@@ -95,7 +95,7 @@ output$indel_likely #a boolean indicating whether the sequence should be double 
 output$stop_codons  #a boolean indicating whether the amino acid sequence contains stop codons.
 output$data         #contains the generated nucleotide and amino acid hidden state paths.
 ```
-Most use cases will involve the analysis of multiple sequences. Please consult the package's vignette for a suggested workflow for batch analysis and demonstration of how the batch analysis helper function can be used to build dataframes out of multiple coi5p objects.
+Most use cases will involve the analysis of multiple sequences. Please consult [the package's vignette](https://github.com/CNuge/coil/blob/master/vignettes/coil-vignette.Rmd) for a suggested workflow for batch analysis and demonstration of how the batch analysis helper function can be used to build dataframes out of multiple coi5p objects.
 
 ## Acknowledgements
 
