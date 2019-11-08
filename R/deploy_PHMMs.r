@@ -54,7 +54,7 @@ ins_front_trim = function(path_out, search_scope = 15){
 			}
 		}
 	}
-	return(FALSE)
+	return(0)
 }
 
 
@@ -72,7 +72,7 @@ set_frame = function(org_seq , path_out){
 
 	#If there are a large number (>2) of deletes in the first 15bp
 	#then adjust the sequence so the end of the delete run is the starting point
-	if(adj_for_dels != FALSE){
+	if(adj_for_dels != 0){
 		org_seq_vec = org_seq_vec[adj_for_dels:length(org_seq_vec)]
 		path_out = path_out[adj_for_dels:length(path_out)]
 	}
@@ -130,6 +130,17 @@ set_frame = function(org_seq , path_out){
 			}
 		}
 	}
-	return(paste(c(front,org_seq_vec[org_seq_start:org_seq_end]),collapse= ""))
+
+	if(length(org_seq_vec[org_seq_start:org_seq_end]) < length(org_seq_vec)){
+	  trimmed_rep = TRUE
+	}else{
+	  trimmed_rep = FALSE
+	}
+	#returns the framed sequence, along with the position in the input sequence where folmer match begins
+	#and the position in the folmer region where the folmer match begins
+	return(list( framed = paste(c(front,org_seq_vec[org_seq_start:org_seq_end]),collapse= ""),
+	             raw_start = adj_for_dels+1,
+	             folmer_start = (length(front)+1),
+	             trimmed = trimmed_rep))
 }
 

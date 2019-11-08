@@ -94,16 +94,48 @@ frame.coi5p = function(x, ... ){
   #set the reading frame and store the framed string in $framed
   ntBin = individual_DNAbin(x$raw)
   ntPHMMout = aphid::Viterbi(nt_PHMM, ntBin, odds = FALSE)
-
   if(leading_ins(ntPHMMout[['path']])){
-    trim_temp  = set_frame(x$raw, ntPHMMout[['path']])
+    frame_out = set_frame(x$raw, ntPHMMout[['path']])
+    trim_temp  = frame_out$framed
+    #record if trimming occurred
+    x$was_trimed = frame_out$trimmed
+    #save the amount trimmed from the raw
+    x$data$raw_int_trim = frame_out$raw_start
+    x$data$raw_int_pad = frame_out$folmer_start
+
     ntBin = individual_DNAbin(trim_temp)
     ntPHMMout = aphid::Viterbi(nt_PHMM, ntBin, odds = FALSE)
   }else{
     trim_temp = x$raw
   }
   x$data$ntPath = ntPHMMout[['path']]
-  x$framed = set_frame(trim_temp, x$data$ntPath)
+  frame_out_final = set_frame(trim_temp, x$data$ntPath)
+  x$framed = frame_out_final$framed
+
+  if(!is.null(x$data$raw_int_trim)){
+    #original adjustments added to final adjustment if a double pass was conducted
+    #do the math to get the full amount trimmed
+    x$data$raw_start = (x$data$raw_int_trim - 1 - x$data$raw_int_pad + frame_out_final$raw_start)
+    #folmer start is just the final pad
+    x$data$folmer_start = frame_out_final$folmer_start
+    #remove the intermediate structures to avoid confusion
+    x$data$raw_int_trim = NULL
+    x$data$raw_int_pad = NULL
+    if(x$was_trimed == TRUE || frame_out_final$trimmed == TRUE){
+      x$was_trimed = TRUE
+    }else{
+      x$was_trimed = FALSE
+    }
+  }else{
+    x$data$raw_start = frame_out_final$raw_start
+    x$data$folmer_start = frame_out_final$folmer_start
+    x$was_trimed  = frame_out_final$trimmed
+  }
+  #generate the alignment report string
+  x$align_report = paste0("bp ", x$data$raw_start,
+                          " of the raw sequence is base pair ",
+                          x$data$folmer_start, " of the Folmer region.")
+
   return(x)
 }
 
