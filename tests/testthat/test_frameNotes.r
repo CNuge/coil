@@ -10,7 +10,7 @@ test_that("The reading frame of sequences is reported properly", {
   x_long = 43
   y_long = 2
 
-  long_desc = paste0("bp ", x_long, " of the raw sequence is base pair ", y_long, " of the Folmer region.")
+  long_desc = paste0("Base pair ", x_long, " of the raw sequence is base pair ", y_long, " of the COI-5P region.")
 
   long_dat = coi5p(long_sequence, name = 'long_frame_report')
   long_dat = frame(long_dat)
@@ -29,7 +29,7 @@ test_that("The reading frame of sequences is reported properly", {
 
   x_short = 1
   y_short = 33
-  short_desc = paste0("bp ", x_short, " of the raw sequence is base pair ", y_short, " of the Folmer region.")
+  short_desc = paste0("Base pair ", x_short, " of the raw sequence is base pair ", y_short, " of the COI-5P region.")
 
   short_dat = coi5p(short_sequence, name = 'short_frame_report')
   short_dat = frame(short_dat)
@@ -46,7 +46,7 @@ test_that("The reading frame of sequences is reported properly", {
 
   x_norm = 1
   y_norm = 4
-  normal_desc = paste0("bp ", x_norm, " of the raw sequence is base pair ", y_norm, " of the Folmer region.")
+  normal_desc = paste0("Base pair ", x_norm, " of the raw sequence is base pair ", y_norm, " of the COI-5P region.")
 
   normal_dat = coi5p(normal_sequence, name = 'normal_frame_report')
   normal_dat = frame(normal_dat)

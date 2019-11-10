@@ -33,8 +33,10 @@ framed sequence:
 ---ctttacctgatttttggtgcat...agacccaatcctttatcaacattta
 Amino acid sequence:
 -LYLIFGAWAG?VGTALSLLIRAEL...LTDRNLNTTFFDPAGGGDPILYQHL
+Raw sequence was trimmed: FALSE
+Stop codon present: FALSE, Amino acid PHMM score:-197.41253
 The sequence likely does not contain an insertion or deletion.
-Stop codon present: FALSE, Amino acid PHMM score:-197.41253"
+Base pair 1 of the raw sequence is base pair 4 of the COI-5P region."
 
   dstr2 = capture_output(dat, print=TRUE)
 
@@ -63,7 +65,9 @@ ctttacctgatttttggtgcatgag...agacccaatcctttatcaacattta"
 raw sequence:
 ctttacctgatttttggtgcatgag...agacccaatcctttatcaacattta
 framed sequence:
----ctttacctgatttttggtgcat...agacccaatcctttatcaacattta"
+---ctttacctgatttttggtgcat...agacccaatcctttatcaacattta
+Raw sequence was trimmed: FALSE
+Base pair 1 of the raw sequence is base pair 4 of the COI-5P region."
 
   dstr4 = capture_output(dat, print=TRUE)
 
@@ -81,7 +85,9 @@ ctttacctgatttttggtgcatgag...agacccaatcctttatcaacattta
 framed sequence:
 ---ctttacctgatttttggtgcat...agacccaatcctttatcaacattta
 Amino acid sequence:
--LYLIFGAWAG?VGTALSLLIRAEL...LTDRNLNTTFFDPAGGGDPILYQHL"
+-LYLIFGAWAG?VGTALSLLIRAEL...LTDRNLNTTFFDPAGGGDPILYQHL
+Raw sequence was trimmed: FALSE
+Base pair 1 of the raw sequence is base pair 4 of the COI-5P region."
 
   dstr5 = capture_output(dat, print=TRUE)
 
@@ -100,8 +106,10 @@ framed sequence:
 ---ctttacctgatttttggtgcat...agacccaatcctttatcaacattta
 Amino acid sequence:
 -LYLIFGAWAG?VGTALSLLIRAEL...LTDRNLNTTFFDPAGGGDPILYQHL
+Raw sequence was trimmed: FALSE
+Stop codon present: FALSE, Amino acid PHMM score:-197.41253
 The sequence likely does not contain an insertion or deletion.
-Stop codon present: FALSE, Amino acid PHMM score:-197.41253"
+Base pair 1 of the raw sequence is base pair 4 of the COI-5P region."
 
   dstr6 = capture_output(dat, print=TRUE)
 
@@ -121,8 +129,10 @@ framed sequence:
 ---ctttatttaatttttggtgcat...agacccaatcctttaccaacaccta
 Amino acid sequence:
 -LYLIFGAWAG?VGTALSLLIRAEL...LTDRNLNTTFFDPAGGGDPILYQHL
+Raw sequence was trimmed: FALSE
+Stop codon present: TRUE, Amino acid PHMM score:-757.47993
 The sequence likely contains an insertion or deletion.
-Stop codon present: TRUE, Amino acid PHMM score:-757.47993"
+Base pair 1 of the raw sequence is base pair 4 of the COI-5P region."
 
   dstr7 = capture_output(dat, print=TRUE)
 

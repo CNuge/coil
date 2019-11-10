@@ -98,7 +98,7 @@ frame.coi5p = function(x, ... ){
     frame_out = set_frame(x$raw, ntPHMMout[['path']])
     trim_temp  = frame_out$framed
     #record if trimming occurred
-    x$was_trimed = frame_out$trimmed
+    x$was_trimmed = frame_out$trimmed
     #save the amount trimmed from the raw
     x$data$raw_int_trim = frame_out$raw_start
     x$data$raw_int_pad = frame_out$folmer_start
@@ -121,20 +121,20 @@ frame.coi5p = function(x, ... ){
     #remove the intermediate structures to avoid confusion
     x$data$raw_int_trim = NULL
     x$data$raw_int_pad = NULL
-    if(x$was_trimed == TRUE || frame_out_final$trimmed == TRUE){
-      x$was_trimed = TRUE
+    if(x$was_trimmed == TRUE || frame_out_final$trimmed == TRUE){
+      x$was_trimmed = TRUE
     }else{
-      x$was_trimed = FALSE
+      x$was_trimmed = FALSE
     }
   }else{
     x$data$raw_start = frame_out_final$raw_start
     x$data$folmer_start = frame_out_final$folmer_start
-    x$was_trimed  = frame_out_final$trimmed
+    x$was_trimmed  = frame_out_final$trimmed
   }
   #generate the alignment report string
-  x$align_report = paste0("bp ", x$data$raw_start,
+  x$align_report = paste0("Base pair ", x$data$raw_start,
                           " of the raw sequence is base pair ",
-                          x$data$folmer_start, " of the Folmer region.")
+                          x$data$folmer_start, " of the COI-5P region.")
 
   return(x)
 }

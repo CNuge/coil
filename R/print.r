@@ -25,6 +25,7 @@ print.coi5p = function(x, ...){
                "\n",
                sep = "")
     lines = c(lines, l4)
+
   }
   #line to add if sequence is translated
   if( "aaSeq" %in% names(x) ){
@@ -34,23 +35,34 @@ print.coi5p = function(x, ...){
                sep = "")
     lines = c(lines, l5)
   }
+
+  if( "was_trimmed" %in% names(x)){
+    l4a = paste("Raw sequence was trimmed: ", x$was_trimmed, "\n",
+                sep = "")
+    lines = c(lines, l4a)
+  }
+
   #line to add if indel assessment has been performed
   if( "indel_likely" %in% names(x) ){
     if (x$indel_likely == TRUE){
-      l6 = paste("The sequence likely contains an insertion or deletion.\nStop codon present: ",
-                 x$stop_codons,
-                 ", Amino acid PHMM score:",
-                 x$aaScore, '\n',
+      l6 = paste("Stop codon present: ", x$stop_codons,
+                 ", Amino acid PHMM score:", x$aaScore, '\n',
+                 "The sequence likely contains an insertion or deletion.\n",
                  sep = "")
     }else{
-      l6 = paste("The sequence likely does not contain an insertion or deletion.\nStop codon present: ",
-                 x$stop_codons,
-                 ", Amino acid PHMM score:",
-                 x$aaScore, '\n',
+      l6 = paste("Stop codon present: ",  x$stop_codons,
+                 ", Amino acid PHMM score:", x$aaScore, '\n',
+                 "The sequence likely does not contain an insertion or deletion.\n",
                  sep = "")
     }
     lines = c(lines, l6)
   }
+
+  if( "align_report" %in% names(x)){
+    l4b = paste(x$align_report, "\n", sep = "")
+    lines = c(lines, l4b)
+  }
+
   #join the lines into a single string
   cat(lines,sep = "")
 }
