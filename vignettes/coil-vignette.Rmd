@@ -139,8 +139,8 @@ full_coi5p_df = flatten_coi5p(example_barcode_data$coi_output)
 The memory requirements of the method demonstrated above are trivial because the example dataframe has only nine rows. If millions of sequences are being processed, then keeping all of the coi5p objects in memory at once may become prohibitive. This will depend on the amount of RAM available on your machine. The average `coi5p_pipe` output is ~6KB in size, so processing 1 million sequences at once would occupy ~6GB of RAM. If you are trying to limit RAM usage, the following workflow can help keep RAM requirements modest by instantiating only one coi5p object at a time, but as a tradeoff may take slightly more time to execute.
 
 ```{r}
-full_coi5p_df = data.frame(matrix(ncol = 7, nrow = 0),stringsAsFactors = FALSE )
-colnames(full_coi5p_df) = c("name", "raw", "framed", 
+full_coi5p_df = data.frame(matrix(ncol = 9, nrow = 0),stringsAsFactors = FALSE )
+colnames(full_coi5p_df) = c("name", "raw", "framed", "was_trimmed", "align_report",
                             "aaSeq", "aaScore", "indel_likely", "stop_codons")
 
 for(i in 1:length(example_barcode_data$id)){

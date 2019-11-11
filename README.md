@@ -73,7 +73,6 @@ output = coi5p_pipe(example_nt_string)
 Calling the variable name prints the coi5p object's summary and shows all of the important information, including: the original raw sequence, the sequence set in reading frame, the amino acid sequence and the summary stats regarding the likelihood of the sequence containing an error.
 ```
 output 
-#calling output will return the following:
 #coi5p barcode sequence
 #raw sequence:
 #ctctacttgatttttggtgcatgag...ggacccaattctctatcaacactta
@@ -81,8 +80,10 @@ output
 #---ctctacttgatttttggtgcat...ggacccaattctctatcaacactta
 #Amino acid sequence:
 #-LYLIFGAWAG?VG?ALSLLIRAEL...LTDRNLNTTFFDPAGGGDPILYQHL
-#The sequence likely does not contain an insertion or deletion.
+#Raw sequence was trimmed: FALSE
 #Stop codon present: FALSE, Amino acid PHMM score:-206.22045
+#The sequence likely does not contain an insertion or deletion.
+#Base pair 1 of the raw sequence is base pair 4 of the COI-5P region.
 ```
 The coi5p object has the following components that can be extracted by the user using the dollar sign notation.
 ```
@@ -92,8 +93,10 @@ output$framed       #the DNA sequence set in reading frame
 output$aaSeq        #the amino acid sequence
 output$aaScore      #the log likelihood score of the amino acid sequence - see vignette for details
 output$indel_likely #a boolean indicating whether the sequence should be double checked for indel errors
-output$stop_codons  #a boolean indicating whether the amino acid sequence contains stop codons.
-output$data         #contains the generated nucleotide and amino acid hidden state paths.
+output$stop_codons  #a boolean indicating whether the amino acid sequence contains stop codons
+output$data         #contains the generated nucleotide and amino acid hidden state paths
+output$was_trimmed  #a boolean indicating part of raw DNA sequence was trimmed due to not matching the COI-5P region
+output$align_report #a report indicating the first positional match between the raw sequence and the COI-5P region
 ```
 Most use cases will involve the analysis of multiple sequences. Please consult [the package's vignette](https://github.com/CNuge/coil/blob/master/vignettes/coil-vignette.Rmd) for a suggested workflow for batch analysis and demonstration of how the batch analysis helper function can be used to build dataframes out of multiple coi5p objects.
 
