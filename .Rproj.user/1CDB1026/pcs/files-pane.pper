@@ -1,5 +1,5 @@
 {
-    "path" : "~/bin/coil/vignettes",
+    "path" : "~/bin/coil/tests/testthat",
     "sortOrder" : [
         {
             "ascending" : true,
