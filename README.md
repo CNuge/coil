@@ -1,4 +1,4 @@
-# coil <img src="man/coilHex.png align=right" />
+# coil ![](https://github.com/CNuge/coil/blob/master/man/coilHex.png)
 An R package for contextualization and evaluation of COI-5P barcode data
 [![Build Status](https://travis-ci.com/CNuge/coil.svg?branch=master)](https://travis-ci.com/CNuge/coil)
 [![codecov](https://codecov.io/gh/CNuge/coil/branch/master/graph/badge.svg)](https://codecov.io/gh/CNuge/coil)
