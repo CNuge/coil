@@ -1,5 +1,6 @@
 # coil <img src="man/coilHex.png" height="145" align="right"/>
 An R package for pre-processing and error evaluation of COI-5P barcode data
+---------------------------------------------------------------------------
 [![Build Status](https://travis-ci.com/CNuge/coil.svg?branch=master)](https://travis-ci.com/CNuge/coil)
 [![codecov](https://codecov.io/gh/CNuge/coil/branch/master/graph/badge.svg)](https://codecov.io/gh/CNuge/coil)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
@@ -95,7 +96,7 @@ output$aaScore      #the log likelihood score of the amino acid sequence - see v
 output$indel_likely #a boolean indicating whether the sequence should be double checked for indel errors
 output$stop_codons  #a boolean indicating whether the amino acid sequence contains stop codons
 output$data         #contains the generated nucleotide and amino acid hidden state paths
-output$was_trimmed  #a boolean indicating part of raw DNA sequence was trimmed due to not matching the COI-5P region
+output$was_trimmed  #a boolean indicating if part of raw DNA sequence was trimmed due to not matching the COI-5P region
 output$align_report #a report indicating the first positional match between the raw sequence and the COI-5P region
 ```
 Most use cases will involve the analysis of multiple sequences. Please consult [the package's vignette](https://github.com/CNuge/coil/blob/master/vignettes/coil-vignette.Rmd) for a suggested workflow for batch analysis and demonstration of how the batch analysis helper function can be used to build dataframes out of multiple coi5p objects.
