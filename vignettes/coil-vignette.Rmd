@@ -33,7 +33,7 @@ The translation table employed in censored translation - five codons are transla
    Base3  = TCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAG
 ```
 
-## The coi5p package
+## The coil package
 ### Dependencies
 The `coil` package is dependent on [the `aphid` package](https://CRAN.R-project.org/package=aphid) for comparison of sequences against the COI-5P PHMMs. The [`ape`](https://CRAN.R-project.org/package=ape) package is a requirement as well because `coil` internally converts all DNA and amino acid sequences to the ape "DNAbin" and "AAbin" object types to increase computational efficiency. As previously stated, `coil` is also dependent on [the sequinr package](https://cran.r-project.org/package=seqinr) for translation of sequences when [the genetic code associated with the sample](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi) is known.
 
