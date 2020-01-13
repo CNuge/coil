@@ -18,13 +18,13 @@ new_coi5p = function(x = character(), name = character()){
 #' @keywords internal
 validate_coi5p = function(new_instance){
   # take a new instance and run validation checks on the sequence
-  # make sure the sequence has only ATGCN-
+  # make sure the sequence has only ATGCN
   # make sure the sequence has length greater than zero
-  allowed = c("-", "a", "c", "g", "n","t")
+  allowed = c("a", "c", "g", "n", "t")
   for(c in sort(unique(strsplit(new_instance$raw, "")[[1]]))){
     if(!c %in% allowed){
       stop(paste("Unallowed character in DNA string:", c,
-                 "\nValid characters are: a t g c - n"))
+                 "\nValid characters are: a t g c n"))
     }
   }
   new_instance
@@ -34,7 +34,7 @@ validate_coi5p = function(new_instance){
 #' Build a coi5p object from a DNA sequence string.
 #'
 #' @param x A nucleotide string.
-#' Valid characters within the nucleotide string are: 'a', 't', 'g', 'c', '-', and 'n'.
+#' Valid characters within the nucleotide string are: "a", "t", "g", "c", and "n".
 #' The nucleotide string can be input as upper case, but will be automatically converted to lower case.
 #' @param name An optional character string that serves as the identifier for the sequence.
 #'
@@ -62,16 +62,20 @@ coi5p = function(x = character(), name = character()){
 #'
 #' @param x A coi5p class object.
 #' @param ... Additional arguments to be passed between methods.
+#' @param nt_PHMM The profile hidden Markov model against which the raw sequence should be compared. Default is the
+#' full COI-5P nucleotide PHMM (nt_coi_PHMM).
 #'
 #' @return An object of class \code{"coi5p"}
 #' @seealso \code{\link{coi5p}}
+#' @seealso \code{\link{subsetPHMM}}
 #' @details
-#' This function compares the raw sequence against the nucleotide PHMM using the Viterbi algorithm. The path of hidden states
-#' produced by the comparison is used to establish the reading frame of the sequence. If leading insert states are present, the
-#' front of the sequence is trimmed to the first continuous set of match states and the sequence is re-compared to the
-#' nucleotide PHMM. This is done because spurious or outlier matches early in the sequence can lead to incorrect establishment
-#' of the reading frame. Realigning only the truncated version of the sequence to the PHMM improves correct reading frame establishment,
-#' although this can also result in the loss of a few bp of true barcode sequence on the peripherals of the sequence.
+#' This function compares the raw sequence against the nucleotide PHMM using the Viterbi algorithm (for details see Durbin et al.
+#' 1998, ISBN: 9780521629713). The path of hidden states produced by the comparison is used to establish the reading frame of the
+#' sequence. If leading insert states are present, the front of the sequence is trimmed to the first continuous set of match states
+#' and the sequence is re-compared to the nucleotide PHMM. This is done because spurious or outlier matches early in the sequence
+#' can lead to incorrect establishment of the reading frame. Realigning only the truncated version of the sequence to the PHMM
+#' improves correct reading frame establishment, although this can also result in the loss of a few bp of true barcode sequence
+#' on the peripherals of the sequence.
 #' @examples
 #' #previously run function:
 #' dat = coi5p(example_nt_string)
@@ -89,9 +93,10 @@ frame = function(x, ...){
 ####
 #' @rdname frame
 #' @export
-frame.coi5p = function(x, ... ){
+frame.coi5p = function(x, ..., nt_PHMM = nt_coi_PHMM ){
   #input is a coi5p object.
   #set the reading frame and store the framed string in $framed
+
   ntBin = individual_DNAbin(x$raw)
   ntPHMMout = aphid::Viterbi(nt_PHMM, ntBin, odds = FALSE)
   if(leading_ins(ntPHMMout[['path']])){
@@ -149,15 +154,15 @@ frame.coi5p = function(x, ... ){
 #' @param frame_offset The offset to the reading frame to be applied for translation. By default the offset
 #' is zero, so the first character in the framed sequence is considered the first nucleotide of the first codon.
 #' Passing frame_offset = 1 would offset the sequence by one and therefore make the second character in the
-#' framed sequence the the first nucleotide of the first codon.
+#' framed sequence the first nucleotide of the first codon.
 #'
 #' @return An object of class \code{"coi5p"}
 #' @seealso \code{\link{coi5p}}
 #' @seealso \code{\link{frame}}
 #' @seealso \code{\link{which_trans_table}}
 #' @details
-#' The translate allows for the translation of framed sequences from nucleotides to amino acids, both
-#' in instances when the correct genetic code corresponding to a sequence is known, and in instances when phylogenetic
+#' The translate function allows for the translation of framed sequences from nucleotides to amino acids, both
+#' in instances when the correct genetic code corresponding to a sequence is known, and in instances when taxonomic
 #' information is unavailable or unreliable.
 #' @examples
 #' #previously run functions:
@@ -204,11 +209,14 @@ translate.coi5p = function(x, ..., trans_table = 0, frame_offset = 0){
 #' @param indel_threshold The log likelihood threshold used to assess whether or not sequences
 #' are likely to contain an indel. Default is -358.88. Values lower than this will be classified
 #' as likely to contain an indel and values higher will be classified as not likely to contain an indel.
+#' @param aa_PHMM The profile hidden Markov model against which the translated amino acid sequence should be compared.
+#' Default is the full COI-5P amino acid PHMM (aa_coi_PHMM).
 #'
 #' @return An object of class \code{"coi5p"}
 #' @seealso \code{\link{coi5p}}
 #' @seealso \code{\link{frame}}
 #' @seealso \code{\link{translate}}
+#' @seealso \code{\link{subsetPHMM}}
 #' @details
 #' The indel check function analyzes the framed and translated DNA sequences in two ways in order to
 #' allow users to make an informed decision about whether or not a DNA sequence contains a frameshift error.
@@ -219,9 +227,9 @@ translate.coi5p = function(x, ..., trans_table = 0, frame_offset = 0){
 #'
 #' The two tests performed are: (1) a query for stop codons in the amino acid sequence and (2) an evaluation of the
 #' log likelihood value resulting from the comparison of the framed coi5p amino acid sequence against the COI-5P
-#' amino acid PHMM. The default likelihood value for identifying a sequence is likely erroneous is -358.88. sequences with
+#' amino acid PHMM. The default likelihood value for identifying a sequence is likely erroneous is -358.88. Sequences with
 #' likelihood values lower than this will receive an indel_likely value of TRUE. The threshold of -358.88 was experimentally
-#' determined to be the optimal likelihood threshold for separating of full length sequences with and without errors when
+#' determined to be the optimal likelihood threshold for separating of full-length sequences with and without errors when
 #' the censored translation option is used. Sequences will have higher likelihood values when a specific genetic code is used.
 #' Sequences will have lower likelihood values when they are not complete barcode sequences (i.e. <500bp in length). For these
 #' reasons the likelihood threshold is not a specific value but a parameter that can be altered based on the type of translation
@@ -236,6 +244,7 @@ translate.coi5p = function(x, ..., trans_table = 0, frame_offset = 0){
 #'
 #' Full length barcode sequences, unknown genetic code: indel_threshold = -358.88
 #'
+#' Source: Nugent et al. 2019 (doi: https://doi.org/10.1101/2019.12.12.865014).
 #' @examples
 #' #previously run functions:
 #' dat = coi5p(example_nt_string)
@@ -257,7 +266,7 @@ indel_check = function(x, ...){
 ####
 #' @rdname indel_check
 #' @export
-indel_check.coi5p = function(x, ..., indel_threshold = -358.88){
+indel_check.coi5p = function(x, ..., indel_threshold = -358.88, aa_PHMM = aa_coi_PHMM){
   if(is.null(x$framed)|is.null(x$aaSeq) ){
     stop("indel_check function only accepts framed and translated coi5p objects. See functions: frame, translate.")
   }

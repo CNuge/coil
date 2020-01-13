@@ -5,7 +5,7 @@ test_that("Bad function calls return the proper warnings.", {
 
   expect_error(coi5p(), "Must pass a DNA sequence.")
 
-  expect_error(coi5p("ATGCATFA"), "Unallowed character in DNA string: f \nValid characters are: a t g c - n")
+  expect_error(coi5p("ATGCATFA"), "Unallowed character in DNA string: f \nValid characters are: a t g c n")
 
   dat = coi5p(sequence)
 

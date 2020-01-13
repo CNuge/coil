@@ -7,7 +7,8 @@
 \usage{
 indel_check(x, ...)
 
-\method{indel_check}{coi5p}(x, ..., indel_threshold = -358.88)
+\method{indel_check}{coi5p}(x, ..., indel_threshold = -358.88,
+  aa_PHMM = aa_coi_PHMM)
 }
 \arguments{
 \item{x}{A coi5p class object for which frame() and translate() have been run.}
@@ -17,6 +18,9 @@ indel_check(x, ...)
 \item{indel_threshold}{The log likelihood threshold used to assess whether or not sequences
 are likely to contain an indel. Default is -358.88. Values lower than this will be classified
 as likely to contain an indel and values higher will be classified as not likely to contain an indel.}
+
+\item{aa_PHMM}{The profile hidden Markov model against which the translated amino acid sequence should be compared.
+Default is the full COI-5P amino acid PHMM (aa_coi_PHMM).}
 }
 \value{
 An object of class \code{"coi5p"}
@@ -34,9 +38,9 @@ are highly divergent from animal COI-5P sequences).
 
 The two tests performed are: (1) a query for stop codons in the amino acid sequence and (2) an evaluation of the
 log likelihood value resulting from the comparison of the framed coi5p amino acid sequence against the COI-5P
-amino acid PHMM. The default likelihood value for identifying a sequence is likely erroneous is -358.88. sequences with
+amino acid PHMM. The default likelihood value for identifying a sequence is likely erroneous is -358.88. Sequences with
 likelihood values lower than this will receive an indel_likely value of TRUE. The threshold of -358.88 was experimentally
-determined to be the optimal likelihood threshold for separating of full length sequences with and without errors when
+determined to be the optimal likelihood threshold for separating of full-length sequences with and without errors when
 the censored translation option is used. Sequences will have higher likelihood values when a specific genetic code is used.
 Sequences will have lower likelihood values when they are not complete barcode sequences (i.e. <500bp in length). For these
 reasons the likelihood threshold is not a specific value but a parameter that can be altered based on the type of translation
@@ -50,6 +54,8 @@ Short barcode sequences, unknown genetic code: indel_threshold = -440.24
 Full length barcode sequences, known genetic code: indel_threshold = -246.20
 
 Full length barcode sequences, unknown genetic code: indel_threshold = -358.88
+
+Source: Nugent et al. 2019 (doi: https://doi.org/10.1101/2019.12.12.865014).
 }
 \examples{
 #previously run functions:
@@ -71,4 +77,6 @@ dat$aaScore #view the amino acid log likelihood score
 \code{\link{frame}}
 
 \code{\link{translate}}
+
+\code{\link{subsetPHMM}}
 }

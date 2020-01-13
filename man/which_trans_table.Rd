@@ -2,7 +2,7 @@
 % Please edit documentation in R/translation.r
 \name{which_trans_table}
 \alias{which_trans_table}
-\title{Determine the translation table to use for a given phylogenetic group.}
+\title{Determine the translation table to use for a given taxonomic group.}
 \usage{
 which_trans_table(x)
 }
@@ -13,10 +13,10 @@ which_trans_table(x)
 An integer indicating the correct translation table.
 }
 \description{
-Recommends which translation table to use if taxonomic data is available.
+Recommends which translation table to use if taxonomic data are available.
 The recommendations are based on the translation tables reported for different
-taxonomic classifications on the barcode of life database
-(http://www.boldsystems.org/index.php).
+taxonomic classifications on the Barcode of Life Data Systems
+(BOLD - http://www.boldsystems.org/index.php).
 }
 \details{
 If which_trans_table is unable to identify a translation table to utilize,

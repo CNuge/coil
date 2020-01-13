@@ -26,7 +26,7 @@
 #'\item \code{\link{indel_check}} Check to see if an insertion or deletion error is likely.
 #'}
 #'
-#'@section Data
+#'@section Data:
 #'\itemize{
 #'\item \code{\link{example_nt_string}} String of DNA barcode data used in the package documentation's examples.
 #'\item \code{\link{example_barcode_data}} A dataframe of coi5p barcode data, demonstrating different example cases.

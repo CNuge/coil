@@ -4,8 +4,7 @@
 #' This model is stored in the coi5p package and was trained on a representative
 #' sample of the barcode of life database (http://www.boldsystems.org/index.php).
 #'
-#' @keywords internal
-"nt_PHMM"
+"nt_coi_PHMM"
 ###############################################################################
 
 ###############################################################################
@@ -14,8 +13,7 @@
 #' This model is stored in the coi5p package and was trained on a representative
 #' sample of the barcode of life database (http://www.boldsystems.org/index.php).
 #'
-#' @keywords internal
-"aa_PHMM"
+"aa_coi_PHMM"
 ###############################################################################
 
 ###############################################################################

@@ -21,7 +21,7 @@ of the sample is known, use the function which_trans_table() to determine the tr
 \item{frame_offset}{The offset to the reading frame to be applied for translation. By default the offset
 is zero, so the first character in the framed sequence is considered the first nucleotide of the first codon.
 Passing frame_offset = 1 would offset the sequence by one and therefore make the second character in the
-framed sequence the the first nucleotide of the first codon.}
+framed sequence the first nucleotide of the first codon.}
 }
 \value{
 An object of class \code{"coi5p"}
@@ -30,8 +30,8 @@ An object of class \code{"coi5p"}
 Translate a coi5p sequence.
 }
 \details{
-The translate allows for the translation of framed sequences from nucleotides to amino acids, both
-in instances when the correct genetic code corresponding to a sequence is known, and in instances when phylogenetic
+The translate function allows for the translation of framed sequences from nucleotides to amino acids, both
+in instances when the correct genetic code corresponding to a sequence is known, and in instances when taxonomic
 information is unavailable or unreliable.
 }
 \examples{

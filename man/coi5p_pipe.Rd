@@ -5,7 +5,8 @@
 \title{Run the entire coi5p pipeline for an input sequence.}
 \usage{
 coi5p_pipe(x, ..., name = character(), trans_table = 0,
-  frame_offset = 0, indel_threshold = -363.87)
+  frame_offset = 0, nt_PHMM = coil::nt_coi_PHMM,
+  aa_PHMM = coil::aa_coi_PHMM, indel_threshold = -358.88)
 }
 \arguments{
 \item{x}{A nucleotide string.
@@ -22,12 +23,19 @@ of the sample is known, use the function which_trans_table() to determine the tr
 
 \item{frame_offset}{The offset to the reading frame to be applied for translation. By default the offset
 is zero, so the first character in the framed sequence is considered the first nucleotide of the first codon.
-Passing frame_offset = 1 would make the second character in the framed sequence the the first nucleotide of
+Passing frame_offset = 1 would make the second character in the framed sequence the first nucleotide of
 the first codon.}
 
+\item{nt_PHMM}{The profile hidden Markov model against which the raw sequence should be compared in the framing step.
+Default is the full COI-5P nucleotide PHMM (nt_coi_PHMM).}
+
+\item{aa_PHMM}{The profile hidden Markov model against which the translated amino acid sequence should be compared
+in the indel_check step. Default is the full COI-5P amino acid PHMM (aa_coi_PHMM).}
+
 \item{indel_threshold}{The log likelihood threshold used to assess whether or not sequences
-are likely to contain an indel. Default is -345.95. Values lower than this will be classified
-as likely to contain an indel and values higher will be classified as not likely to contain an indel.}
+are likely to contain an indel. Default is -358.88. Values lower than this will be classified
+as likely to contain an indel and values higher will be classified as not likely to contain an indel.
+For recommendations on selecting a indel_threshold value, consult: Nugent et al. 2019 (doi: https://doi.org/10.1101/2019.12.12.865014).}
 }
 \value{
 An object of class \code{"coi5p"}
@@ -49,7 +57,6 @@ dat$framed #sequence in common reading frame
 dat$aaSeq  #sequence translated to amino acids (censored)
 dat$indel_likely #whether an insertion or deletion likely exists in the sequence
 dat$stop_codons #whether or not there are stop codons in the amino acid sequence
-
 dat = coi5p_pipe(example_nt_string , trans_table = 5)
 dat$aaSeq #sequence translated to amino acids using designated translation table
 }
@@ -63,4 +70,6 @@ dat$aaSeq #sequence translated to amino acids using designated translation table
 \code{\link{indel_check}}
 
 \code{\link{which_trans_table}}
+
+\code{\link{subsetPHMM}}
 }

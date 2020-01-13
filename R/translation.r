@@ -53,14 +53,14 @@ translate_codon = function(codon){
 
 #' Censored Translation of a DNA string.
 #'
-#' Translate a DNA sequence using the censored translation table,
-#' this translates codons for which the amino acids is unambiguous across
+#' Translate a DNA sequence using the censored translation table.
+#' This translates codons for which the amino acids are unambiguous across
 #' mitochondrial genetic codes across the animal kingdom and does not
 #' translate those for which the amino acid varies,
 #' but rather outputs a ? in the string.
 #' @param dna_str The DNA string to be translated.
 #' @param reading_frame Set the reading frame of the sequence. reading_frame = 1 (default)
-#' means the first bp in the string is the start of the first codon, can pass either 1, 2 or 3.
+#' means the first bp in the string is the start of the first codon, can pass: 1, 2, or 3.
 #' i.e. reading_frame = 2 indicates that the second bp in the string is the start of the first codon.
 #' @examples
 #' #translate a string of DNA:
@@ -83,12 +83,12 @@ censored_translation = function(dna_str, reading_frame = 1){
 }
 
 
-#' Determine the translation table to use for a given phylogenetic group.
+#' Determine the translation table to use for a given taxonomic group.
 #'
-#' Recommends which translation table to use if taxonomic data is available.
+#' Recommends which translation table to use if taxonomic data are available.
 #' The recommendations are based on the translation tables reported for different
-#' taxonomic classifications on the barcode of life database
-#' (http://www.boldsystems.org/index.php).
+#' taxonomic classifications on the Barcode of Life Data Systems
+#' (BOLD - http://www.boldsystems.org/index.php).
 #'
 #' @param x A taxonomic designation (allowed ranks: family, order, class, phylum).
 #' @return An integer indicating the correct translation table.

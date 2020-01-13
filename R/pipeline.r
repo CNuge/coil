@@ -16,11 +16,16 @@
 #' of the sample is known, use the function which_trans_table() to determine the translation table to use.
 #' @param frame_offset The offset to the reading frame to be applied for translation. By default the offset
 #' is zero, so the first character in the framed sequence is considered the first nucleotide of the first codon.
-#' Passing frame_offset = 1 would make the second character in the framed sequence the the first nucleotide of
+#' Passing frame_offset = 1 would make the second character in the framed sequence the first nucleotide of
 #' the first codon.
 #' @param indel_threshold The log likelihood threshold used to assess whether or not sequences
-#' are likely to contain an indel. Default is -345.95. Values lower than this will be classified
+#' are likely to contain an indel. Default is -358.88. Values lower than this will be classified
 #' as likely to contain an indel and values higher will be classified as not likely to contain an indel.
+#' For recommendations on selecting a indel_threshold value, consult: Nugent et al. 2019 (doi: https://doi.org/10.1101/2019.12.12.865014).
+#' @param nt_PHMM The profile hidden Markov model against which the raw sequence should be compared in the framing step.
+#' Default is the full COI-5P nucleotide PHMM (nt_coi_PHMM).
+#' @param aa_PHMM The profile hidden Markov model against which the translated amino acid sequence should be compared
+#' in the indel_check step. Default is the full COI-5P amino acid PHMM (aa_coi_PHMM).
 #'
 #' @return An object of class \code{"coi5p"}
 #' @examples
@@ -34,7 +39,6 @@
 #' dat$aaSeq  #sequence translated to amino acids (censored)
 #' dat$indel_likely #whether an insertion or deletion likely exists in the sequence
 #' dat$stop_codons #whether or not there are stop codons in the amino acid sequence
-#'
 #' dat = coi5p_pipe(example_nt_string , trans_table = 5)
 #' dat$aaSeq #sequence translated to amino acids using designated translation table
 #' @seealso \code{\link{coi5p}}
@@ -42,17 +46,21 @@
 #' @seealso \code{\link{translate}}
 #' @seealso \code{\link{indel_check}}
 #' @seealso \code{\link{which_trans_table}}
+#' @seealso \code{\link{subsetPHMM}}
+#'
 #' @name coi5p_pipe
 #' @export
 coi5p_pipe = function(x, ... ,
                       name = character(),
                       trans_table = 0,
                       frame_offset = 0,
-                      indel_threshold = -363.87){
+                      nt_PHMM = coil::nt_coi_PHMM,
+                      aa_PHMM = coil::aa_coi_PHMM,
+                      indel_threshold = -358.88){
   dat = coi5p(x, name=name)
-  dat = frame(dat )
+  dat = frame(dat , nt_PHMM = nt_PHMM)
   dat = translate(dat, trans_table = trans_table, frame_offset = frame_offset)
-  dat = indel_check(dat, indel_threshold=indel_threshold)
+  dat = indel_check(dat, indel_threshold=indel_threshold, aa_PHMM = aa_PHMM)
   return(dat)
 }
 

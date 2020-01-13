@@ -7,12 +7,15 @@
 \usage{
 frame(x, ...)
 
-\method{frame}{coi5p}(x, ...)
+\method{frame}{coi5p}(x, ..., nt_PHMM = nt_coi_PHMM)
 }
 \arguments{
 \item{x}{A coi5p class object.}
 
 \item{...}{Additional arguments to be passed between methods.}
+
+\item{nt_PHMM}{The profile hidden Markov model against which the raw sequence should be compared. Default is the
+full COI-5P nucleotide PHMM (nt_coi_PHMM).}
 }
 \value{
 An object of class \code{"coi5p"}
@@ -21,12 +24,13 @@ An object of class \code{"coi5p"}
 Take a coi5p sequence and place it in reading frame.
 }
 \details{
-This function compares the raw sequence against the nucleotide PHMM using the Viterbi algorithm. The path of hidden states
-produced by the comparison is used to establish the reading frame of the sequence. If leading insert states are present, the
-front of the sequence is trimmed to the first continuous set of match states and the sequence is re-compared to the
-nucleotide PHMM. This is done because spurious or outlier matches early in the sequence can lead to incorrect establishment
-of the reading frame. Realigning only the truncated version of the sequence to the PHMM improves correct reading frame establishment,
-although this can also result in the loss of a few bp of true barcode sequence on the peripherals of the sequence.
+This function compares the raw sequence against the nucleotide PHMM using the Viterbi algorithm (for details see Durbin et al.
+1998, ISBN: 9780521629713). The path of hidden states produced by the comparison is used to establish the reading frame of the
+sequence. If leading insert states are present, the front of the sequence is trimmed to the first continuous set of match states
+and the sequence is re-compared to the nucleotide PHMM. This is done because spurious or outlier matches early in the sequence
+can lead to incorrect establishment of the reading frame. Realigning only the truncated version of the sequence to the PHMM
+improves correct reading frame establishment, although this can also result in the loss of a few bp of true barcode sequence
+on the peripherals of the sequence.
 }
 \examples{
 #previously run function:
@@ -39,4 +43,6 @@ dat$framed
 }
 \seealso{
 \code{\link{coi5p}}
+
+\code{\link{subsetPHMM}}
 }

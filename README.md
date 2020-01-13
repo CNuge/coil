@@ -60,7 +60,7 @@ dat = translate(dat)
 #can be used to look up the proper translation table.
 which_trans_table("Scyliorhinidae")
 
-#step 3a: the proper transaltion table can be passed to the translation function
+#step 3a: the proper translation table can be passed to the translation function
 dat = translate(dat, trans_table = 2)
 
 #step 4: check to see if an insertion or deletion is likely
