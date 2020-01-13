@@ -20,12 +20,15 @@ validate_coi5p = function(new_instance){
   # take a new instance and run validation checks on the sequence
   # make sure the sequence has only ATGCN
   # make sure the sequence has length greater than zero
-  allowed = c("a", "c", "g", "n", "t")
+  allowed = c("a", "c", "g", "n", "t", "-")
   for(c in sort(unique(strsplit(new_instance$raw, "")[[1]]))){
     if(!c %in% allowed){
       stop(paste("Unallowed character in DNA string:", c,
-                 "\nValid characters are: a t g c n"))
+                 "\nValid characters are: a t g c - n"))
     }
+  }
+  if(grepl("-", new_instance$raw) & grepl("n", new_instance$raw)){
+    warning("Two styles of placeholders used! Both 'n' and '-' in input. '-' have been converted to 'n'.")
   }
   new_instance
 }
@@ -34,7 +37,8 @@ validate_coi5p = function(new_instance){
 #' Build a coi5p object from a DNA sequence string.
 #'
 #' @param x A nucleotide string.
-#' Valid characters within the nucleotide string are: "a", "t", "g", "c", and "n".
+#' Valid characters within the nucleotide string are: "a", "t", "g", "c", "-" and "n".
+#' coil treats both '-' and 'n' characters as placeholder nucleotides when comparing to the PHMM.
 #' The nucleotide string can be input as upper case, but will be automatically converted to lower case.
 #' @param name An optional character string that serves as the identifier for the sequence.
 #'
