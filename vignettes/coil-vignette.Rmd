@@ -173,7 +173,7 @@ dna_336_subset_indel = paste(c(dna_vector[336:358]  ,dna_vector[360:635]), colla
 
 ```
 
-Since `dna_336_subset` is much shorter than the full nucleotide PHMM (included in coil as the variable: `nt_coi_PHMM`), when the sequence is analyzed with the `coi5p_pipe` function, a false match occurs and the reading frame is incorrectly established. The sequence is reported to contain stop codons, when it is in fact a true 300bp barcode fragment. This is an example of why false positives are sometimes produced for shorter sequences.
+`dna_336_subset` is much shorter than the full nucleotide PHMM (included in coil as the variable: `nt_coi_PHMM`) and when the sequence is analyzed with the `coi5p_pipe` function, a false match occurs and the reading frame is incorrectly established. The sequence is reported to contain stop codons, when it is in fact a true 300bp barcode fragment. This is an example of why false positives are sometimes produced for shorter sequences.
 
 ```{r}
 false_pos = coi5p_pipe(dna_336_subset)
