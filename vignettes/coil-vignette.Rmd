@@ -19,11 +19,9 @@ library(coil)
 
 ## Introduction
 
-The backbone of the coi5p package is a pair of profile hidden Markov models (PHMMs) that have been trained using a representative sample of the COI-5P sequences available on [the BOLD database](http://www.boldsystems.org/index.php). A 657 nucleotide PHMM receives raw sequences from the user and uses the Viterbi algorithm (implemented via [the R package aphid](https://CRAN.R-project.org/package=aphid)) to optimally match the input sequence against the COI-5P nucleotide profile. The second PHMM receives an amino acid sequence that is matched against the COI-5P amino acids profile. The model provides two Boolean output metrics to the user: (a) the sequence contains stop codons (T/F), (b) is the sequence likely to contain an insertion or deletion error (T/F). The insertion or deletion Boolean is based on the log likelihood of the amino acid sequence compared to the PHMM. A default indel likelihood threshold of -358.88 is set but this can be change by the user. Sequences with likelihood values less than this threshold indicate the sequence is likely to contain an indel error, as the amino acid sequence is improbable and therefore indicative of a possible frame shift.
+The backbone of the `coil` package is a pair of profile hidden Markov models (PHMMs) that have been trained using a representative sample of the COI-5P sequences available on [the BOLD database](http://www.boldsystems.org/index.php). A 657 nucleotide PHMM receives raw sequences from the user and uses the Viterbi algorithm (implemented via [the R package aphid](https://CRAN.R-project.org/package=aphid)) to optimally match the input sequence against the COI-5P nucleotide profile. The second PHMM receives an amino acid sequence that is matched against the COI-5P amino acids profile. The model provides two Boolean output metrics to the user: (a) the sequence contains stop codons (T/F), (b) is the sequence likely to contain an insertion or deletion error (T/F). The insertion or deletion Boolean is based on the log likelihood of the amino acid sequence compared to the PHMM. A default indel likelihood threshold of -358.88 is set but this can be change by the user. Sequences with likelihood values less than this threshold indicate the sequence is likely to contain an indel error, as the amino acid sequence is improbable and therefore indicative of a possible frame shift.
 
 The nucleotide and amino acid PHMMs are interfaced through the translate function, which takes the in frame nucleotide sequence and translates it to amino acids. This function uses [the sequinr package](https://cran.r-project.org/package=seqinr) to conduct translation in all instances where [the genetic code associated with the sample](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi) is known. For samples without taxonomic IDs or known genetic codes an additional genetic code is provided. This genetic code is used to conduct censored translation, meaning that translation is conducted normally for codons that do not vary in the amino acid they code for across all known animal mitochondrial genetic codes. The codons that are known to vary in the amino acid they code for across taxa are not translated, rather a placeholder (`?`) is output to indicate that the amino acid at this location in the sequence cannot be stated with certainty. This functionality allows the `indel_check` function to assess the likelihood of sequences of unknown taxonomy without being overly stringent in its characterization of sequences as indels due to the appropriation of the wrong translation table.
-
-The translation table employed in censored translation - five codons are translated to placeholder question marks, due to their ambiguity across different mitochondrial translation tables.
 
 ```
  Censored translation table:
@@ -32,6 +30,7 @@ The translation table employed in censored translation - five codons are transla
    Base2  = TTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGG
    Base3  = TCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAG
 ```
+The translation table employed in censored translation - five codons are translated to placeholder question marks, due to their ambiguity across different mitochondrial translation tables.
 
 ## The coil package
 ### Dependencies
@@ -40,7 +39,7 @@ The `coil` package is dependent on [the `aphid` package](https://CRAN.R-project.
 
 ### Using the package
 #### Full analysis pipeline for a single sequence
-An example execution of the complete coi5p analysis pipeline with default options is demonstrated below using an example COI-5P barcode DNA sequence.
+An example execution of the complete coil analysis pipeline with default options is demonstrated below using an example COI-5P barcode DNA sequence.
 
 ```{r}
 output = coi5p_pipe(example_nt_string)
@@ -136,7 +135,7 @@ full_coi5p_df = flatten_coi5p(example_barcode_data$coi_output)
 #full_coi5p_df
 ```
 
-The memory requirements of the method demonstrated above are trivial because the example dataframe has only nine rows. If millions of sequences are being processed, then keeping all of the coi5p objects in memory at once may become prohibitive. This will depend on the amount of RAM available on your machine. The average `coi5p_pipe` output is ~6KB in size, so processing 1 million sequences at once would occupy ~6GB of RAM. If you are trying to limit RAM usage, the following workflow can help keep RAM requirements modest by instantiating only one coi5p object at a time, but as a tradeoff may take slightly more time to execute.
+The memory requirements of the method demonstrated above are trivial because the example dataframe has only nine rows. If millions of sequences are being processed, then keeping all of the coi5p objects in memory at once may become prohibitive. This will depend on the amount of RAM available on your machine. The average `coi5p_pipe` output is ~6KB in size, so processing 1 million sequences at once would occupy ~6GB of RAM. If you are trying to limit RAM usage, the following workflow can help keep RAM requirements modest by instantiating only one coi5p object at a time, but as a trade-off may take slightly more time to execute.
 
 ```{r}
 full_coi5p_df = data.frame(matrix(ncol = 9, nrow = 0),stringsAsFactors = FALSE )
@@ -155,9 +154,9 @@ for(i in 1:length(example_barcode_data$id)){
 
 As demonstrated here, the `coil` package allows for robust cleaning, contextualization and error assessment of novel COI-5P barcode data. The package's analysis pipeline is designed in a modular fashion, allowing the user to run only the functions required for their given use case. The pipeline is designed with scalability in mind; each sequence is processed individually, allowing for parallelization to optimize analysis speed (i.e. via R's `mclapply` function) when computational resources are abundant or for the sequential analysis of sequences when limited memory is available.
 
-#### Analysis of metabarcode data - Subsetting the PHMM
+#### Analysis of metabarcode data - Sub-setting the PHMM
 
-The `coil` package's performance is suboptimal when the length of the sequence being processed is shorter than the length of the PHMM it is being compared against (Nugent et al. 2019 doi: https://doi.org/10.1101/2019.12.12.865014). When sequences are shorter than the PHMM profile length, the inferred reading frame can be incorrect in up to 5% of sequences. This error occurs when the `frame` function matches the leading nucleotides of the given query to an incorret position in the PHMM (a consequence of sequence similarity between different parts of the barcode region). This is especially problematic in the processing of metabarcoding data (i.e. using coil to error check consensus sequences of operational taxonomic units) because metabarcoding often targets shorter, standardized sections of the full barcode region.
+The `coil` package's performance is sub-optimal when the length of the sequence being processed is shorter than the length of the PHMM it is being compared against (Nugent et al. 2019 doi: https://doi.org/10.1101/2019.12.12.865014). When sequences are shorter than the PHMM profile length, the inferred reading frame can be incorrect in up to 5% of sequences. This error occurs when the `frame` function matches the leading nucleotides of the given query to an incorrect position in the PHMM (a consequence of sequence similarity between different parts of the barcode region). This is especially problematic in the processing of metabarcoding data (i.e. using coil to error check consensus sequences of operational taxonomic units) because metabarcoding often targets shorter, standardized sections of the full barcode region.
 
 To optimize performance for metabarcode data, `coil` contains a function, `subsetPHMM`, that allows for input sequences to be compared against a subset of the full COI-5P barcode region. This allows for `coil` to be effectively employed in the processing and error evaluation of metabarcode data, if the user knows which part of the COI-5P barcode region has been targeted.
 
@@ -180,11 +179,11 @@ false_pos = coi5p_pipe(dna_336_subset)
 false_pos$stop_codons
 ```
 
-If we know the region of barocde that are barcode sequence fragment corresponds to, we can subset the nucleotide and amino acid PHMMs. Passing the subset models to the `coi5p_pipe` function along with the query sequence allows us to compare the sequence to only the region of interest.
+If we know the region of barcode that are barcode sequence fragment corresponds to, we can subset the nucleotide and amino acid PHMMs. Passing the subset models to the `coi5p_pipe` function along with the query sequence allows us to compare the sequence to only the region of interest.
 
-To defualt PHMMs are `nt_coi_PHMM` and `aa_coi_PHMM`, which respectively are trained on nucleotide and amino acid sequences of the COI-5P region. To subset each PHMM, we pass the PHMM and the start and end positions of the sub-region of interest to the `subsetPHMM` function. This produces new models which we can compare smaller sequences against. 
+To default PHMMs are `nt_coi_PHMM` and `aa_coi_PHMM`, which respectively are trained on nucleotide and amino acid sequences of the COI-5P region. To subset each PHMM, we pass the PHMM and the start and end positions of the sub-region of interest to the `subsetPHMM` function. This produces new models which we can compare smaller sequences against. 
 
-*IMPORTANT NOTE:* When subsetting `nt_coi_PHMM` with `subsetPHMM` it is strongly advised that your `start` position is the first base pair of a codon (codon 1 starts at position 1, so the `start` argument should be part of the sequence 1,4,7,10,13,16,etc). The cell below contains a small function (`first_bp_of_codon`) to verify this. If you do not heed this advice, you will need to pass a `frame_offset` argument to the `coi5p_pipe` function (i.e. if your start value is `bad_start = 5`, the corresponding needs to be included in the `coi5p_pipe` function calle `frame_offset = (bad_start-1)%%3`), and this makes things complicated.
+*IMPORTANT NOTE:* When sub-setting `nt_coi_PHMM` with `subsetPHMM` it is strongly advised that your `start` position is the first base pair of a codon (codon 1 starts at position 1, so the `start` argument should be part of the sequence 1,4,7,10,13,16,etc). The cell below contains a small function (`first_bp_of_codon`) to verify this. If you do not heed this advice, you will need to pass a `frame_offset` argument to the `coi5p_pipe` function (i.e. if your start value is `bad_start = 5`, the corresponding needs to be included in the `coi5p_pipe` function call `frame_offset = (bad_start-1)%%3`), and this makes things complicated.
 
 ```{r}
 #want to start at position 337 and cover 300bp
@@ -222,7 +221,7 @@ subset_no_error_output$stop_codons
 subset_no_error_output
 ```
 
-As we can see the error-free barcode sequence fragment has this time been framed properly, and as a result there is no evidence of a stop codon and the amino acid PHMM score is high.  Below the same subset PHMMs are used to assess the barcode fragment with an indel error, it effectively identifies the presence of stop codons in the sequence (There the amino acid PHMM score is also low). Therefore using the `subsetPHMM` function allows us to effectively extend the functionality of `coil` to barcode sequence fragments by constraing the PHMMS. The frequency of false positives can be reduced and we can effiectively separate barcode sequence fragments with indels from error-free sequences.
+As we can see the error-free barcode sequence fragment has this time been framed properly, and as a result there is no evidence of a stop codon and the amino acid PHMM score is high.  Below the same subset PHMMs are used to assess the barcode fragment with an indel error, it effectively identifies the presence of stop codons in the sequence (There the amino acid PHMM score is also low). Therefore using the `subsetPHMM` function allows us to effectively extend the functionality of `coil` to barcode sequence fragments by constraining the PHMMS. The frequency of false positives can be reduced and we can effectively separate barcode sequence fragments with indels from error-free sequences.
 
 ```{r}
 subset_has_error_outpt = coi5p_pipe(dna_336_subset_indel, nt_PHMM = meta_nt_phmm, aa_PHMM = meta_aa_phmm)
