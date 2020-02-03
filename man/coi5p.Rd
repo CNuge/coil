@@ -8,7 +8,8 @@ coi5p(x = character(), name = character())
 }
 \arguments{
 \item{x}{A nucleotide string.
-Valid characters within the nucleotide string are: "a", "t", "g", "c", and "n".
+Valid characters within the nucleotide string are: "a", "t", "g", "c", "-" and "n".
+coil treats both '-' and 'n' characters as placeholder nucleotides when comparing to the PHMM.
 The nucleotide string can be input as upper case, but will be automatically converted to lower case.}
 
 \item{name}{An optional character string that serves as the identifier for the sequence.}

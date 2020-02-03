@@ -19,7 +19,7 @@ taxonomic classifications on the Barcode of Life Data Systems
 (BOLD - http://www.boldsystems.org/index.php).
 }
 \details{
-If which_trans_table is unable to identify a translation table to utilize,
+If which_trans_table is unable to identify a translation table,
 more information on translation tables can be found here: https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi
 }
 \examples{

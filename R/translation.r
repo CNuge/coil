@@ -98,10 +98,15 @@ censored_translation = function(dna_str, reading_frame = 1){
 #' which_trans_table("Akentrogonida")  #order
 #' which_trans_table("Hydrobiidae") #family
 #' @details
-#' If which_trans_table is unable to identify a translation table to utilize,
+#' If which_trans_table is unable to identify a translation table,
 #' more information on translation tables can be found here: https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi
+#'
 #' @export
 which_trans_table = function(x) {
+
+    if(!tolower(x) %in% trans_df$phylogeny){
+      warning("No data for passed taxonomic designation, recommending censored translation. Are you sure this an animal? Did you spell it right?")
+    }
     use_tab = trans_df$trans_table[trans_df$phylogeny == tolower(x)]
     if(length(use_tab) == 0){
       return(0)

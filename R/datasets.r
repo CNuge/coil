@@ -1,3 +1,7 @@
+
+#use_data(trans_df,nt_coi_PHMM,aa_coi_PHMM,nt_coi_PHMM,example_nt_string,example_barcode_data, overwrite=TRUE, internal=TRUE)
+
+
 ###############################################################################
 #' Nucleotide profile hidden Markov model for coi5p.
 #'

@@ -10,18 +10,19 @@ vignette: >
 ---
  
 ```{r loadlib, echo=TRUE, results='hide', message=FALSE, warning=FALSE}
+#install.packages('coil')
 library(coil)
 ```
   
 ## Abstract
 
-**coil** is an R package designed for the cleaning, contextualization and assessment of cytochrome c oxidase I DNA barcode data ([COI-5P, or the five prime portion of COI](https://en.wikipedia.org/wiki/Cytochrome_c_oxidase_subunit_I)). It contains functions for placing COI-5P barcode sequences into a common reading frame, translating DNA sequences to amino acids and for assessing the likelihood that a given barcode sequence includes an insertion or deletion error. These functions are provided as a single function analysis pipeline and are also available individually for efficient and targeted analysis of barcode data.
+**coil** is an R package designed for the cleaning, contextualization, and assessment of cytochrome c oxidase I DNA barcode data ([COI-5P, or the five prime portion of COI](https://en.wikipedia.org/wiki/Cytochrome_c_oxidase_subunit_I)). It contains functions for placing COI-5P barcode sequences into a common reading frame, translating DNA sequences to amino acids, and for assessing the likelihood that a given barcode sequence includes an insertion or deletion error. These functions are provided as a single function analysis pipeline and are also available individually for efficient and targeted analysis of barcode data.
 
 ## Introduction
 
-The backbone of the `coil` package is a pair of profile hidden Markov models (PHMMs) that have been trained using a representative sample of the COI-5P sequences available on [the BOLD database](http://www.boldsystems.org/index.php). A 657 nucleotide PHMM receives raw sequences from the user and uses the Viterbi algorithm (implemented via [the R package aphid](https://CRAN.R-project.org/package=aphid)) to optimally match the input sequence against the COI-5P nucleotide profile. The second PHMM receives an amino acid sequence that is matched against the COI-5P amino acids profile. The model provides two Boolean output metrics to the user: (a) the sequence contains stop codons (T/F), (b) is the sequence likely to contain an insertion or deletion error (T/F). The insertion or deletion Boolean is based on the log likelihood of the amino acid sequence compared to the PHMM. A default indel likelihood threshold of -358.88 is set but this can be change by the user. Sequences with likelihood values less than this threshold indicate the sequence is likely to contain an indel error, as the amino acid sequence is improbable and therefore indicative of a possible frame shift.
+The backbone of the `coil` package is a pair of profile hidden Markov models (PHMMs) that have been trained using a representative sample of the COI-5P sequences available on [the BOLD database](http://www.boldsystems.org/index.php). A 657 nucleotide PHMM receives raw sequences from the user and uses the Viterbi algorithm (implemented via [the R package aphid](https://CRAN.R-project.org/package=aphid)) to match the input sequence against the COI-5P nucleotide profile. The second PHMM receives an amino acid sequence that is matched against the COI-5P amino acids profile. The model provides two Boolean output metrics to the user: (a) the sequence contains stop codons (T/F), (b) is the sequence likely to contain an insertion or deletion error (T/F). The insertion or deletion Boolean is based on the log likelihood of the amino acid sequence compared to the PHMM. A default indel likelihood threshold of -358.88 is set, but this can be changed by the user. Sequences with likelihood values less than this threshold indicate the sequence is likely to contain an indel error, as the amino acid sequence is improbable and therefore indicative of a possible frame shift.
 
-The nucleotide and amino acid PHMMs are interfaced through the translate function, which takes the in frame nucleotide sequence and translates it to amino acids. This function uses [the sequinr package](https://cran.r-project.org/package=seqinr) to conduct translation in all instances where [the genetic code associated with the sample](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi) is known. For samples without taxonomic IDs or known genetic codes an additional genetic code is provided. This genetic code is used to conduct censored translation, meaning that translation is conducted normally for codons that do not vary in the amino acid they code for across all known animal mitochondrial genetic codes. The codons that are known to vary in the amino acid they code for across taxa are not translated, rather a placeholder (`?`) is output to indicate that the amino acid at this location in the sequence cannot be stated with certainty. This functionality allows the `indel_check` function to assess the likelihood of sequences of unknown taxonomy without being overly stringent in its characterization of sequences as indels due to the appropriation of the wrong translation table.
+The nucleotide and amino acid PHMMs are interfaced through the translate function, which takes the in-frame nucleotide sequence and translates it to amino acids. This function uses [the sequinr package](https://cran.r-project.org/package=seqinr) to conduct translation in all instances where [the genetic code associated with the sample](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi) is known. For samples without taxonomic IDs or known genetic codes, an additional genetic code is provided. This genetic code is used to conduct censored translation, meaning that translation is conducted normally for codons that do not vary in the amino acid they code for across all known animal mitochondrial genetic codes. The codons that are known to vary in the amino acid they code for across taxa are not translated; rather a placeholder (`?`) is output to indicate that the amino acid at this location in the sequence cannot be stated with certainty. This functionality allows the `indel_check` function to assess the likelihood of sequences of unknown taxonomy without being overly stringent in its characterization of sequences as indels due to the appropriation of the wrong translation table.
 
 ```
  Censored translation table:
@@ -55,7 +56,7 @@ names(output)
 output$aaScore
 ```
 
-By default the pipeline conducts censored translation, avoiding translation of the codons that are known to [code for different amino acids within different species ](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi). If taxonomic information is available for the sample (available ranks: family, order, class, phylum), in most cases you can use the helper function `which_trans_table` to determine the proper genetic code to use. If the taxonomic group contains species that have different genetic codes, a 0 is returned to indicate that it is a good idea to stick to censored translation.
+By default the pipeline conducts censored translation, avoiding translation of the codons that are known to [code for different amino acids among different species ](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi). If taxonomic information is available for the sample (available ranks: family, order, class, phylum), in most cases you can use the helper function `which_trans_table` to determine the proper genetic code to use. If the taxonomic group contains species that have different genetic codes, a 0 is returned to indicate that it is a good idea to use censored translation.
 
 ```{r}
 ex_table_to_use = which_trans_table("Scyliorhinidae")
@@ -74,11 +75,11 @@ There are four functions that constitute the coi5p analysis pipeline: `coi5p`, `
 
 ```{r}
   #build the coi5p object
-  dat = coi5p(example_nt_string, name="example_sequence_1")
+  dat = coi5p(example_nt_string, name = "example_sequence_1")
   #frame the sequence
   dat = frame(dat)
   #since we determined the genetic code above, we can use
-  #the proper transaltion table as opposed to conducting 
+  #the proper translation table as opposed to conducting 
   #the default censored translation
   dat = translate(dat, trans_table = 2)
   #check to see if an insertion or deletion is likely
@@ -89,17 +90,17 @@ There are four functions that constitute the coi5p analysis pipeline: `coi5p`, `
 #### Example of a batch analysis of barcode sequences
 Here we will be working with the example dataframe: `example_barcode_data`. Although loading and outputting DNA sequence data in R is outside of the scope of the `coil` package, the supplementary section at the end of this vignette includes an example of how one can load a fasta file into a dataframe with a structure matching that of `example_barcode_data`. 
 
-`example_barcode_data` contains 9 barcode sequences that demonstrate the different abilities of the `coil` package. Some sequences are longer than the barcode COI-5P barcode region, some are shorter and some have insertion or deletion errors.
+`example_barcode_data` contains 9 barcode sequences that demonstrate the different abilities of the `coil` package. Some sequences are longer than the barcode COI-5P barcode region, some are shorter, and some have insertion or deletion errors.
 
 ```{r}
-#this is the example data 
+#this is the example data set
 dim(example_barcode_data)
 names(example_barcode_data)
 # to look at the full dataframe:
 # example_barcode_data
 ```
 
-The coi5p analysis pipeline can be applied to the a dataframe in a iterative fashion. Here the pipeline is implemented through the use of the `lapply` function, which lets the unique sequence, id and genetic code of each row in the dataframe be passed into the `coi5p_pipe` function. 
+The coi5p analysis pipeline can be applied to a dataframe in a iterative fashion. Here the pipeline is implemented through the use of the `lapply` function, which lets the unique sequence, id, and genetic code of each row in the dataframe be passed into the `coi5p_pipe` function. 
 
 ```{r}
 
@@ -111,12 +112,14 @@ example_barcode_data$coi_output = lapply(1:length(example_barcode_data$id), func
 
 example_barcode_data$coi_output[[1]] #example of the first output
 ```
+Tip: to increase speed, use [`mclapply` from the base R `parallel` package](https://www.rdocumentation.org/packages/parallel) as opposed to `lapply`.
 
 The coi5p objects are nested within the dataframe. Individual components can be extracted from the object as needed using the dollar sign notation. Below `lapply` is used to extract the framed sequence from each coi5p object and turn it into its own column in the dataframe. As we can see from the output below, dashes have been added to the front of the short sequence, if we compare the framed sequences from the long inputs (rows 5 and 6) to their original sequence, we see that coi5p has trimmed the sequence outside of the barcode region.
 
 ```{r}
-example_barcode_data$framed_seq = unlist(lapply(example_barcode_data$coi_output, function(x){
-  x$framed
+example_barcode_data$framed_seq = unlist(lapply(example_barcode_data$coi_output, 
+  function(x){
+    x$framed
 }))
 
 #has coi5p trimmed characters?
@@ -135,7 +138,7 @@ full_coi5p_df = flatten_coi5p(example_barcode_data$coi_output)
 #full_coi5p_df
 ```
 
-The memory requirements of the method demonstrated above are trivial because the example dataframe has only nine rows. If millions of sequences are being processed, then keeping all of the coi5p objects in memory at once may become prohibitive. This will depend on the amount of RAM available on your machine. The average `coi5p_pipe` output is ~6KB in size, so processing 1 million sequences at once would occupy ~6GB of RAM. If you are trying to limit RAM usage, the following workflow can help keep RAM requirements modest by instantiating only one coi5p object at a time, but as a trade-off may take slightly more time to execute.
+The memory requirements of the method demonstrated above are trivial because the example dataframe has only nine rows. If millions of sequences are being processed, then keeping all of the coi5p objects in memory at once may become prohibitive (this is likely not an issue for most users). This will depend on the amount of RAM available on your machine. The average `coi5p_pipe` output is ~6KB in size, so processing 1 million sequences at once would occupy ~6GB of RAM. If you are trying to limit RAM usage, the following workflow can help keep RAM requirements modest by instantiating only one coi5p object at a time, but as a trade-off may take slightly more time to execute.
 
 ```{r}
 full_coi5p_df = data.frame(matrix(ncol = 9, nrow = 0),stringsAsFactors = FALSE )
@@ -164,7 +167,8 @@ To demonstrate this process, we will consider the following two ~300bp barcode f
 
 ```{r}
 dna_vector = strsplit(example_nt_string, "")[[1]]
-dna_vector = c("-", "-", "-", dna_vector) #three dashes added to the sequence because the example_nt_string starts at codon 2
+#three dashes added to the sequence because the example_nt_string starts at codon 2
+dna_vector = c("-", "-", "-", dna_vector) 
 dna_336_subset = paste(dna_vector[336:635], collapse="")
 
 #deleted a base pair from the sequence, simulating an indel error
@@ -191,8 +195,10 @@ nt_start = 337
 nt_end = 636
 
 #Get the corresponding amino acid start and end points
-#the start and end positions are different than the nucleotide numbers, because 3bp make one amino acid
-aa_start = ceiling(nt_start/3) # ceiling is used because 337/3 = 112.333, i.e. the first base pair of amino acid number 113
+#the start and end positions are different than the nucleotide numbers, 
+#because 3bp make one amino acid
+# ceiling is used because 337/3 = 112.333, i.e. the first base pair of amino acid number 113
+aa_start = ceiling(nt_start/3) 
 aa_end = ceiling(nt_end/3)
  
 meta_nt_phmm = subsetPHMM(nt_coi_PHMM, start = nt_start, end = nt_end)
@@ -214,7 +220,9 @@ Now that we have our nucleotide and amino acid PHMMs representing the 300bp subs
 
 ```{r}
 #pass the dna sequence fragment with no error, and also the nt and aa PHMMs we just constructed
-subset_no_error_output = coi5p_pipe(dna_336_subset, nt_PHMM = meta_nt_phmm, aa_PHMM = meta_aa_phmm)
+subset_no_error_output = coi5p_pipe(dna_336_subset, 
+                                    nt_PHMM = meta_nt_phmm, 
+                                    aa_PHMM = meta_aa_phmm)
 #is there evidence of stop codons:
 subset_no_error_output$stop_codons
 #see the full output
@@ -224,7 +232,9 @@ subset_no_error_output
 As we can see the error-free barcode sequence fragment has this time been framed properly, and as a result there is no evidence of a stop codon and the amino acid PHMM score is high.  Below the same subset PHMMs are used to assess the barcode fragment with an indel error, it effectively identifies the presence of stop codons in the sequence (There the amino acid PHMM score is also low). Therefore using the `subsetPHMM` function allows us to effectively extend the functionality of `coil` to barcode sequence fragments by constraining the PHMMS. The frequency of false positives can be reduced and we can effectively separate barcode sequence fragments with indels from error-free sequences.
 
 ```{r}
-subset_has_error_outpt = coi5p_pipe(dna_336_subset_indel, nt_PHMM = meta_nt_phmm, aa_PHMM = meta_aa_phmm)
+subset_has_error_outpt = coi5p_pipe(dna_336_subset_indel, 
+                                    nt_PHMM = meta_nt_phmm, 
+                                    aa_PHMM = meta_aa_phmm)
 subset_has_error_outpt$stop_codons
 subset_has_error_outpt
 ```
@@ -265,6 +275,7 @@ example_barcode_data_from_scratch = data.frame(
   notes = sapply(parsed_names_data, function(x) x[[4]])
 )
 
+#uncomment the following line to see result
 #head(example_barcode_data_from_scratch)
 ```
 
