@@ -22,6 +22,10 @@
 #' are likely to contain an indel. Default is -358.88. Values lower than this will be classified
 #' as likely to contain an indel and values higher will be classified as not likely to contain an indel.
 #' For recommendations on selecting a indel_threshold value, consult: Nugent et al. 2019 (doi: https://doi.org/10.1101/2019.12.12.865014).
+#' @param triple_translate Optional argument indicating if the translation of sequences should be tested in all three forward
+#' reading frames. The reading frame with the most likely amino acid PHMM score is returned.
+#' This will decrease the rate of sequencing framing errors, at the cost of increased processing time.
+#' Note this argument will overrule any passed frame_offset value (all options tried). Default is False.
 #' @param nt_PHMM The profile hidden Markov model against which the raw sequence should be compared in the framing step.
 #' Default is the full COI-5P nucleotide PHMM (nt_coi_PHMM).
 #' @param aa_PHMM The profile hidden Markov model against which the translated amino acid sequence should be compared
@@ -54,11 +58,33 @@ coi5p_pipe = function(x, ... ,
                       name = character(),
                       trans_table = 0,
                       frame_offset = 0,
+                      triple_translate = FALSE,
                       nt_PHMM = coil::nt_coi_PHMM,
                       aa_PHMM = coil::aa_coi_PHMM,
                       indel_threshold = -358.88){
   dat = coi5p(x, name=name)
   dat = frame(dat , nt_PHMM = nt_PHMM)
+  if(triple_translate == TRUE){
+    #first reading frame
+    d0 = translate(dat, trans_table = trans_table, frame_offset = 0)
+    d0 = indel_check(d0, indel_threshold=indel_threshold, aa_PHMM = aa_PHMM)
+    #second reading frame
+    d1 = translate(dat, trans_table = trans_table, frame_offset = 1)
+    d1 = indel_check(d1, indel_threshold=indel_threshold, aa_PHMM = aa_PHMM)
+    #third reading frame
+    d2 = translate(dat, trans_table = trans_table, frame_offset = 2)
+    d2 = indel_check(d2, indel_threshold=indel_threshold, aa_PHMM = aa_PHMM)
+    #compare the three, get the best aa score
+    scores = c(d0$aaScore,
+               d1$aaScore,
+               d2$aaScore)
+    best_frame = which.max(scores)
+    coi_objs = list(d0, d1, d2)
+    out = coi_objs[[best_frame]]
+    return(out)
+
+  }
+
   dat = translate(dat, trans_table = trans_table, frame_offset = frame_offset)
   dat = indel_check(dat, indel_threshold=indel_threshold, aa_PHMM = aa_PHMM)
   return(dat)

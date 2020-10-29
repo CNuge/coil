@@ -4,7 +4,9 @@
 \name{example_barcode_data}
 \alias{example_barcode_data}
 \title{Example barcode data.}
-\format{An object of class \code{data.frame} with 9 rows and 5 columns.}
+\format{
+An object of class \code{data.frame} with 9 rows and 5 columns.
+}
 \usage{
 example_barcode_data
 }

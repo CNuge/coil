@@ -2,7 +2,7 @@
 title: "The coil package for DNA barcode data cleaning and error assessment"
 author: "Cameron M. Nugent"
 date: "2019-11-01"
-output: rmarkdown::html_vignette #switch to pdf_document #if you want to make the pdf via knit #
+output: rmarkdown::html_vignette #pdf_document #switch to #if you want to make the pdf via knit #
 vignette: >
   %\VignetteIndexEntry{Introduction to the coil package}
   %\VignetteEngine{knitr::rmarkdown}
@@ -197,7 +197,7 @@ nt_end = 636
 #Get the corresponding amino acid start and end points
 #the start and end positions are different than the nucleotide numbers, 
 #because 3bp make one amino acid
-# ceiling is used because 337/3 = 112.333, i.e. the first base pair of amino acid number 113
+# ceiling is used because 337/3 = 112.333, i.e. the first base pair of amino acid 113
 aa_start = ceiling(nt_start/3) 
 aa_end = ceiling(nt_end/3)
  
@@ -219,7 +219,7 @@ first_bp_of_codon(nt_start)
 Now that we have our nucleotide and amino acid PHMMs representing the 300bp subset of the full barcode region, we can run the `coi5p_pipe` function, this time passing the query sequence along with our non-default PHMMs.
 
 ```{r}
-#pass the dna sequence fragment with no error, and also the nt and aa PHMMs we just constructed
+#pass the dna sequence fragment with no error, and also subset the nt and aa PHMMs
 subset_no_error_output = coi5p_pipe(dna_336_subset, 
                                     nt_PHMM = meta_nt_phmm, 
                                     aa_PHMM = meta_aa_phmm)

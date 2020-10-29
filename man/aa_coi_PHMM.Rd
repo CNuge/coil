@@ -4,7 +4,9 @@
 \name{aa_coi_PHMM}
 \alias{aa_coi_PHMM}
 \title{Amino acid profile hidden Markov model for coi5p.}
-\format{An object of class \code{PHMM} of length 14.}
+\format{
+An object of class \code{PHMM} of length 14.
+}
 \usage{
 aa_coi_PHMM
 }

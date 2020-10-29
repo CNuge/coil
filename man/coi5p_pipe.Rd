@@ -4,9 +4,17 @@
 \alias{coi5p_pipe}
 \title{Run the entire coi5p pipeline for an input sequence.}
 \usage{
-coi5p_pipe(x, ..., name = character(), trans_table = 0,
-  frame_offset = 0, nt_PHMM = coil::nt_coi_PHMM,
-  aa_PHMM = coil::aa_coi_PHMM, indel_threshold = -358.88)
+coi5p_pipe(
+  x,
+  ...,
+  name = character(),
+  trans_table = 0,
+  frame_offset = 0,
+  triple_translate = FALSE,
+  nt_PHMM = coil::nt_coi_PHMM,
+  aa_PHMM = coil::aa_coi_PHMM,
+  indel_threshold = -358.88
+)
 }
 \arguments{
 \item{x}{A nucleotide string.
@@ -25,6 +33,11 @@ of the sample is known, use the function which_trans_table() to determine the tr
 is zero, so the first character in the framed sequence is considered the first nucleotide of the first codon.
 Passing frame_offset = 1 would make the second character in the framed sequence the first nucleotide of
 the first codon.}
+
+\item{triple_translate}{Optional argument indicating if the translation of sequences should be tested in all three forward
+reading frames. The reading frame with the most likely amino acid PHMM score is returned.
+This will decrease the rate of sequencing framing errors, at the cost of increased processing time.
+Note this argument will overrule any passed frame_offset value (all options tried). Default is False.}
 
 \item{nt_PHMM}{The profile hidden Markov model against which the raw sequence should be compared in the framing step.
 Default is the full COI-5P nucleotide PHMM (nt_coi_PHMM).}

@@ -30,7 +30,7 @@ test_that("A normal sequence in framed and translated properly", {
 
   out_df = flatten_coi5p(coi_output, keep_cols = c("name", "raw", "stop_codons"))
 
-  expect_equal(out_df$stop_codons, c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE))
+  expect_equal(out_df$stop_codons, c(FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, FALSE))
 
   expect_equal(out_df$raw, tolower(example_barcode_data$sequence))
 

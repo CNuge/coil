@@ -65,22 +65,40 @@ ins_front_trim = function(path_out, search_scope = 15){
 #' front and the back of the sequence. Sequence information outside of this
 #' first set of matches is trimmed (low probability of being true barcode sequence).
 #' @keywords internal
-set_frame = function(org_seq , path_out){
+set_frame = function(org_seq, path_out){
 	org_seq_vec = strsplit(tolower(org_seq), split='')[[1]]
 
+  #special processing for front of sequence, look for large runs of twos, if
+	#so begin processing at the point in the path where the twos end, also account for
+	#any matches (skipped & deleted from seq) and inserts (added as buffer for proper
+	#folmer alignment) at the front of the sequence.
 	adj_for_dels = ins_front_trim(path_out)
+
+	add_org_drop = 0
+	org_buff = 0
 
 	#If there are a large number (>2) of deletes in the first 15bp
 	#then adjust the sequence so the end of the delete run is the starting point
 	if(adj_for_dels != 0){
-		org_seq_vec = org_seq_vec[adj_for_dels:length(org_seq_vec)]
+		#this line accounts for 1s and twos in the leading drop section, need to trim those out of original seq as well
+	  add_org_drop = sum(path_out[1:(adj_for_dels-1)] == 2) + sum(path_out[1:(adj_for_dels-1)] == 1)
+    org_buff = sum(path_out[1:(adj_for_dels-1)] == 0)
+
+	  org_seq_vec = org_seq_vec[add_org_drop:length(org_seq_vec)]
+
 		path_out = path_out[adj_for_dels:length(path_out)]
 	}
 
+	#account for any 0s in the leading part of the sequence that was processed separately
 	front = c()
+  if (org_buff > 0){
+    for(i in 1:org_buff){
+      front = c(front, "-")
+    }
+  }
+
 	org_seq_start = 1
 	org_seq_end = length(org_seq_vec)
-
 
 	for( i in 1:length(path_out) ){
 		#0 = D
@@ -139,7 +157,7 @@ set_frame = function(org_seq , path_out){
 	#returns the framed sequence, along with the position in the input sequence where folmer match begins
 	#and the position in the folmer region where the folmer match begins
 	return(list( framed = paste(c(front,org_seq_vec[org_seq_start:org_seq_end]),collapse= ""),
-	             raw_start = adj_for_dels+1,
+	             raw_start = add_org_drop+1,
 	             folmer_start = (length(front)+1),
 	             trimmed = trimmed_rep))
 }

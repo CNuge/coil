@@ -3,7 +3,6 @@
 \docType{package}
 \name{coil}
 \alias{coil}
-\alias{coil-package}
 \title{\pkg{coil}: evaluation of COI-5P barcode data}
 \description{
 \pkg{coil} is an R package designed for the cleaning, contextualization and assessment of cytochrome c oxidase I DNA

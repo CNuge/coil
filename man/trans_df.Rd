@@ -4,7 +4,9 @@
 \name{trans_df}
 \alias{trans_df}
 \title{Data frame containing the translation table recommendation.}
-\format{An object of class \code{data.frame} with 4609 rows and 2 columns.}
+\format{
+An object of class \code{data.frame} with 4609 rows and 2 columns.
+}
 \usage{
 trans_df
 }
