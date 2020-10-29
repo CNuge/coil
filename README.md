@@ -1,4 +1,4 @@
-# coil 
+# coil <img src="man/coilHex.png" height="145" align="right"/>
 An R package for pre-processing and error evaluation of COI-5P barcode data
 ---------------------------------------------------------------------------
 [![Build Status](https://travis-ci.com/CNuge/coil.svg?branch=master)](https://travis-ci.com/CNuge/coil)
